@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:56:30 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/30 20:56:53 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	exit_program_nl(int exit_code);
 void	*put_error(int error, char *str, int bad_arg);
 
 // -------------------- FREE_UTILS.C -------------------- //
+char	*free_str(char **str);
+void	free_array(char ***array);
 
 // ------------------- STRUCT_NODE.C -------------------- //
 
