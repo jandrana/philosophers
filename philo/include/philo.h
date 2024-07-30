@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:55:48 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/30 20:56:30 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ t_input	*parse_input(int argc, char **input);
 // ------------------------------------------------------ //
 
 // ---------------------- ERROR.C ----------------------- //
+void	exit_program_nl(int exit_code);
+void	*put_error(int error, char *str, int bad_arg);
 
 // -------------------- FREE_UTILS.C -------------------- //
 
