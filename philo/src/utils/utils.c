@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:11:50 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:46:21 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/30 20:47:21 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,14 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		substr[i] = s[start + i];
 	substr[i] = '\0';
 	return (substr);
+}
+
+int	array_len(char **array)
+{
+	int	len;
+
+	len = -1;
+	while (array[++len])
+		;
+	return (len);
 }
