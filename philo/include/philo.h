@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:56:53 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/30 20:57:15 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ void	*put_error(int error, char *str, int bad_arg);
 char	*free_str(char **str);
 void	free_array(char ***array);
 
-// ------------------- STRUCT_NODE.C -------------------- //
+// --------------------- FT_SPLIT.C --------------------- //
+char	**ph_split(char const *s, char c);
 
 // ------------------- PRINT_UTILS.C -------------------- //
 
