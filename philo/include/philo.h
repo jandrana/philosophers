@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:57:15 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/30 20:57:38 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	free_array(char ***array);
 char	**ph_split(char const *s, char c);
 
 // ------------------- PRINT_UTILS.C -------------------- //
+void	print_input(t_input *input);
 
 // ----------------------- UTILS.C ---------------------- //
 
