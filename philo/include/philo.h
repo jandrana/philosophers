@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/29 19:42:30 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/30 20:54:16 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ typedef enum e_type_redir
 
 typedef enum e_type_error
 {
+	E_NARGS = 1,
+	E_NOTPOS = 2,
+	E_NEG = 3,
+	E_OPT = 4,
 	E_NOMEM = 12
 }	t_type_error;
 
