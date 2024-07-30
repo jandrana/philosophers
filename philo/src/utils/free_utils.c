@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/29 18:51:47 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:48:51 by ana-cast         ###   ########.fr       */
+/*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
+/*   Updated: 2024/07/30 16:11:19 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-int	main(int argc, char **argv)
+char	*free_str(char **str)
 {
-	t_input	*input;
+	free(*str);
+	*str = NULL;
+	return (NULL);
+}
 
-	input = NULL;
-	if (argc < 2)
-		put_error(E_NARGS, NULL, 0);
-	else if (argc == 2)
-		input = parse_input(argc, ph_split(argv[1], ' '));
-	else
-		input = parse_input(argc, ++argv);
-	if (input)
-		print_input(input);
-	return (0);
+void	free_array(char ***array)
+{
+	int	i;
+
+	i = -1;
+	if (*array)
+	{
+		while ((*array)[++i])
+			free((*array)[i]);
+		free(*array);
+		*array = NULL;
+	}
 }

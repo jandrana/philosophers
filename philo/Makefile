@@ -6,7 +6,7 @@
 #    By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 15:05:47 by ana-cast          #+#    #+#              #
-#    Updated: 2024/07/29 18:58:31 by ana-cast         ###   ########.fr        #
+#    Updated: 2024/07/30 20:35:51 by ana-cast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,13 @@ DEPS = -I include
 ##                              SOURCES AND OBJECTS                           ##
 ################################################################################
 
-SRC = src/main.c
+SRC = src/main.c \
+	src/parse_input.c \
+	src/utils/error.c \
+	src/utils/free_utils.c \
+	src/utils/ph_split.c \
+	src/utils/print_utils.c \
+	src/utils/utils.c
 
 OBJECTS = $(SRC:.c=.o)
 
