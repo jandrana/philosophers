@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 17:16:49 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:20:10 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ t_input	*init_data(void)
 	data = (t_input *)malloc(sizeof(t_input));
 	if (data)
 	{
-		data->n_philos = -1;
-		data->t_die = -1;
-		data->t_eat = -1;
-		data->t_sleep = -1;
-		data->nt_eat = -2;
-		data->t_start = -1;
+		data->n_philos = LONG_MIN;
+		data->t_die = LONG_MIN;
+		data->t_eat = LONG_MIN;
+		data->t_sleep = LONG_MIN;
+		data->nt_eat = LONG_MIN;
+		data->t_start = LONG_MIN;
+		data->error = NO_ERROR;
 	}
 	return (data);
 }
