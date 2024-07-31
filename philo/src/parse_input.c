@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 17:37:24 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:38:36 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,27 +73,21 @@ void	check_data(t_input	*data, int pos)
 t_input	*parse_input(int argc, char **input)
 {
 	t_input	*data;
-	int		data_err;
+	int		i;
 
-	if (!input)
-		return (put_error(E_NOMEM, NULL, 0));
-	if (in_range(array_len(input), 4, 5))
-		return (put_error(E_NARGS, NULL, 0));
 	data = init_data();
-	if (data)
+	if (!input || !data)
+		return (put_error(E_NOMEM, NULL, -1));
+	if (in_range(array_len(input), 4, 5))
+		return (put_error(E_NARGS, NULL, array_len(input)));
+	i = -1;
+	while (data->error == NO_ERROR && array_len(input) > ++i && input[i])
 	{
-		data->n_philos = ph_un_atol(input[0]);
-		data->t_die = ph_un_atol(input[1]);
-		data->t_eat = ph_un_atol(input[2]);
-		data->t_sleep = ph_un_atol(input[3]);
-		if (array_len(input) == 5)
-			data->nt_eat = ph_un_atol(input[4]);
-		data_err = check_data(data);
-		if (data_err)
-			put_error(data->error, input[data_err - 1], data_err);
+		*find_arg(data, i) = ph_un_atol(input[i]);
+		check_data(data, i);
 	}
-	else
-		put_error(E_NOMEM, NULL, 0);
+	if (data->error)
+		put_error(data->error, input[i], i);
 	if (argc == 2)
 		free_array(&input);
 	return (data);
