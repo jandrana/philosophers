@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 17:35:34 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:37:24 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,17 @@ ssize_t	*find_arg(t_input *data, int pos)
 		return (NULL);
 }
 
-int	check_data(t_input *data)
+void	check_data(t_input	*data, int pos)
 {
-	int	error;
+	ssize_t	arg_to_check;
+	int		min;
 
-	if (data->n_philos <= 0)
-		error = 1;
-	else if (data->t_die < 0)
-		error = 2;
-	else if (data->t_eat < 0)
-		error = 3;
-	else if (data->t_sleep < 0)
-		error = 4;
-	else if (data->nt_eat == -1)
-		error = 5;
+	arg_to_check = *find_arg(data, pos);
+	if (pos == T_EAT || pos == T_SLEEP)
+		min = 0;
 	else
-		return (0);
-	if (error > 1)
-		data->error = E_NEG;
-	else
-		data->error = E_NOTPOS;
-	return (error);
+		min = 1;
+	type_error(arg_to_check, min, data);
 }
 
 t_input	*parse_input(int argc, char **input)
