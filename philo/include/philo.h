@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:58:14 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:52:24 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,43 @@
 
 // ------------------- STRUCTURES ------------------- //
 
-typedef enum e_type_redir
-{
-	INFILE = 10,
-	APPEND = 11,
-	OUTFILE = 12,
-	HEREDOC = 13,
-	NOT_REDIR = -1
-}	t_type_redir;
-
 typedef enum e_type_error
 {
+	NO_ERROR = 0,
 	E_NARGS = 1,
 	E_NOTPOS = 2,
-	E_NEG = 3,
-	E_OPT = 4,
+	E_NEG = -1,
+	E_OORL = -2, // long out of range number
+	E_NAN = -3,
 	E_NOMEM = 12
 }	t_type_error;
 
+typedef enum e_n_input
+{
+	N_PHILOS = 0,
+	T_DIE = 1,
+	T_EAT = 2,
+	T_SLEEP = 3,
+	NT_EAT = 4
+}	t_n_input;
+
+typedef struct s_philos
+{
+	int				id;
+	long long		last_meal;
+	struct s_philos	*next;
+	struct s_philos	*prev;
+}	t_philos;
+
 typedef struct s_input
 {
-	ssize_t	n_philos;
-	ssize_t	t_die;
-	ssize_t	t_eat;
-	ssize_t	t_sleep;
-	ssize_t	n_philo_eat;
-	ssize_t	t_start;
-	int		err_data;
+	ssize_t			n_philos;
+	ssize_t			t_die;
+	ssize_t			t_eat;
+	ssize_t			t_sleep;
+	ssize_t			nt_eat;
+	ssize_t			t_start;
+	t_type_error	error;
 }	t_input;
 
 // ------------------------------------------------------ //
@@ -76,7 +86,6 @@ t_input	*parse_input(int argc, char **input);
 // ------------------------------------------------------ //
 
 // ---------------------- ERROR.C ----------------------- //
-void	exit_program_nl(int exit_code);
 void	*put_error(int error, char *str, int bad_arg);
 
 // -------------------- FREE_UTILS.C -------------------- //
@@ -95,5 +104,6 @@ int		ft_strlen(const char *str);
 char	*ft_strdup(char *s1);
 long	ph_un_atol(char *str);
 int		array_len(char **array);
+bool	in_range(ssize_t value, ssize_t min, ssize_t max);
 
 #endif /* PHILO_H */

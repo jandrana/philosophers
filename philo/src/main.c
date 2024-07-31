@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:51:47 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:48:51 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:13:15 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 		input = parse_input(argc, ph_split(argv[1], ' '));
 	else
 		input = parse_input(argc, ++argv);
-	if (input)
+	if (input && !input->error)
 		print_input(input);
 	return (0);
 }

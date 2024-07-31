@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:37:59 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:38:36 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,70 +19,75 @@ t_input	*init_data(void)
 	data = (t_input *)malloc(sizeof(t_input));
 	if (data)
 	{
-		data->n_philos = -1;
-		data->t_die = -1;
-		data->t_eat = -1;
-		data->t_sleep = -1;
-		data->n_philo_eat = -2;
-		data->t_start = -1;
+		data->n_philos = LONG_MIN;
+		data->t_die = LONG_MIN;
+		data->t_eat = LONG_MIN;
+		data->t_sleep = LONG_MIN;
+		data->nt_eat = LONG_MIN;
+		data->t_start = LONG_MIN;
+		data->error = NO_ERROR;
 	}
 	return (data);
 }
 
-bool	in_range(ssize_t value, ssize_t min, ssize_t max)
+void	type_error(ssize_t value, int min, t_input *data)
 {
-	if (value >= min && value <= max)
-		return (0);
-	return (1);
+	if (value < min)
+	{
+		if (value == 0)
+			data->error = E_NOTPOS;
+		else
+			data->error = value;
+	}
 }
 
-int	check_data(t_input *data)
+ssize_t	*find_arg(t_input *data, int pos)
 {
-	int	error;
+	if (pos == N_PHILOS)
+		return (&data->n_philos);
+	else if (pos == T_DIE)
+		return (&data->t_die);
+	else if (pos == T_EAT)
+		return (&data->t_eat);
+	else if (pos == T_SLEEP)
+		return (&data->t_sleep);
+	else if (pos == NT_EAT)
+		return (&data->nt_eat);
+	else
+		return (NULL);
+}
 
-	if (data->n_philos <= 0)
-		error = 1;
-	else if (data->t_die < 0)
-		error = 2;
-	else if (data->t_eat < 0)
-		error = 3;
-	else if (data->t_sleep < 0)
-		error = 4;
-	else if (data->n_philo_eat == -1)
-		error = 5;
+void	check_data(t_input	*data, int pos)
+{
+	ssize_t	arg_to_check;
+	int		min;
+
+	arg_to_check = *find_arg(data, pos);
+	if (pos == T_EAT || pos == T_SLEEP)
+		min = 0;
 	else
-		return (0);
-	if (error > 1)
-		data->err_data = E_NEG;
-	else
-		data->err_data = E_NOTPOS;
-	return (error);
+		min = 1;
+	type_error(arg_to_check, min, data);
 }
 
 t_input	*parse_input(int argc, char **input)
 {
 	t_input	*data;
-	int		data_err;
+	int		i;
 
-	if (!input)
-		return (put_error(E_NOMEM, NULL, 0));
-	if (in_range(array_len(input), 4, 5))
-		return (put_error(E_NARGS, NULL, 0));
 	data = init_data();
-	if (data)
+	if (!input || !data)
+		return (put_error(E_NOMEM, NULL, -1));
+	if (in_range(array_len(input), 4, 5))
+		return (put_error(E_NARGS, NULL, array_len(input)));
+	i = -1;
+	while (data->error == NO_ERROR && array_len(input) > ++i && input[i])
 	{
-		data->n_philos = ph_un_atol(input[0]);
-		data->t_die = ph_un_atol(input[1]);
-		data->t_eat = ph_un_atol(input[2]);
-		data->t_sleep = ph_un_atol(input[3]);
-		if (array_len(input) == 5)
-			data->n_philo_eat = ph_un_atol(input[4]);
-		data_err = check_data(data);
-		if (data_err)
-			put_error(data->err_data, input[data_err - 1], data_err);
+		*find_arg(data, i) = ph_un_atol(input[i]);
+		check_data(data, i);
 	}
-	else
-		put_error(E_NOMEM, NULL, 0);
+	if (data->error)
+		put_error(data->error, input[i], i);
 	if (argc == 2)
 		free_array(&input);
 	return (data);
