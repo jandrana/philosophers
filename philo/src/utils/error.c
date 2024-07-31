@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:48:03 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:49:23 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,15 @@ void	*put_error(int error, char *str, int pos)
 {
 	fprintf(stderr, RED BOLD "Error: %s " WHITE, put_type_error(error));
 	if (error == E_NARGS)
-		fprintf(stderr, "invalid number of arguments\n");
+	{
+		fprintf(stderr, "invalid number of arguments: %i", pos);
+		fprintf(stderr, BOLD "\n\nExpected Sintax:" WHITE " ./philo " RED);
+		fprintf(stderr, "[MANDATORY_ARGS] " BLUE "_[OPTIONAL_ARGS]_\n\t\t\t");
+		pos = 0;
+		while ((pos == 4 && fprintf(stderr, "\n\t\t\t")) || pos < 5)
+			put_type_arg(pos++);
+		fprintf(stderr, WHITE "\n\n");
+	}
 	if (error == E_NOTPOS)
 		fprintf(stderr, "expected a positive number for ssize_t:");
 	else if (error == E_NEG)
