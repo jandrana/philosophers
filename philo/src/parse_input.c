@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 17:21:47 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:23:31 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,22 @@ t_input	*init_data(void)
 		data->error = NO_ERROR;
 	}
 	return (data);
+}
+
+ssize_t	*find_arg(t_input *data, int pos)
+{
+	if (pos == N_PHILOS)
+		return (&data->n_philos);
+	else if (pos == T_DIE)
+		return (&data->t_die);
+	else if (pos == T_EAT)
+		return (&data->t_eat);
+	else if (pos == T_SLEEP)
+		return (&data->t_sleep);
+	else if (pos == NT_EAT)
+		return (&data->nt_eat);
+	else
+		return (NULL);
 }
 
 int	check_data(t_input *data)
