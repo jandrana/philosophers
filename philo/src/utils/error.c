@@ -6,32 +6,11 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:37:03 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:38:29 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
-
-// NOT USED FOR NOW
-void	exit_program_nl(int exit_code)
-{
-	printf("\n");
-	exit(exit_code);
-}
-
-// NOT USED ANYMORE (NOW USING FPRINTF, CHECK WITH STAFF IF ALLOWED)
-void	putstr_fd(char *s, int fd)
-{
-	int	i;
-
-	if (!s)
-		write(fd, "(null)", 6);
-	else
-	{
-		i = ft_strlen(s);
-		write(fd, s, i);
-	}
-}
 
 void	put_badarg(int bad_arg)
 {
