@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:32:47 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:33:25 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,23 @@ typedef enum e_type_error
 	E_NAN = -3,
 	E_NOMEM = 12
 }	t_type_error;
+
+typedef enum e_n_input
+{
+	N_PHILOS = 0,
+	T_DIE = 1,
+	T_EAT = 2,
+	T_SLEEP = 3,
+	NT_EAT = 4
+}	t_n_input;
+
+typedef struct s_philos
+{
+	int				id;
+	long long		last_meal;
+	struct s_philos	*next;
+	struct s_philos	*prev;
+}	t_philos;
 
 typedef struct s_input
 {
