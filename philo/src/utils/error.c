@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:45:15 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:46:10 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ char	*put_type_error(int error)
 
 void	put_type_arg(int pos)
 {
-	if (pos == 1)
-		fprintf(stderr, "[number_of_philosophers]");
-	if (pos == 2)
-		fprintf(stderr, "[time_to_die]");
-	if (pos == 3)
-		fprintf(stderr, "[time_to_eat]");
-	if (pos == 4)
-		fprintf(stderr, "[time_to_sleep]");
-	if (pos == 5)
-		fprintf(stderr, "[times_each_philosopher_must_eat]");
+	if (pos == N_PHILOS)
+		fprintf(stderr, RED " [number_of_philosophers]" WHITE);
+	if (pos == T_DIE)
+		fprintf(stderr, RED " [time_to_die]" WHITE);
+	if (pos == T_EAT)
+		fprintf(stderr, RED " [time_to_eat]" WHITE);
+	if (pos == T_SLEEP)
+		fprintf(stderr, RED " [time_to_sleep]" WHITE);
+	if (pos == NT_EAT)
+		fprintf(stderr, BLUE " _[times_each_philosopher_must_eat]_" WHITE);
 }
 
 void	*put_error(int error, char *str, int pos)
