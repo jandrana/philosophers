@@ -6,11 +6,29 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:38:29 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:43:27 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+
+char	*put_type_error(int error)
+{
+	if (error == E_NARGS)
+		return ("`E_NARGS'");
+	else if (error == E_NOTPOS)
+		return ("`E_NOTPOS'");
+	else if (error == E_NEG)
+		return ("`E_NEG'");
+	else if (error == E_OORL)
+		return ("`E_OORL'");
+	else if (error == E_NAN)
+		return ("`E_NAN'");
+	else if (error == E_NOMEM)
+		return ("`E_NOMEM'");
+	else
+		return ("`SYNTAX_ERROR'");
+}
 
 void	put_badarg(int bad_arg)
 {
@@ -28,7 +46,7 @@ void	put_badarg(int bad_arg)
 
 void	*put_error(int error, char *str, int bad_arg)
 {
-	fprintf(stderr, "\t%s%s-philo: Error: %s", RED, BOLD, WHITE);
+	fprintf(stderr, RED BOLD "Error: %s " WHITE, put_type_error(error));
 	if (error == E_NARGS)
 		fprintf(stderr, "invalid number of arguments\n");
 	if (error == E_NOTPOS || error == E_NEG)
