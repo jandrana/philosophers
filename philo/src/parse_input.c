@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 17:23:31 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:35:34 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ t_input	*init_data(void)
 		data->error = NO_ERROR;
 	}
 	return (data);
+}
+
+void	type_error(ssize_t value, int min, t_input *data)
+{
+	if (value < min)
+	{
+		if (value == 0)
+			data->error = E_NOTPOS;
+		else
+			data->error = value;
+	}
 }
 
 ssize_t	*find_arg(t_input *data, int pos)
