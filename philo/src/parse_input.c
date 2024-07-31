@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 17:20:10 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:21:47 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,6 @@ t_input	*init_data(void)
 		data->error = NO_ERROR;
 	}
 	return (data);
-}
-
-bool	in_range(ssize_t value, ssize_t min, ssize_t max)
-{
-	if (value >= min && value <= max)
-		return (0);
-	return (1);
 }
 
 int	check_data(t_input *data)
