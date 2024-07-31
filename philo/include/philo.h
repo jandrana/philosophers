@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:30:19 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:32:47 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@
 
 typedef enum e_type_error
 {
+	NO_ERROR = 0,
 	E_NARGS = 1,
 	E_NOTPOS = 2,
-	E_NEG = 3,
-	E_OPT = 4,
+	E_NEG = -1,
+	E_OORL = -2, // long out of range number
+	E_NAN = -3,
 	E_NOMEM = 12
 }	t_type_error;
 
