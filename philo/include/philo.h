@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:29:25 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:30:19 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ typedef enum e_type_error
 
 typedef struct s_input
 {
-	ssize_t	n_philos;
-	ssize_t	t_die;
-	ssize_t	t_eat;
-	ssize_t	t_sleep;
-	ssize_t	n_philo_eat;
-	ssize_t	t_start;
-	int		err_data;
+	ssize_t			n_philos;
+	ssize_t			t_die;
+	ssize_t			t_eat;
+	ssize_t			t_sleep;
+	ssize_t			nt_eat;
+	ssize_t			t_start;
+	t_type_error	error;
 }	t_input;
 
 // ------------------------------------------------------ //
