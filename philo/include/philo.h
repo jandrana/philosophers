@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:35:59 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:52:24 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,6 @@ int		ft_strlen(const char *str);
 char	*ft_strdup(char *s1);
 long	ph_un_atol(char *str);
 int		array_len(char **array);
+bool	in_range(ssize_t value, ssize_t min, ssize_t max);
 
 #endif /* PHILO_H */
