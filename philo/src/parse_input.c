@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:37:59 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:16:49 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_input	*init_data(void)
 		data->t_die = -1;
 		data->t_eat = -1;
 		data->t_sleep = -1;
-		data->n_philo_eat = -2;
+		data->nt_eat = -2;
 		data->t_start = -1;
 	}
 	return (data);
@@ -48,14 +48,14 @@ int	check_data(t_input *data)
 		error = 3;
 	else if (data->t_sleep < 0)
 		error = 4;
-	else if (data->n_philo_eat == -1)
+	else if (data->nt_eat == -1)
 		error = 5;
 	else
 		return (0);
 	if (error > 1)
-		data->err_data = E_NEG;
+		data->error = E_NEG;
 	else
-		data->err_data = E_NOTPOS;
+		data->error = E_NOTPOS;
 	return (error);
 }
 
@@ -76,10 +76,10 @@ t_input	*parse_input(int argc, char **input)
 		data->t_eat = ph_un_atol(input[2]);
 		data->t_sleep = ph_un_atol(input[3]);
 		if (array_len(input) == 5)
-			data->n_philo_eat = ph_un_atol(input[4]);
+			data->nt_eat = ph_un_atol(input[4]);
 		data_err = check_data(data);
 		if (data_err)
-			put_error(data->err_data, input[data_err - 1], data_err);
+			put_error(data->error, input[data_err - 1], data_err);
 	}
 	else
 		put_error(E_NOMEM, NULL, 0);
