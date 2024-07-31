@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:46:10 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:48:03 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,17 @@ void	*put_error(int error, char *str, int pos)
 	fprintf(stderr, RED BOLD "Error: %s " WHITE, put_type_error(error));
 	if (error == E_NARGS)
 		fprintf(stderr, "invalid number of arguments\n");
-	if (error == E_NOTPOS || error == E_NEG)
-	{
-		put_type_arg(pos);
-		fprintf(stderr, "=[%s] ", str);
-		if (error == E_NEG)
-			fprintf(stderr, "must be a number greater than 0\n");
-		else
-			fprintf(stderr, "must be a positive number\n");
-	}
+	if (error == E_NOTPOS)
+		fprintf(stderr, "expected a positive number for ssize_t:");
+	else if (error == E_NEG)
+		fprintf(stderr, "expected a non-negative number for ssize_t:");
+	else if (error == E_OORL)
+		fprintf(stderr, "received number out of range for ssize_t:");
+	else if (error == E_NAN)
+		fprintf(stderr, "did not receive number for expected ssize_t:");
+	put_type_arg(pos);
+	if (error != E_NARGS && error != E_NOMEM)
+		fprintf(stderr, "=[%s]\n", str);
 	else if (error == E_NOMEM)
 		fprintf(stderr, "Out of memory\n");
 	return (NULL);
