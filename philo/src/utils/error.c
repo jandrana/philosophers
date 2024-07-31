@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:43:27 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:45:15 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,28 @@ char	*put_type_error(int error)
 		return ("`SYNTAX_ERROR'");
 }
 
-void	put_badarg(int bad_arg)
+void	put_type_arg(int pos)
 {
-	if (bad_arg == 1)
+	if (pos == 1)
 		fprintf(stderr, "[number_of_philosophers]");
-	if (bad_arg == 2)
+	if (pos == 2)
 		fprintf(stderr, "[time_to_die]");
-	if (bad_arg == 3)
+	if (pos == 3)
 		fprintf(stderr, "[time_to_eat]");
-	if (bad_arg == 4)
+	if (pos == 4)
 		fprintf(stderr, "[time_to_sleep]");
-	if (bad_arg == 5)
+	if (pos == 5)
 		fprintf(stderr, "[times_each_philosopher_must_eat]");
 }
 
-void	*put_error(int error, char *str, int bad_arg)
+void	*put_error(int error, char *str, int pos)
 {
 	fprintf(stderr, RED BOLD "Error: %s " WHITE, put_type_error(error));
 	if (error == E_NARGS)
 		fprintf(stderr, "invalid number of arguments\n");
 	if (error == E_NOTPOS || error == E_NEG)
 	{
-		put_badarg(bad_arg);
+		put_type_arg(pos);
 		fprintf(stderr, "=[%s] ", str);
 		if (error == E_NEG)
 			fprintf(stderr, "must be a number greater than 0\n");
