@@ -6,7 +6,7 @@
 #    By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 15:05:47 by ana-cast          #+#    #+#              #
-#    Updated: 2024/07/30 20:35:51 by ana-cast         ###   ########.fr        #
+#    Updated: 2024/08/01 13:10:28 by ana-cast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ else
   $(error No compiler found)
 endif
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 RM = rm -f
 PHILO = include/
 DEPS = -I include
@@ -45,6 +45,8 @@ SRC = src/main.c \
 	src/utils/free_utils.c \
 	src/utils/ph_split.c \
 	src/utils/print_utils.c \
+	src/utils/init.c \
+	src/utils/libft.c \
 	src/utils/utils.c
 
 OBJECTS = $(SRC:.c=.o)
