@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:51:47 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 17:13:15 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/01 21:13:09 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 int	main(int argc, char **argv)
 {
-	t_input	*input;
+	t_input	*data;
+	int		error;
 
-	input = NULL;
-	if (argc < 2)
-		put_error(E_NARGS, NULL, 0);
-	else if (argc == 2)
-		input = parse_input(argc, ph_split(argv[1], ' '));
-	else
-		input = parse_input(argc, ++argv);
-	if (input && !input->error)
-		print_input(input);
-	return (0);
+	data = init_data();
+	if (!data)
+		return (E_NOMEM);
+	error = parse_input(argc, argv, data);
+	if (data && error == NO_ERROR)
+		print_input(data);
+	if (data)
+		free_data(&data);
+	if (argc == 2)
+		free(data->input);
+	return (error);
 }
