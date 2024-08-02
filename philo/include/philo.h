@@ -68,7 +68,8 @@ typedef enum e_n_input
 	T_DIE = 1,
 	T_EAT = 2,
 	T_SLEEP = 3,
-	NT_EAT = 4
+	NT_EAT = 4,
+	NO_ARG = -1
 }	t_n_input;
 
 typedef struct s_philos
