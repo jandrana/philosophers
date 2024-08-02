@@ -6,14 +6,14 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:52:24 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:25:56 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-// ------------------- EXT LIBRARIES ------------------- //
+// -------------------- EXT LIBRARIES ------------------- //
 
 # include <string.h>
 # include <stdio.h>
@@ -24,7 +24,7 @@
 # include <stdbool.h>
 # include <limits.h>
 
-// ------------------ COLOR MACROS ------------------ //
+// -------------------- COLOR MACROS -------------------- //
 
 # define WHITE "\033[0m"
 # define BOLD "\033[1m"
@@ -35,15 +35,29 @@
 # define MAGENTA "\033[35m"
 # define TURQUOISE "\033[36m"
 
-// ------------------- STRUCTURES ------------------- //
+// ---------------- OUTPUT ERROR MACROS ----------------- //
+
+# define OE_NARGS "\033[1;33m`MISSING_ARGS'\033[0m"
+# define OE_MARGS "\033[1;31m`TOO_MANY_ARGS' (max 5)\033[0m"
+# define OE_NOTPOS "\033[1;31m`NOT_A_POSITIVE_NUMBER'\033[0m"
+# define OE_OORL "\033[1;31m`OUT_OF_RANGE'\033[0m"
+# define OE_NAN "\033[1;31m`NOT_A_NUMBER'\033[0m"
+# define OE_NOMEM "\033[1;31m`OUT_OF_MEMORY'\033[0m"
+
+# define ON_PHILOS "num_philos "
+# define OT_DIE "time_to_die "
+# define OT_EAT "time_to_eat "
+# define OT_SLEEP "time_to_sleep "
+# define ONT_EAT "[num_times_each_must_eat] "
+
+// --------------------- STRUCTURES --------------------- //
 
 typedef enum e_type_error
 {
 	NO_ERROR = 0,
 	E_NARGS = 1,
-	E_NOTPOS = 2,
-	E_NEG = -1,
-	E_OORL = -2, // long out of range number
+	E_NOTPOS = -1,
+	E_OORL = -2,
 	E_NAN = -3,
 	E_NOMEM = 12
 }	t_type_error;
