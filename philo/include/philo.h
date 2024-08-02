@@ -88,7 +88,8 @@ typedef struct s_input
 	ssize_t			t_sleep;
 	ssize_t			nt_eat;
 	ssize_t			t_start;
-	t_type_error	error;
+	char			**input;
+	int				errors;
 }	t_input;
 
 // ------------------------------------------------------ //
