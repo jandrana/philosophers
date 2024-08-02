@@ -28,17 +28,19 @@ ssize_t	*find_arg(t_input *data, int pos)
 		return (NULL);
 }
 
-void	check_data(t_input	*data, int pos)
+int	check_data(t_input	*data, int pos)
 {
 	ssize_t	arg_to_check;
-	int		min;
 
 	arg_to_check = *find_arg(data, pos);
-	if (pos == T_EAT || pos == T_SLEEP)
-		min = 0;
-	else
-		min = 1;
-	type_error(arg_to_check, min, data);
+	if (arg_to_check <= 0)
+	{
+		if (arg_to_check == 0)
+			return (E_NOTPOS);
+		else
+			return (arg_to_check);
+	}
+	return (NO_ERROR);
 }
 
 t_input	*parse_input(int argc, char **input)
