@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:51:47 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/01 21:13:09 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:22:22 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ int	main(int argc, char **argv)
 
 	data = init_data();
 	if (!data)
-		return (E_NOMEM);
+		return (put_error(NULL, E_NOMEM));
 	error = parse_input(argc, argv, data);
 	if (data && error == NO_ERROR)
 		print_input(data);
-	if (data)
-		free_data(&data);
 	if (argc == 2)
-		free(data->input);
+		free_array(&data->input);
+	free(data);
 	return (error);
 }
