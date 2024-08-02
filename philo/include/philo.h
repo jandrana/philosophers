@@ -119,11 +119,14 @@ char	**ph_split(char const *s, char c);
 void	print_input(t_input *input);
 
 // ----------------------- UTILS.C ---------------------- //
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_substr(const char *str, ssize_t start, ssize_t len);
 int		ft_strlen(const char *str);
 char	*ft_strdup(char *s1);
 long	ph_un_atol(char *str);
 int		array_len(char **array);
 bool	in_range(ssize_t value, ssize_t min, ssize_t max);
+
+// ----------------------- LIBFT.C ---------------------- //
+void	philo_strcpy(char *dst, const char *src, int len);
 
 #endif /* PHILO_H */
