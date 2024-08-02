@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/02 20:25:56 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:49:57 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int		parse_input(int argc, char **argv, t_input *data);
 t_input	*init_data(void);
 
 // ---------------------- ERROR.C ----------------------- //
-void	*put_error(int error, char *str, int bad_arg);
+int		put_error(t_input *data, t_type_error type);
 
 // -------------------- FREE_UTILS.C -------------------- //
 char	*free_str(char **str);
