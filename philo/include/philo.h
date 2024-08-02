@@ -95,7 +95,8 @@ typedef struct s_input
 // ------------------------------------------------------ //
 //                     MAIN FUNCTIONS                     //
 // ------------------------------------------------------ //
-t_input	*parse_input(int argc, char **input);
+int		check_data(t_input	*data, int pos);
+int		parse_input(int argc, char **argv, t_input *data);
 
 // ------------------------------------------------------ //
 //                      UTILS FOLDER                      //
