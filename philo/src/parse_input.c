@@ -6,40 +6,11 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 17:38:36 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:27:41 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
-
-t_input	*init_data(void)
-{
-	t_input	*data;
-
-	data = (t_input *)malloc(sizeof(t_input));
-	if (data)
-	{
-		data->n_philos = LONG_MIN;
-		data->t_die = LONG_MIN;
-		data->t_eat = LONG_MIN;
-		data->t_sleep = LONG_MIN;
-		data->nt_eat = LONG_MIN;
-		data->t_start = LONG_MIN;
-		data->error = NO_ERROR;
-	}
-	return (data);
-}
-
-void	type_error(ssize_t value, int min, t_input *data)
-{
-	if (value < min)
-	{
-		if (value == 0)
-			data->error = E_NOTPOS;
-		else
-			data->error = value;
-	}
-}
 
 ssize_t	*find_arg(t_input *data, int pos)
 {
