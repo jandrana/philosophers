@@ -63,6 +63,12 @@ void	assign_data(t_input *data)
 int	parse_input(int argc, char **argv, t_input *data)
 {
 	if (argc == 2)
-		free_array(&input);
-	return (data);
+		data->input = ph_split(argv[1], ' ');
+	else
+		data->input = argv + 1;
+	if (!data->input)
+		return (put_error(data, E_NOMEM));
+	assign_data(data);
+	put_error(data, 0);
+	return (data->errors);
 }
