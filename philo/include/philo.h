@@ -102,6 +102,9 @@ int		parse_input(int argc, char **argv, t_input *data);
 //                      UTILS FOLDER                      //
 // ------------------------------------------------------ //
 
+// ---------------------- INIT.C ----------------------- //
+t_input	*init_data(void);
+
 // ---------------------- ERROR.C ----------------------- //
 void	*put_error(int error, char *str, int bad_arg);
 
