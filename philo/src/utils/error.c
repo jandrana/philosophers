@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/02 20:27:34 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:42:33 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,31 +30,52 @@ char	*error_title(t_type_error type)
 	return (new_title);
 }
 
-void	*put_error(int error, char *str, int pos)
+void	color_error(t_input *data, int pos, char *title, bool value)
 {
-	fprintf(stderr, RED BOLD "Error: %s " WHITE, put_type_error(error));
-	if (error == E_NARGS)
+	int		error;
+
+	error = check_data(data, pos);
+	if (array_len(data->input) <= pos && pos != 4)
+		fprintf(stderr, YELLOW);
+	if (value && error && array_len(data->input) > pos)
 	{
-		fprintf(stderr, "invalid number of arguments: %i", pos);
-		fprintf(stderr, BOLD "\n\nExpected Sintax:" WHITE " ./philo " RED);
-		fprintf(stderr, "[MANDATORY_ARGS] " BLUE "_[OPTIONAL_ARGS]_\n\t\t\t");
-		pos = 0;
-		while ((pos == 4 && fprintf(stderr, "\n\t\t\t")) || pos < 5)
-			put_type_arg(pos++);
-		fprintf(stderr, WHITE "\n\n");
+		fprintf(stderr, "\n - %s = \"%s\" ", title, data->input[pos]);
+		fprintf(stderr, "%s", error_title(error));
 	}
-	if (error == E_NOTPOS)
-		fprintf(stderr, "expected a positive number for ssize_t:");
-	else if (error == E_NEG)
-		fprintf(stderr, "expected a non-negative number for ssize_t:");
-	else if (error == E_OORL)
-		fprintf(stderr, "received number out of range for ssize_t:");
-	else if (error == E_NAN)
-		fprintf(stderr, "did not receive number for expected ssize_t:");
-	put_type_arg(pos);
-	if (error != E_NARGS && error != E_NOMEM)
-		fprintf(stderr, "=[%s]\n", str);
-	else if (error == E_NOMEM)
-		fprintf(stderr, "Out of memory\n");
-	return (NULL);
+	else if (!value)
+	{
+		if (error)
+			fprintf(stderr, RED);
+		fprintf(stderr, "%s", title);
+	}
+	fprintf(stderr, WHITE);
+}
+
+void	print_output(t_input *data, bool value)
+{
+	if (!data)
+		fprintf(stderr, OE_NOMEM WHITE);
+	color_error(data, 0, ON_PHILOS, value);
+	color_error(data, 1, OT_DIE, value);
+	color_error(data, 2, OT_EAT, value);
+	color_error(data, 3, OT_SLEEP, value);
+	color_error(data, 4, ONT_EAT, value);
+}
+
+int	put_error(t_input *data, t_type_error type)
+{
+	if (data && (!data->errors || !in_range(array_len(data->input), 4, 5)))
+		return (0);
+	fprintf(stderr, RED BOLD "\nERROR:" WHITE);
+	if (type == E_NOMEM)
+		return (print_output(NULL, false), 1);
+	fprintf(stderr, " ./philo ");
+	print_output(data, false);
+	print_output(data, true);
+	if (array_len(data->input) > 5)
+		fprintf(stderr, "\n - " RED OE_MARGS);
+	else if (array_len(data->input) < 4)
+		fprintf(stderr, "\n - " RED OE_NARGS);
+	fprintf(stderr, "\n\n");
+	return (data->errors);
 }
