@@ -6,42 +6,28 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:49:23 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:27:34 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-char	*put_type_error(int error)
+char	*error_title(t_type_error type)
 {
-	if (error == E_NARGS)
-		return ("`E_NARGS'");
-	else if (error == E_NOTPOS)
-		return ("`E_NOTPOS'");
-	else if (error == E_NEG)
-		return ("`E_NEG'");
-	else if (error == E_OORL)
-		return ("`E_OORL'");
-	else if (error == E_NAN)
-		return ("`E_NAN'");
-	else if (error == E_NOMEM)
-		return ("`E_NOMEM'");
-	else
-		return ("`SYNTAX_ERROR'");
-}
+	char	*new_title;
 
-void	put_type_arg(int pos)
-{
-	if (pos == N_PHILOS)
-		fprintf(stderr, RED " [number_of_philosophers]" WHITE);
-	if (pos == T_DIE)
-		fprintf(stderr, RED " [time_to_die]" WHITE);
-	if (pos == T_EAT)
-		fprintf(stderr, RED " [time_to_eat]" WHITE);
-	if (pos == T_SLEEP)
-		fprintf(stderr, RED " [time_to_sleep]" WHITE);
-	if (pos == NT_EAT)
-		fprintf(stderr, BLUE " _[times_each_philosopher_must_eat]_" WHITE);
+	new_title = NULL;
+	if (type == E_NARGS)
+		new_title = OE_NARGS;
+	else if (type == E_NOTPOS)
+		new_title = OE_NOTPOS;
+	else if (type == E_OORL)
+		new_title = OE_OORL;
+	else if (type == E_NAN)
+		new_title = OE_NAN;
+	else if (type == E_NOMEM)
+		new_title = OE_NOMEM;
+	return (new_title);
 }
 
 void	*put_error(int error, char *str, int pos)
