@@ -6,69 +6,76 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 16:49:23 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:42:33 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-char	*put_type_error(int error)
+char	*error_title(t_type_error type)
 {
-	if (error == E_NARGS)
-		return ("`E_NARGS'");
-	else if (error == E_NOTPOS)
-		return ("`E_NOTPOS'");
-	else if (error == E_NEG)
-		return ("`E_NEG'");
-	else if (error == E_OORL)
-		return ("`E_OORL'");
-	else if (error == E_NAN)
-		return ("`E_NAN'");
-	else if (error == E_NOMEM)
-		return ("`E_NOMEM'");
-	else
-		return ("`SYNTAX_ERROR'");
+	char	*new_title;
+
+	new_title = NULL;
+	if (type == E_NARGS)
+		new_title = OE_NARGS;
+	else if (type == E_NOTPOS)
+		new_title = OE_NOTPOS;
+	else if (type == E_OORL)
+		new_title = OE_OORL;
+	else if (type == E_NAN)
+		new_title = OE_NAN;
+	else if (type == E_NOMEM)
+		new_title = OE_NOMEM;
+	return (new_title);
 }
 
-void	put_type_arg(int pos)
+void	color_error(t_input *data, int pos, char *title, bool value)
 {
-	if (pos == N_PHILOS)
-		fprintf(stderr, RED " [number_of_philosophers]" WHITE);
-	if (pos == T_DIE)
-		fprintf(stderr, RED " [time_to_die]" WHITE);
-	if (pos == T_EAT)
-		fprintf(stderr, RED " [time_to_eat]" WHITE);
-	if (pos == T_SLEEP)
-		fprintf(stderr, RED " [time_to_sleep]" WHITE);
-	if (pos == NT_EAT)
-		fprintf(stderr, BLUE " _[times_each_philosopher_must_eat]_" WHITE);
-}
+	int		error;
 
-void	*put_error(int error, char *str, int pos)
-{
-	fprintf(stderr, RED BOLD "Error: %s " WHITE, put_type_error(error));
-	if (error == E_NARGS)
+	error = check_data(data, pos);
+	if (array_len(data->input) <= pos && pos != 4)
+		fprintf(stderr, YELLOW);
+	if (value && error && array_len(data->input) > pos)
 	{
-		fprintf(stderr, "invalid number of arguments: %i", pos);
-		fprintf(stderr, BOLD "\n\nExpected Sintax:" WHITE " ./philo " RED);
-		fprintf(stderr, "[MANDATORY_ARGS] " BLUE "_[OPTIONAL_ARGS]_\n\t\t\t");
-		pos = 0;
-		while ((pos == 4 && fprintf(stderr, "\n\t\t\t")) || pos < 5)
-			put_type_arg(pos++);
-		fprintf(stderr, WHITE "\n\n");
+		fprintf(stderr, "\n - %s = \"%s\" ", title, data->input[pos]);
+		fprintf(stderr, "%s", error_title(error));
 	}
-	if (error == E_NOTPOS)
-		fprintf(stderr, "expected a positive number for ssize_t:");
-	else if (error == E_NEG)
-		fprintf(stderr, "expected a non-negative number for ssize_t:");
-	else if (error == E_OORL)
-		fprintf(stderr, "received number out of range for ssize_t:");
-	else if (error == E_NAN)
-		fprintf(stderr, "did not receive number for expected ssize_t:");
-	put_type_arg(pos);
-	if (error != E_NARGS && error != E_NOMEM)
-		fprintf(stderr, "=[%s]\n", str);
-	else if (error == E_NOMEM)
-		fprintf(stderr, "Out of memory\n");
-	return (NULL);
+	else if (!value)
+	{
+		if (error)
+			fprintf(stderr, RED);
+		fprintf(stderr, "%s", title);
+	}
+	fprintf(stderr, WHITE);
+}
+
+void	print_output(t_input *data, bool value)
+{
+	if (!data)
+		fprintf(stderr, OE_NOMEM WHITE);
+	color_error(data, 0, ON_PHILOS, value);
+	color_error(data, 1, OT_DIE, value);
+	color_error(data, 2, OT_EAT, value);
+	color_error(data, 3, OT_SLEEP, value);
+	color_error(data, 4, ONT_EAT, value);
+}
+
+int	put_error(t_input *data, t_type_error type)
+{
+	if (data && (!data->errors || !in_range(array_len(data->input), 4, 5)))
+		return (0);
+	fprintf(stderr, RED BOLD "\nERROR:" WHITE);
+	if (type == E_NOMEM)
+		return (print_output(NULL, false), 1);
+	fprintf(stderr, " ./philo ");
+	print_output(data, false);
+	print_output(data, true);
+	if (array_len(data->input) > 5)
+		fprintf(stderr, "\n - " RED OE_MARGS);
+	else if (array_len(data->input) < 4)
+		fprintf(stderr, "\n - " RED OE_NARGS);
+	fprintf(stderr, "\n\n");
+	return (data->errors);
 }

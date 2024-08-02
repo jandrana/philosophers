@@ -6,40 +6,11 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/31 17:38:36 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:27:41 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
-
-t_input	*init_data(void)
-{
-	t_input	*data;
-
-	data = (t_input *)malloc(sizeof(t_input));
-	if (data)
-	{
-		data->n_philos = LONG_MIN;
-		data->t_die = LONG_MIN;
-		data->t_eat = LONG_MIN;
-		data->t_sleep = LONG_MIN;
-		data->nt_eat = LONG_MIN;
-		data->t_start = LONG_MIN;
-		data->error = NO_ERROR;
-	}
-	return (data);
-}
-
-void	type_error(ssize_t value, int min, t_input *data)
-{
-	if (value < min)
-	{
-		if (value == 0)
-			data->error = E_NOTPOS;
-		else
-			data->error = value;
-	}
-}
 
 ssize_t	*find_arg(t_input *data, int pos)
 {
@@ -57,38 +28,47 @@ ssize_t	*find_arg(t_input *data, int pos)
 		return (NULL);
 }
 
-void	check_data(t_input	*data, int pos)
+int	check_data(t_input	*data, int pos)
 {
 	ssize_t	arg_to_check;
-	int		min;
 
 	arg_to_check = *find_arg(data, pos);
-	if (pos == T_EAT || pos == T_SLEEP)
-		min = 0;
-	else
-		min = 1;
-	type_error(arg_to_check, min, data);
+	if (arg_to_check <= 0)
+	{
+		if (arg_to_check == 0)
+			return (E_NOTPOS);
+		else
+			return (arg_to_check);
+	}
+	return (NO_ERROR);
 }
 
-t_input	*parse_input(int argc, char **input)
+void	assign_data(t_input *data)
 {
-	t_input	*data;
+	int		len;
 	int		i;
 
-	data = init_data();
-	if (!input || !data)
-		return (put_error(E_NOMEM, NULL, -1));
-	if (in_range(array_len(input), 4, 5))
-		return (put_error(E_NARGS, NULL, array_len(input)));
 	i = -1;
-	while (data->error == NO_ERROR && array_len(input) > ++i && input[i])
+	len = array_len(data->input);
+	if (len > 5)
+		len = 5;
+	while (len > ++i && data->input[i])
 	{
-		*find_arg(data, i) = ph_un_atol(input[i]);
-		check_data(data, i);
+		*find_arg(data, i) = ph_un_atol(data->input[i]);
+		if (check_data(data, i))
+			data->errors++;
 	}
-	if (data->error)
-		put_error(data->error, input[i], i);
+}
+
+int	parse_input(int argc, char **argv, t_input *data)
+{
 	if (argc == 2)
-		free_array(&input);
-	return (data);
+		data->input = ph_split(argv[1], ' ');
+	else
+		data->input = argv + 1;
+	if (!data->input)
+		return (put_error(data, E_NOMEM));
+	assign_data(data);
+	put_error(data, 0);
+	return (data->errors);
 }

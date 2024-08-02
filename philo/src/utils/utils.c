@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:11:50 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/01 21:12:15 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:53:03 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ long	ph_un_atol(char *str)
 	while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
 		i++;
 	if (str[i] == '-')
-		return (E_NEG);
+		return (E_NOTPOS);
 	if (str[i] == '+')
 		i++;
 	j = i--;
