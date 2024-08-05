@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/05 18:41:14 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/05 20:33:18 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,14 @@ typedef enum e_n_input
 	NT_EAT = 4,
 	NO_ARG = -1
 }	t_n_input;
+
+typedef enum e_action
+{
+	THINK = 0,
+	EAT = 1,
+	SLEEP = 2,
+	DEAD = 3
+}	t_action;
 
 typedef struct s_philos
 {
