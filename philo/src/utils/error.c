@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/02 20:42:33 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:47:19 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,26 @@ void	color_error(t_input *data, int pos, char *title, bool value)
 void	print_output(t_input *data, bool value)
 {
 	if (!data)
-		fprintf(stderr, OE_NOMEM WHITE);
-	color_error(data, 0, ON_PHILOS, value);
-	color_error(data, 1, OT_DIE, value);
-	color_error(data, 2, OT_EAT, value);
-	color_error(data, 3, OT_SLEEP, value);
-	color_error(data, 4, ONT_EAT, value);
+		fprintf(stderr, RED BOLD "\nERROR:" WHITE OE_NOMEM WHITE "\n");
+	else
+	{
+		color_error(data, 0, ON_PHILOS, value);
+		color_error(data, 1, OT_DIE, value);
+		color_error(data, 2, OT_EAT, value);
+		color_error(data, 3, OT_SLEEP, value);
+		color_error(data, 4, ONT_EAT, value);
+	}
 }
 
 int	put_error(t_input *data, t_type_error type)
 {
-	if (data && (!data->errors || !in_range(array_len(data->input), 4, 5)))
+	if (type == E_NOMEM || !data)
+		return (print_output(NULL, false), 1);
+	if (array_len(data->input) < 4 || array_len(data->input) > 5)
+		data->errors++;
+	if (!data->errors)
 		return (0);
 	fprintf(stderr, RED BOLD "\nERROR:" WHITE);
-	if (type == E_NOMEM)
-		return (print_output(NULL, false), 1);
 	fprintf(stderr, " ./philo ");
 	print_output(data, false);
 	print_output(data, true);
