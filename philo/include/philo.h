@@ -84,7 +84,12 @@ typedef enum e_action
 typedef struct s_philos
 {
 	int				id;
-	long long		last_meal;
+	long long		death;
+	int				action;
+	int				nb_eat;
+	pthread_mutex_t	lock;
+	pthread_mutex_t	*left_fk;
+	pthread_mutex_t	*right_fk;
 	struct s_philos	*next;
 	struct s_philos	*prev;
 }	t_philos;
