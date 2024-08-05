@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 12:44:40 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/05 17:40:37 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/05 18:35:50 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,30 +52,31 @@ char	*ft_substr(const char *str, ssize_t start, ssize_t len)
 	return (substr);
 }
 
-long long	ft_atoll(char *str)
+long	ft_atoui(char *str)
 {
 	int			i;
 	int			j;
-	long long	result;
+	int			neg;
+	long		result;
 
 	i = 0;
+	neg = 1;
 	result = 0;
 	while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
 		i++;
 	if (str[i] == '+')
 		i++;
-	if (str[i] == '-')
-		return (E_NOTPOS);
-	j = i--;
-	while (str[++i] >= '0' && str[i] <= '9' && result >= 0)
-	{
-		result = result * 10 + (str[i] - '0');
-		if ((result > UINT32_MAX))
-			return (E_OORL);
-	}
-	if (str[i] || j == i)
+	if (str[i] == '-' && ++i)
+		neg = -1;
+	j = --i;
+	while (str[++j] >= '0' && str[j] <= '9')
+		;
+	if (str[j] || j == i)
 		return (E_NAN);
-	if (!result)
-		return (E_NOTPOS);
+	while (str[++i] && result >= 0 && result <= INT_MAX)
+		result = result * 10 + (str[i] - '0');
+	result *= neg;
+	if ((result > INT_MAX) || result < INT_MIN)
+		return (E_OORL);
 	return (result);
 }
