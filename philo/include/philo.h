@@ -105,14 +105,14 @@ typedef struct s_data
 
 typedef struct s_input
 {
-	int		n_philos;
-	int		t_die;
-	int		t_eat;
-	int		t_sleep;
-	int		nt_eat;
-	int		t_start;
-	char	**input;
-	int		errors;
+	int				n_philos;
+	int				t_die;
+	int				t_eat;
+	int				t_sleep;
+	int				nt_eat;
+	int				t_start;
+	char			**args;
+	int				errors;
 }	t_input;
 
 // ------------------------------------------------------ //
