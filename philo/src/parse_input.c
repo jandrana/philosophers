@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/02 20:27:41 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:45:55 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,5 @@ int	parse_input(int argc, char **argv, t_input *data)
 	if (!data->input)
 		return (put_error(data, E_NOMEM));
 	assign_data(data);
-	put_error(data, 0);
-	return (data->errors);
+	return (put_error(data, 0));
 }
