@@ -94,6 +94,15 @@ typedef struct s_philos
 	struct s_philos	*prev;
 }	t_philos;
 
+typedef struct s_data
+{
+	int				*input;
+	t_philos		*philos;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	lock;
+	pthread_mutex_t	print;
+}	t_data;
+
 typedef struct s_input
 {
 	int		n_philos;
