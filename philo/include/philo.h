@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/02 20:49:57 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:40:40 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <stdint.h>
 
 // -------------------- COLOR MACROS -------------------- //
 
@@ -82,12 +83,12 @@ typedef struct s_philos
 
 typedef struct s_input
 {
-	ssize_t			n_philos;
-	ssize_t			t_die;
-	ssize_t			t_eat;
-	ssize_t			t_sleep;
-	ssize_t			nt_eat;
-	ssize_t			t_start;
+	uint64_t		n_philos;
+	uint64_t			t_die;
+	uint64_t			t_eat;
+	uint64_t			t_sleep;
+	uint64_t			nt_eat;
+	uint64_t			t_start;
 	char			**input;
 	int				errors;
 }	t_input;
@@ -95,38 +96,38 @@ typedef struct s_input
 // ------------------------------------------------------ //
 //                     MAIN FUNCTIONS                     //
 // ------------------------------------------------------ //
-int		check_data(t_input	*data, int pos);
-int		parse_input(int argc, char **argv, t_input *data);
+int			check_data(t_input	*data, int pos);
+int			parse_input(int argc, char **argv, t_input *data);
 
 // ------------------------------------------------------ //
 //                      UTILS FOLDER                      //
 // ------------------------------------------------------ //
 
 // ---------------------- INIT.C ----------------------- //
-t_input	*init_data(void);
+t_input		*init_data(void);
 
 // ---------------------- ERROR.C ----------------------- //
-int		put_error(t_input *data, t_type_error type);
+int			put_error(t_input *data, t_type_error type);
 
 // -------------------- FREE_UTILS.C -------------------- //
-char	*free_str(char **str);
-void	free_array(char ***array);
+char		*free_str(char **str);
+void		free_array(char ***array);
 
 // --------------------- PH_SPLIT.C --------------------- //
-char	**ph_split(char const *s, char c);
+char		**ph_split(char const *s, char c);
 
 // ------------------- PRINT_UTILS.C -------------------- //
-void	print_input(t_input *input);
+void		print_input(t_input *input);
 
 // ----------------------- UTILS.C ---------------------- //
-char	*ft_substr(const char *str, ssize_t start, ssize_t len);
-int		ft_strlen(const char *str);
-char	*ft_strdup(char *s1);
-long	ph_un_atol(char *str);
-int		array_len(char **array);
-bool	in_range(ssize_t value, ssize_t min, ssize_t max);
+char		*ft_substr(const char *str, ssize_t start, ssize_t len);
+int			ft_strlen(const char *str);
+char		*ft_strdup(char *s1);
+int			array_len(char **array);
+bool		in_range(ssize_t value, ssize_t min, ssize_t max);
 
 // ----------------------- LIBFT.C ---------------------- //
-void	philo_strcpy(char *dst, const char *src, int len);
+void		philo_strcpy(char *dst, const char *src, int len);
+long long	ft_atoll(char *str);
 
 #endif /* PHILO_H */
