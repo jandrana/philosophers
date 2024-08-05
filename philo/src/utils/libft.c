@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 12:44:40 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/05 17:40:04 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:40:37 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_substr(const char *str, ssize_t start, ssize_t len)
 	return (substr);
 }
 
-long long	ft_atoul(char *str)
+long long	ft_atoll(char *str)
 {
 	int			i;
 	int			j;
