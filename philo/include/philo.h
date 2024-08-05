@@ -132,7 +132,7 @@ void	init_philos(t_data	*data);
 t_data	*init_data(t_input *input);
 
 // ---------------------- ERROR.C ----------------------- //
-int		put_error(t_input *data, t_type_error type);
+int		put_error(t_input *input, t_type_error type);
 
 // -------------------- FREE_UTILS.C -------------------- //
 char	*free_str(char **str);
