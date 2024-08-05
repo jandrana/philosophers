@@ -6,69 +6,73 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/02 20:27:41 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:41:45 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-ssize_t	*find_arg(t_input *data, int pos)
+int	*find_arg(t_input *input, int pos)
 {
 	if (pos == N_PHILOS)
-		return (&data->n_philos);
+		return (&input->n_philos);
 	else if (pos == T_DIE)
-		return (&data->t_die);
+		return (&input->t_die);
 	else if (pos == T_EAT)
-		return (&data->t_eat);
+		return (&input->t_eat);
 	else if (pos == T_SLEEP)
-		return (&data->t_sleep);
+		return (&input->t_sleep);
 	else if (pos == NT_EAT)
-		return (&data->nt_eat);
+		return (&input->nt_eat);
 	else
 		return (NULL);
 }
 
-int	check_data(t_input	*data, int pos)
+int	check_input(t_input	*input, int pos)
 {
-	ssize_t	arg_to_check;
+	long	error;
 
-	arg_to_check = *find_arg(data, pos);
-	if (arg_to_check <= 0)
+	if (pos < array_len(input->args))
 	{
-		if (arg_to_check == 0)
-			return (E_NOTPOS);
-		else
-			return (arg_to_check);
+		error = ft_atoui(input->args[pos]);
+		if (error < 1)
+		{
+			if (error == E_OORL)
+				return (E_OORL);
+			else if (error == E_NAN)
+				return (E_NAN);
+			else
+				return (E_NOTPOS);
+		}
 	}
 	return (NO_ERROR);
 }
 
-void	assign_data(t_input *data)
+void	assign_input(t_input *input)
 {
-	int		len;
-	int		i;
+	int	len;
+	int	i;
 
 	i = -1;
-	len = array_len(data->input);
+	len = array_len(input->args);
 	if (len > 5)
 		len = 5;
-	while (len > ++i && data->input[i])
+	while (len > ++i && input->args[i])
 	{
-		*find_arg(data, i) = ph_un_atol(data->input[i]);
-		if (check_data(data, i))
-			data->errors++;
+		*find_arg(input, i) = ft_atoui(input->args[i]);
+		if (check_input(input, i))
+			input->errors++;
 	}
 }
 
-int	parse_input(int argc, char **argv, t_input *data)
+int	parse_input(int argc, char **argv, t_input *input)
 {
 	if (argc == 2)
-		data->input = ph_split(argv[1], ' ');
+		input->args = ph_split(argv[1], ' ');
 	else
-		data->input = argv + 1;
-	if (!data->input)
-		return (put_error(data, E_NOMEM));
-	assign_data(data);
-	put_error(data, 0);
-	return (data->errors);
+		input->args = argv + 1;
+	if (!input->args)
+		return (put_error(input, E_NOMEM));
+	assign_input(input);
+	return (put_error(input, 0));
 }

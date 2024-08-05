@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/02 20:42:33 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:42:22 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ char	*error_title(t_type_error type)
 	return (new_title);
 }
 
-void	color_error(t_input *data, int pos, char *title, bool value)
+void	color_error(t_input *input, int pos, char *title, bool value)
 {
 	int		error;
 
-	error = check_data(data, pos);
-	if (array_len(data->input) <= pos && pos != 4)
+	error = check_input(input, pos);
+	if (array_len(input->args) <= pos && pos != 4)
 		fprintf(stderr, YELLOW);
-	if (value && error && array_len(data->input) > pos)
+	if (value && error && array_len(input->args) > pos)
 	{
-		fprintf(stderr, "\n - %s = \"%s\" ", title, data->input[pos]);
+		fprintf(stderr, "\n - %s = \"%s\" ", title, input->args[pos]);
 		fprintf(stderr, "%s", error_title(error));
 	}
 	else if (!value)
@@ -51,31 +51,36 @@ void	color_error(t_input *data, int pos, char *title, bool value)
 	fprintf(stderr, WHITE);
 }
 
-void	print_output(t_input *data, bool value)
+void	print_output(t_input *input, bool value)
 {
-	if (!data)
-		fprintf(stderr, OE_NOMEM WHITE);
-	color_error(data, 0, ON_PHILOS, value);
-	color_error(data, 1, OT_DIE, value);
-	color_error(data, 2, OT_EAT, value);
-	color_error(data, 3, OT_SLEEP, value);
-	color_error(data, 4, ONT_EAT, value);
+	if (!input)
+		fprintf(stderr, RED BOLD "\nERROR:" WHITE OE_NOMEM WHITE "\n");
+	else
+	{
+		color_error(input, 0, ON_PHILOS, value);
+		color_error(input, 1, OT_DIE, value);
+		color_error(input, 2, OT_EAT, value);
+		color_error(input, 3, OT_SLEEP, value);
+		color_error(input, 4, ONT_EAT, value);
+	}
 }
 
-int	put_error(t_input *data, t_type_error type)
+int	put_error(t_input *input, t_type_error type)
 {
-	if (data && (!data->errors || !in_range(array_len(data->input), 4, 5)))
+	if (type == E_NOMEM || !input)
+		return (print_output(NULL, false), 1);
+	if (array_len(input->args) < 4 || array_len(input->args) > 5)
+		input->errors++;
+	if (!input->errors)
 		return (0);
 	fprintf(stderr, RED BOLD "\nERROR:" WHITE);
-	if (type == E_NOMEM)
-		return (print_output(NULL, false), 1);
 	fprintf(stderr, " ./philo ");
-	print_output(data, false);
-	print_output(data, true);
-	if (array_len(data->input) > 5)
+	print_output(input, false);
+	print_output(input, true);
+	if (array_len(input->args) > 5)
 		fprintf(stderr, "\n - " RED OE_MARGS);
-	else if (array_len(data->input) < 4)
+	else if (array_len(input->args) < 4)
 		fprintf(stderr, "\n - " RED OE_NARGS);
 	fprintf(stderr, "\n\n");
-	return (data->errors);
+	return (input->errors);
 }
