@@ -118,8 +118,9 @@ typedef struct s_input
 // ------------------------------------------------------ //
 //                     MAIN FUNCTIONS                     //
 // ------------------------------------------------------ //
-int		check_data(t_input	*data, int pos);
-int		parse_input(int argc, char **argv, t_input *data);
+int		*find_arg(t_input *input, int pos);
+int		check_input(t_input	*input, int pos);
+int		parse_input(int argc, char **argv, t_input *input);
 
 // ------------------------------------------------------ //
 //                      UTILS FOLDER                      //
