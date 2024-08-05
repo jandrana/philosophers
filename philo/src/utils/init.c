@@ -6,27 +6,27 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:33:52 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/05 16:49:01 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/05 20:51:32 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-t_input	*init_data(void)
+t_input	*init_input(void)
 {
-	t_input	*data;
+	t_input	*input;
 
-	data = (t_input *)malloc(sizeof(t_input));
-	if (data)
+	input = (t_input *)malloc(sizeof(t_input));
+	if (input)
 	{
-		data->n_philos = 0;
-		data->t_die = 0;
-		data->t_eat = 0;
-		data->t_sleep = 0;
-		data->nt_eat = 0;
-		data->t_start = 0;
-		data->input = NULL;
-		data->errors = 0;
+		input->n_philos = 0;
+		input->t_die = 0;
+		input->t_eat = 0;
+		input->t_sleep = 0;
+		input->nt_eat = 0;
+		input->t_start = 0;
+		input->args = NULL;
+		input->errors = 0;
 	}
 	return (data);
 }
