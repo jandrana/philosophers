@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/05 17:40:40 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:43:24 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ typedef struct s_philos
 typedef struct s_input
 {
 	uint64_t		n_philos;
-	uint64_t			t_die;
-	uint64_t			t_eat;
-	uint64_t			t_sleep;
-	uint64_t			nt_eat;
-	uint64_t			t_start;
+	uint64_t		t_die;
+	uint64_t		t_eat;
+	uint64_t		t_sleep;
+	uint64_t		nt_eat;
+	uint64_t		t_start;
 	char			**input;
 	int				errors;
 }	t_input;
