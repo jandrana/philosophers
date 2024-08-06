@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/05 19:41:45 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:48:44 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,14 @@ void	assign_input(t_input *input)
 
 int	parse_input(int argc, char **argv, t_input *input)
 {
+	if (!input)
+		return (E_NOMEM);
 	if (argc == 2)
 		input->args = ph_split(argv[1], ' ');
 	else
 		input->args = argv + 1;
 	if (!input->args)
-		return (put_error(input, E_NOMEM));
+		return (E_NOMEM);
 	assign_input(input);
 	return (put_error(input, 0));
 }
