@@ -52,6 +52,12 @@
 # define OT_SLEEP "time_to_sleep "
 # define ONT_EAT "[num_times_each_must_eat] "
 
+# define O_THINK " is thinking\n"
+# define O_FORK " has taken a fork\n"
+# define O_EAT " is eating\n"
+# define O_SLEEP " is sleeping\n"
+# define O_DEAD " died\n"
+
 // --------------------- STRUCTURES --------------------- //
 
 typedef enum e_type_error
