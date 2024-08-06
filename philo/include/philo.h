@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/05 20:33:18 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:57:38 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int		put_error(t_input *input, t_type_error type);
 char	*free_str(char **str);
 void	free_array(char ***array);
 void	free_data(t_data **data);
+int		exit_philo(t_data **data, t_input **input, int argc);
 
 // --------------------- PH_SPLIT.C --------------------- //
 char	**ph_split(char const *s, char c);
