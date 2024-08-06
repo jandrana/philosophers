@@ -67,6 +67,7 @@ typedef enum e_type_error
 	E_NOTPOS = -1,
 	E_OORL = -2,
 	E_NAN = -3,
+	E_TIME = 4,
 	E_NOMEM = 12
 }	t_type_error;
 
