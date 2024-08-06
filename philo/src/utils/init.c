@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:33:52 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/05 20:51:32 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:56:56 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,9 @@ t_data	*init_data(t_input *input)
 {
 	t_data	*data;
 
-	data = start_data(input);
+	data = NULL;
+	if (input)
+		data = start_data(input);
 	if (!data)
 		return (NULL);
 	init_philos(data);

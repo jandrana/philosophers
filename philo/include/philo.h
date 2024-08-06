@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/05 20:33:18 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/06 21:17:34 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,19 @@
 # define OE_OORL "\033[1;31m`OUT_OF_RANGE'\033[0m"
 # define OE_NAN "\033[1;31m`NOT_A_NUMBER'\033[0m"
 # define OE_NOMEM "\033[1;31m`OUT_OF_MEMORY'\033[0m"
+# define OE_TIME "\033[1;31m`gettimeofday failure'\033[0m"
 
 # define ON_PHILOS "num_philos "
 # define OT_DIE "time_to_die "
 # define OT_EAT "time_to_eat "
 # define OT_SLEEP "time_to_sleep "
 # define ONT_EAT "[num_times_each_must_eat] "
+
+# define O_THINK " is thinking\n"
+# define O_FORK " has taken a fork\n"
+# define O_EAT " is eating\n"
+# define O_SLEEP " is sleeping\n"
+# define O_DEAD " died\n"
 
 // --------------------- STRUCTURES --------------------- //
 
@@ -60,6 +67,7 @@ typedef enum e_type_error
 	E_NOTPOS = -1,
 	E_OORL = -2,
 	E_NAN = -3,
+	E_TIME = 4,
 	E_NOMEM = 12
 }	t_type_error;
 
@@ -138,6 +146,7 @@ int		put_error(t_input *input, t_type_error type);
 char	*free_str(char **str);
 void	free_array(char ***array);
 void	free_data(t_data **data);
+int		exit_philo(t_data **data, t_input **input, int argc);
 
 // --------------------- PH_SPLIT.C --------------------- //
 char	**ph_split(char const *s, char c);
