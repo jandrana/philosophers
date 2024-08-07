@@ -154,11 +154,14 @@ char		*get_action_msg(int action);
 void		print_status(t_philo *wise_man, int action);
 
 // ----------------------- UTILS.C ---------------------- //
-char	*ft_substr(const char *str, ssize_t start, ssize_t len);
-int		ft_strlen(const char *str);
-char	*ft_strdup(char *s1);
-int		array_len(char **array);
-bool	in_range(ssize_t value, ssize_t min, ssize_t max);
+char		*ft_substr(const char *str, ssize_t start, ssize_t len);
+int			ft_strlen(const char *str);
+char		*ft_strdup(char *s1);
+int			array_len(char **array);
+bool		in_range(ssize_t value, ssize_t min, ssize_t max);
+uint64_t	get_time_ms(uint64_t start);
+int			my_usleep(uint64_t sleep);
+int			ft_strncmp(char *s1, char *s2, size_t n);
 
 // ----------------------- LIBFT.C ---------------------- //
 void		philo_strcpy(char *dst, const char *src, int len);
