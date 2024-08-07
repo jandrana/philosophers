@@ -65,16 +65,32 @@ void	assign_info(t_data *data)
 	}
 }
 
-int	parse_input(int argc, char **argv, t_input *input)
+char	**strarray_dup(char **src)
 {
-	if (!input)
-		return (E_NOMEM);
+	char	**dup;
+	int		i;
+
+	dup = safe_calloc(sizeof(char *) * (array_len(src) + 1), NULL);
+	if (!dup)
+		return (NULL);
+	i = -1;
+	while (++i < array_len(src))
+		dup[i] = ft_strdup(src[i]);
+	dup[i] = NULL;
+	return (dup);
+}
+
+void	parse_input(int argc, char **argv, t_data *data)
+{
+	if (!data)
+		exit_philo(NULL, E_NOMEM);
 	if (argc == 2)
-		input->args = ph_split(argv[1], ' ');
+		data->args = ph_split(argv[1], ' ');
 	else
-		input->args = argv + 1;
-	if (!input->args)
-		return (E_NOMEM);
-	assign_input(input);
-	return (put_error(input, 0));
+		data->args = strarray_dup(argv + 1);
+	if (!data->args)
+		exit_philo(&data, E_NOMEM);
+	assign_info(data);
+	if (put_error(data, 0))
+		exit_philo(&data, 0);
 }
