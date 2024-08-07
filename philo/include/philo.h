@@ -109,17 +109,16 @@ typedef struct s_philo
 	struct s_data	*data;
 }	t_philo;
 
-typedef struct s_input
+typedef struct s_data
 {
-	int				n_philos;
-	int				t_die;
-	int				t_eat;
-	int				t_sleep;
-	int				nt_eat;
-	int				t_start;
-	char			**args;
-	int				errors;
-}	t_input;
+	char		**args;
+	int			*info;
+	int			stop;
+	uint64_t	start;
+	t_philo		*philos;
+	t_threads	*threads;
+	int			error;
+}	t_data;
 
 // ------------------------------------------------------ //
 //                     MAIN FUNCTIONS                     //
