@@ -138,10 +138,11 @@ void		init_philos(t_data	*data);
 int		put_error(t_input *input, t_type_error type);
 
 // -------------------- FREE_UTILS.C -------------------- //
-char	*free_str(char **str);
-void	free_array(char ***array);
-void	free_data(t_data **data);
-int		exit_philo(t_data **data, t_input **input, int argc);
+char		*free_str(char **str);
+void		free_array(char ***array);
+void		free_data(t_data **data);
+void		*safe_calloc(size_t size, void *dst);
+void		exit_philo(t_data **data, t_type_error error);
 
 // --------------------- PH_SPLIT.C --------------------- //
 char	**ph_split(char const *s, char c);
