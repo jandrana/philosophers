@@ -28,6 +28,7 @@ bool	in_range(ssize_t value, ssize_t min, ssize_t max)
 		return (0);
 	return (1);
 }
+
 void	*safe_calloc(size_t size, void *p_free)
 {
 	void	*ptr;
