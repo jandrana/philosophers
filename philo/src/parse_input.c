@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 18:42:00 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:37:07 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ void	parse_input(int argc, char **argv, t_data *data)
 	if (!data->args)
 		exit_philo(&data, E_NOMEM);
 	assign_info(data);
-	if (put_error(data, 0))
+	if (check_parsing(data))
 		exit_philo(&data, 0);
 }
