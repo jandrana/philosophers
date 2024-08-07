@@ -53,40 +53,22 @@ void	init_philos(t_data	*data)
 	}
 }
 
-t_data	*start_data(t_input *input)
+void	init_philos(t_data	*data)
 {
-	t_data	*data;
-	int		i;
+	int			num_ph;
+	int			i;
 
-	data = (t_data *)malloc(sizeof(t_data));
-	if (!data)
-		return (NULL);
-	data->input = (int *)calloc(5, sizeof(int));
-	if (!data->input)
-		return (free(data), NULL);
+	num_ph = data->info[N_PHILOS];
+	data->philos = safe_calloc(sizeof(t_philo) * num_ph, &data);
+	malloc_threads(data, data->info[N_PHILOS]);
 	i = -1;
-	while (++i < 5)
-		data->input[i] = *find_arg(input, i);
-	data->philos = calloc(data->input[N_PHILOS], sizeof(t_philos));
-	if (!data->philos)
-		return (free(data->input), free(data), NULL);
-	data->forks = calloc(data->input[N_PHILOS], sizeof(pthread_mutex_t));
-	if (!data->forks)
-		return (free(data->forks), free(data->input), free(data), NULL);
-	return (data);
-}
-
-t_data	*init_data(t_input *input)
-{
-	t_data	*data;
-
-	data = NULL;
-	if (input)
-		data = start_data(input);
-	if (!data)
-		return (NULL);
-	init_philos(data);
-	pthread_mutex_init(&data->lock, NULL);
-	pthread_mutex_init(&data->print, NULL);
-	return (data);
+	while (++i < num_ph)
+	{
+		data->philos[i].id = i + 1;
+		data->philos[i].meals = 0;
+		data->philos[i].hunger = 0;
+		data->philos[i].status = THINK;
+		data->philos[i].data = data;
+	}
+	data->start = get_time_ms(0);
 }
