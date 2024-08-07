@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/06 21:17:34 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:59:40 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef enum e_type_error
 	E_OORL = -2,
 	E_NAN = -3,
 	E_TIME = 4,
+	E_INITMTX = 5,
+	E_DELMTX = 6,
 	E_NOMEM = 12
 }	t_type_error;
 
@@ -84,85 +86,87 @@ typedef enum e_n_input
 typedef enum e_action
 {
 	THINK = 0,
-	EAT = 1,
-	SLEEP = 2,
-	DEAD = 3
+	FORK = 1,
+	EAT = 2,
+	SLEEP = 3,
+	DEAD = 4
 }	t_action;
 
-typedef struct s_philos
+typedef struct s_threads
+{
+	pthread_t		data;
+	pthread_t		*philo;
+	pthread_mutex_t	print;
+	pthread_mutex_t	lock;
+	pthread_mutex_t	*ph_lock;
+	pthread_mutex_t	*fork;
+}	t_threads;
+
+typedef struct s_philo
 {
 	int				id;
-	long long		death;
-	int				action;
-	int				nb_eat;
-	pthread_mutex_t	lock;
-	pthread_mutex_t	*left_fk;
-	pthread_mutex_t	*right_fk;
-	struct s_philos	*next;
-	struct s_philos	*prev;
-}	t_philos;
+	int				meals;
+	uint32_t		hunger;
+	t_action		status;
+	struct s_data	*data;
+}	t_philo;
 
 typedef struct s_data
 {
-	int				*input;
-	t_philos		*philos;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	lock;
-	pthread_mutex_t	print;
+	char		**args;
+	int			*info;
+	int			stop;
+	uint64_t	start;
+	t_philo		*philos;
+	t_threads	*threads;
+	int			error;
 }	t_data;
-
-typedef struct s_input
-{
-	int				n_philos;
-	int				t_die;
-	int				t_eat;
-	int				t_sleep;
-	int				nt_eat;
-	int				t_start;
-	char			**args;
-	int				errors;
-}	t_input;
 
 // ------------------------------------------------------ //
 //                     MAIN FUNCTIONS                     //
 // ------------------------------------------------------ //
-int		*find_arg(t_input *input, int pos);
-int		check_input(t_input	*input, int pos);
-int		parse_input(int argc, char **argv, t_input *input);
+int			check_args(t_data *data, int pos);
+void		parse_input(int argc, char **argv, t_data *data);
 
 // ------------------------------------------------------ //
 //                      UTILS FOLDER                      //
 // ------------------------------------------------------ //
 
 // ---------------------- INIT.C ----------------------- //
-t_input	*init_input(void);
-void	init_philos(t_data	*data);
-t_data	*init_data(t_input *input);
+t_data		*init_data(void);
+void		init_philos(t_data	*data);
 
 // ---------------------- ERROR.C ----------------------- //
-int		put_error(t_input *input, t_type_error type);
+int			check_parsing(t_data *data);
+int			print_error(t_type_error type, int errno);
 
 // -------------------- FREE_UTILS.C -------------------- //
-char	*free_str(char **str);
-void	free_array(char ***array);
-void	free_data(t_data **data);
-int		exit_philo(t_data **data, t_input **input, int argc);
+char		*free_str(char **str);
+void		free_array(char ***array);
+void		free_data(t_data **data);
+void		*safe_calloc(size_t size, void *dst);
+void		exit_philo(t_data **data, t_type_error error);
 
 // --------------------- PH_SPLIT.C --------------------- //
-char	**ph_split(char const *s, char c);
+char		**ph_split(char const *s, char c);
 
 // ------------------- PRINT_UTILS.C -------------------- //
-void	print_input(t_input *input);
+void		print_input(t_data *data);
+char		*get_action_msg(int action);
+void		print_status(t_philo *wise_man, int action);
 
 // ----------------------- UTILS.C ---------------------- //
-char	*ft_substr(const char *str, ssize_t start, ssize_t len);
-int		ft_strlen(const char *str);
-char	*ft_strdup(char *s1);
-int		array_len(char **array);
-bool	in_range(ssize_t value, ssize_t min, ssize_t max);
+char		*ft_substr(const char *str, ssize_t start, ssize_t len);
+int			ft_strlen(const char *str);
+char		*ft_strdup(char *s1);
+int			array_len(char **array);
+bool		in_range(ssize_t value, ssize_t min, ssize_t max);
+uint64_t	get_time_ms(uint64_t start);
+int			my_usleep(uint64_t sleep);
+int			ft_strncmp(char *s1, char *s2, size_t n);
 
 // ----------------------- LIBFT.C ---------------------- //
-void	philo_strcpy(char *dst, const char *src, int len);
-long	ft_atoui(char *str);
+void		philo_strcpy(char *dst, const char *src, int len);
+long		ft_atoui(char *str);
 
 #endif /* PHILO_H */
