@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 20:41:52 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 21:50:52 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,6 @@ void	free_data(t_data **data)
 		}
 		free(*data);
 	}
-}
-
-void	*safe_calloc(size_t size, void *p_free)
-{
-	void	*ptr;
-
-	ptr = (void *)malloc(size);
-	if (!ptr)
-		exit_philo(p_free, E_NOMEM);
-	memset(ptr, 0, size);
-	return (ptr);
 }
 
 void	exit_philo(t_data **data, t_type_error error)
