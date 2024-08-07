@@ -131,9 +131,8 @@ void		parse_input(int argc, char **argv, t_data *data);
 // ------------------------------------------------------ //
 
 // ---------------------- INIT.C ----------------------- //
-t_input	*init_input(void);
-void	init_philos(t_data	*data);
-t_data	*init_data(t_input *input);
+t_data		*init_data(void);
+void		init_philos(t_data	*data);
 
 // ---------------------- ERROR.C ----------------------- //
 int		put_error(t_input *input, t_type_error type);
