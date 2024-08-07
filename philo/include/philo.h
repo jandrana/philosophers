@@ -90,18 +90,15 @@ typedef enum e_action
 	DEAD = 4
 }	t_action;
 
-typedef struct s_philos
+typedef struct s_threads
 {
-	int				id;
-	long long		death;
-	int				action;
-	int				nb_eat;
+	pthread_t		data;
+	pthread_t		*philo;
+	pthread_mutex_t	print;
 	pthread_mutex_t	lock;
-	pthread_mutex_t	*left_fk;
-	pthread_mutex_t	*right_fk;
-	struct s_philos	*next;
-	struct s_philos	*prev;
-}	t_philos;
+	pthread_mutex_t	*ph_lock;
+	pthread_mutex_t	*fork;
+}	t_threads;
 
 typedef struct s_data
 {
