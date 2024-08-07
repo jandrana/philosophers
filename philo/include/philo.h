@@ -146,7 +146,7 @@ void		*safe_calloc(size_t size, void *dst);
 void		exit_philo(t_data **data, t_type_error error);
 
 // --------------------- PH_SPLIT.C --------------------- //
-char	**ph_split(char const *s, char c);
+char		**ph_split(char const *s, char c);
 
 // ------------------- PRINT_UTILS.C -------------------- //
 void	print_input(t_input *input);
@@ -159,7 +159,7 @@ int		array_len(char **array);
 bool	in_range(ssize_t value, ssize_t min, ssize_t max);
 
 // ----------------------- LIBFT.C ---------------------- //
-void	philo_strcpy(char *dst, const char *src, int len);
-long	ft_atoui(char *str);
+void		philo_strcpy(char *dst, const char *src, int len);
+long		ft_atoui(char *str);
 
 #endif /* PHILO_H */
