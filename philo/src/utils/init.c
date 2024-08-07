@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:33:52 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 19:19:47 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:58:53 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ void	malloc_threads(t_data *data, int num_ph)
 	th->fork = safe_calloc(sizeof(pthread_mutex_t) * num_ph, &data);
 }
 
+void	init_structs_mutex(t_data *data)
+{
+	int			i;
+	t_threads	*th;
+
+	i = -1;
+	th = data->threads;
+	if (pthread_mutex_init(&data->threads->print, NULL))
+		exit_philo(&data, E_INITMTX);
+	if (pthread_mutex_init(&data->threads->lock, NULL))
+		exit_philo(&data, E_INITMTX);
+	while (++i < data->info[N_PHILOS])
+	{
+		if (pthread_mutex_init(&data->threads->ph_lock[i], NULL))
+			exit_philo(&data, E_INITMTX);
+		if (pthread_mutex_init(&data->threads->fork[i], NULL))
+			exit_philo(&data, E_INITMTX);
+	}
+}
+
 void	init_philos(t_data	*data)
 {
 	int			num_ph;
@@ -48,7 +68,7 @@ void	init_philos(t_data	*data)
 
 	num_ph = data->info[N_PHILOS];
 	data->philos = safe_calloc(sizeof(t_philo) * num_ph, &data);
-	malloc_threads(data, data->info[N_PHILOS]);
+	malloc_threads(data, num_ph);
 	i = -1;
 	while (++i < num_ph)
 	{
@@ -58,5 +78,6 @@ void	init_philos(t_data	*data)
 		data->philos[i].status = THINK;
 		data->philos[i].data = data;
 	}
+	init_structs_mutex(data);
 	data->start = get_time_ms(0);
 }
