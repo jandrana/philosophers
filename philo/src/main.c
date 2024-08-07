@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:51:47 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/06 20:07:03 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:00:27 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 int	main(int argc, char **argv)
 {
-	t_input	*input;
 	t_data	*data;
 
-	input = init_input();
-	if (parse_input(argc, argv, input))
-		return (exit_philo(NULL, &input, argc));
-	data = init_data(input);
-	if (data)
-		init_threads(data);
-	return (exit_philo(&data, &input, argc));
+	data = init_data();
+	parse_input(argc, argv, data);
+	init_philos(data);
+	exit_philo(&data, 0);
+	return (0);
 }
