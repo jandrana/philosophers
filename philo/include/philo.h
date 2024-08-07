@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 19:20:19 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:40:53 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,8 @@ typedef struct s_data
 // ------------------------------------------------------ //
 //                     MAIN FUNCTIONS                     //
 // ------------------------------------------------------ //
-int		*find_arg(t_input *input, int pos);
-int		check_input(t_input	*input, int pos);
-int		parse_input(int argc, char **argv, t_input *input);
+int			check_args(t_data *data, int pos);
+void		parse_input(int argc, char **argv, t_data *data);
 
 // ------------------------------------------------------ //
 //                      UTILS FOLDER                      //
