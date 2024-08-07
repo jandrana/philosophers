@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 20:31:25 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:41:25 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,15 @@ int	check_parsing(t_data *data)
 		fprintf(stderr, "\n - " RED OE_NARGS);
 	fprintf(stderr, "\n\n");
 	return (data->error);
+}
+
+int	print_error(t_type_error type, int errno)
+{
+	if (type == E_NOMEM)
+		return (print_output(NULL, false), E_NOMEM);
+	fprintf(stderr, RED BOLD "\nERROR:" WHITE);
+	if (type == E_TIME)
+		fprintf(stderr, OE_TIME ": %s\n", strerror(errno));
+	fprintf(stderr, "\n\n");
+	return (errno);
 }

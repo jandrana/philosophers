@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 19:47:01 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:41:52 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ void	exit_philo(t_data **data, t_type_error error)
 	else
 		exit_code = E_NOMEM;
 	if (exit_code == E_NOMEM)
-		put_error(NULL, E_NOMEM);
+		print_error(E_NOMEM, 0);
 	exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 20:31:30 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:41:42 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void		init_philos(t_data	*data);
 
 // ---------------------- ERROR.C ----------------------- //
 int			check_parsing(t_data *data);
-int			put_error2(t_type_error type, int errno);
+int			print_error(t_type_error type, int errno);
 
 // -------------------- FREE_UTILS.C -------------------- //
 char		*free_str(char **str);
