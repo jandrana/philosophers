@@ -100,14 +100,14 @@ typedef struct s_threads
 	pthread_mutex_t	*fork;
 }	t_threads;
 
-typedef struct s_data
+typedef struct s_philo
 {
-	int				*input;
-	t_philos		*philos;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	lock;
-	pthread_mutex_t	print;
-}	t_data;
+	int				id;
+	int				meals;
+	uint32_t		hunger;
+	t_action		status;
+	struct s_data	*data;
+}	t_philo;
 
 typedef struct s_input
 {
