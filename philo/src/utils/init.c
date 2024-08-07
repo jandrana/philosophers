@@ -30,27 +30,15 @@ t_data	*init_data(void)
 	return (data);
 }
 
-void	init_philos(t_data	*data)
+void	malloc_threads(t_data *data, int num_ph)
 {
-	int	id;
+	t_threads	*th;
 
-	id = -1;
-	while (++id < data->input[N_PHILOS])
-		pthread_mutex_init(&data->forks[id], NULL);
-	id = -1;
-	while (++id < data->input[N_PHILOS])
-	{
-		data->philos[id].id = id;
-		data->philos[id].death = data->input[T_DIE];
-		data->philos[id].action = THINK;
-		data->philos[id].nb_eat = 0;
-		data->philos[id].right_fk = &data->forks[id];
-		if (id == 1)
-			data->philos[id].left_fk = &data->forks[data->input[N_PHILOS]];
-		else
-			data->philos[id].left_fk = &data->forks[id - 1];
-		pthread_mutex_init(&data->philos[id].lock, NULL);
-	}
+	data->threads = safe_calloc(sizeof(t_threads), &data);
+	th = data->threads;
+	th->philo = safe_calloc(sizeof(pthread_t) * num_ph, &data);
+	th->ph_lock = safe_calloc(sizeof(pthread_mutex_t) * num_ph, &data);
+	th->fork = safe_calloc(sizeof(pthread_mutex_t) * num_ph, &data);
 }
 
 void	init_philos(t_data	*data)
