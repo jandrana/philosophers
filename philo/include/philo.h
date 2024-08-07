@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 20:41:42 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:59:40 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef enum e_type_error
 	E_OORL = -2,
 	E_NAN = -3,
 	E_TIME = 4,
+	E_INITMTX = 5,
+	E_DELMTX = 6,
 	E_NOMEM = 12
 }	t_type_error;
 
