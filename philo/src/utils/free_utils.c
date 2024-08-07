@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 19:30:15 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:32:35 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,18 @@ void	free_data(t_data **data)
 	}
 }
 
-int	exit_philo(t_data **data, t_input **input, int argc)
+void	*safe_calloc(size_t size, void *p_free)
+{
+	void	*ptr;
+
+	ptr = (void *)malloc(size);
+	if (!ptr)
+		exit_philo(p_free, E_NOMEM);
+	memset(ptr, 0, size);
+	return (ptr);
+}
+
+void	exit_philo(t_data **data, t_type_error error)
 {
 	int	exit_code;
 
