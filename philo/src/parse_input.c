@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/06 13:48:44 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 18:42:00 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,20 @@ int	check_input(t_input	*input, int pos)
 	return (NO_ERROR);
 }
 
-void	assign_input(t_input *input)
+void	assign_info(t_data *data)
 {
 	int	len;
 	int	i;
 
-	i = -1;
-	len = array_len(input->args);
+	len = array_len(data->args);
 	if (len > 5)
 		len = 5;
-	while (len > ++i && input->args[i])
+	i = -1;
+	while (len > ++i && data->args[i])
 	{
-		*find_arg(input, i) = ft_atoui(input->args[i]);
-		if (check_input(input, i))
-			input->errors++;
+		data->info[i] = ft_atoui(data->args[i]);
+		if (check_args(data, i))
+			data->error++;
 	}
 }
 
