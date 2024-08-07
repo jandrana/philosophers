@@ -149,7 +149,9 @@ void		exit_philo(t_data **data, t_type_error error);
 char		**ph_split(char const *s, char c);
 
 // ------------------- PRINT_UTILS.C -------------------- //
-void	print_input(t_input *input);
+void		print_input(t_data *data);
+char		*get_action_msg(int action);
+void		print_status(t_philo *wise_man, int action);
 
 // ----------------------- UTILS.C ---------------------- //
 char	*ft_substr(const char *str, ssize_t start, ssize_t len);
