@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 19:28:39 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:30:15 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,17 @@ int	exit_philo(t_data **data, t_input **input, int argc)
 {
 	int	exit_code;
 
-	exit_code = NO_ERROR;
-	if (*input)
+	exit_code = error;
+	if (*data)
 	{
-		exit_code = (*input)->errors;
-		if ((*input)->args && argc == 2)
-			free_array(&(*input)->args);
-		else if (!(*input)->args)
-			exit_code = put_error(NULL, E_NOMEM);
-		free(*input);
+		exit_code = (*data)->error;
+		if (!(*data)->args)
+			exit_code = E_NOMEM;
+		free_data(data);
 	}
 	else
-		exit_code = put_error(NULL, E_NOMEM);
-	if (exit_code == NO_ERROR)
-	{
-		if (*data)
-			free_data(data);
-		else
-			exit_code = put_error(NULL, E_NOMEM);
-	}
-	return (exit_code);
-
+		exit_code = E_NOMEM;
+	if (exit_code == E_NOMEM)
+		put_error(NULL, E_NOMEM);
+	exit(exit_code);
 }
