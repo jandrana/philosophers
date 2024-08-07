@@ -135,7 +135,8 @@ t_data		*init_data(void);
 void		init_philos(t_data	*data);
 
 // ---------------------- ERROR.C ----------------------- //
-int		put_error(t_input *input, t_type_error type);
+int			put_error(t_data *data, t_type_error type);
+int			put_error2(t_type_error type, int errno);
 
 // -------------------- FREE_UTILS.C -------------------- //
 char		*free_str(char **str);
