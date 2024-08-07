@@ -12,29 +12,13 @@
 
 #include <philo.h>
 
-int	*find_arg(t_input *input, int pos)
-{
-	if (pos == N_PHILOS)
-		return (&input->n_philos);
-	else if (pos == T_DIE)
-		return (&input->t_die);
-	else if (pos == T_EAT)
-		return (&input->t_eat);
-	else if (pos == T_SLEEP)
-		return (&input->t_sleep);
-	else if (pos == NT_EAT)
-		return (&input->nt_eat);
-	else
-		return (NULL);
-}
-
-int	check_input(t_input	*input, int pos)
+int	check_args(t_data *data, int pos)
 {
 	long	error;
 
-	if (pos < array_len(input->args))
+	if (pos < array_len(data->args))
 	{
-		error = ft_atoui(input->args[pos]);
+		error = ft_atoui(data->args[pos]);
 		if (error < 1)
 		{
 			if (error == E_OORL)
