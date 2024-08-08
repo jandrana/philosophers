@@ -21,6 +21,21 @@ void	print_input(t_data *data)
 	printf("[TIMES_EACH_PHILO_MUST_EAT]= %i\n", data->info[NT_EAT]);
 }
 
+char	*get_action_msg(int action)
+{
+	if (action == THINK)
+		return (O_THINK);
+	if (action == FORK)
+		return (O_FORK);
+	if (action == EAT)
+		return (O_EAT);
+	if (action == SLEEP)
+		return (O_SLEEP);
+	if (action == DEAD)
+		return (O_DEAD);
+	return (NULL);
+}
+
 void	print_status(t_philo *wise_man, int action)
 {
 	uint64_t	timestamp;
