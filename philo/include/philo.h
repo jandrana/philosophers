@@ -187,4 +187,11 @@ int			my_usleep(uint64_t sleep);
 void		philo_strcpy(char *dst, const char *src, int len);
 long		ft_atoui(char *str);
 
+void		start_threads(t_data *data);
+void		fight_for_forks(t_philo *philo);
+void		share_forks(t_philo *philo);
+void		spaguetti_time(t_philo *philo);
+void		rest_happily(t_philo *philo);
+void		increase_wisdom(t_philo *philo);
+
 #endif /* PHILO_H */
