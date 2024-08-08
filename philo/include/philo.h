@@ -151,6 +151,7 @@ void		parse_input(int argc, char **argv, t_data *data);
 
 // ---------------------- INIT.C ----------------------- //
 t_data		*init_data(void);
+void		init_data_mutex(t_data *data);
 void		init_philos(t_data	*data);
 
 // ---------------------- ERROR.C ----------------------- //
