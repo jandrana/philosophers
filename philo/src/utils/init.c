@@ -46,10 +46,8 @@ void	malloc_threads(t_data *data, int num_ph)
 void	init_structs_mutex(t_data *data)
 {
 	int			i;
-	t_threads	*th;
 
 	i = -1;
-	th = data->threads;
 	if (pthread_mutex_init(&data->threads->print, NULL))
 		exit_philo(&data, E_INITMTX);
 	if (pthread_mutex_init(&data->threads->lock, NULL))
