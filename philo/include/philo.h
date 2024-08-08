@@ -163,7 +163,8 @@ char		*free_str(char **str);
 void		free_array(char ***array);
 void		free_data(t_data **data);
 void		*safe_calloc(size_t size, void *dst);
-void		exit_philo(t_data **data, t_type_error error);
+void		destroy_structs_mutex(t_data *data);
+void		exit_philo(t_data **data, int error);
 
 // --------------------- PH_SPLIT.C --------------------- //
 char		**ph_split(char const *s, char c);
