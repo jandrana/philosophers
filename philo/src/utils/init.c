@@ -61,6 +61,21 @@ void	init_structs_mutex(t_data *data)
 	}
 }
 
+void	init_data_mutex(t_data *data)
+{
+	int	num_ph;
+	int	i;
+
+	num_ph = data->info[N_PHILOS];
+	data->forks = safe_calloc(sizeof(pthread_mutex_t) * num_ph, &data);
+	i = -1;
+	while (++i < data->info[N_PHILOS])
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL))
+			exit_philo(&data, E_INITMTX);
+	}
+}
+
 void	init_philos(t_data	*data)
 {
 	int			num_ph;
