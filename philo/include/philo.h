@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 20:59:40 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:55:41 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@
 # define OE_OORL "\033[1;31m`OUT_OF_RANGE'\033[0m"
 # define OE_NAN "\033[1;31m`NOT_A_NUMBER'\033[0m"
 # define OE_NOMEM "\033[1;31m`OUT_OF_MEMORY'\033[0m"
-# define OE_TIME "\033[1;31m`gettimeofday failure'\033[0m"
+# define OE_TIME "\033[1;31m`gettimeofday()'\033[0m"
+# define OE_INITMTX "\033[1;31m`INIT_MUTEX_ERROR'\033[0m"
+# define OE_DELMTX "\033[1;31m`DETATCH_MUTEX_ERROR'\033[0m"
+# define OE_NEWTH "\033[1;31m`NEW_THREAD_CREATION_ERROR'\033[0m"
 
 # define ON_PHILOS "num_philos "
 # define OT_DIE "time_to_die "
