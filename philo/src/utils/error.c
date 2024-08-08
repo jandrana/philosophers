@@ -6,13 +6,13 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 20:41:25 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:59:44 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-char	*error_title(t_type_error type)
+char	*error_title(int type)
 {
 	char	*new_title;
 
@@ -25,6 +25,12 @@ char	*error_title(t_type_error type)
 		new_title = OE_OORL;
 	else if (type == E_NAN)
 		new_title = OE_NAN;
+	else if (type == E_INITMTX)
+		new_title = OE_INITMTX;
+	else if (type == E_DELMTX)
+		new_title = OE_DELMTX;
+	else if (type == E_NEWTH)
+		new_title = OE_NEWTH;
 	else if (type == E_NOMEM)
 		new_title = OE_NOMEM;
 	return (new_title);
