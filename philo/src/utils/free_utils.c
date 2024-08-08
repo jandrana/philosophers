@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 21:50:52 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/08 16:50:10 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,22 @@ void	free_data(t_data **data)
 	}
 }
 
-void	exit_philo(t_data **data, t_type_error error)
+void	exit_philo(t_data **data, int error)
 {
 	int	exit_code;
 
 	exit_code = error;
 	if (*data)
 	{
-		exit_code = (*data)->error;
+		if (exit_code != NO_ERROR)
+			destroy_structs_mutex(*data);
 		if (!(*data)->args)
 			exit_code = E_NOMEM;
 		free_data(data);
 	}
-	else
+	else if (!exit_code)
 		exit_code = E_NOMEM;
-	if (exit_code == E_NOMEM)
-		print_error(E_NOMEM, 0);
+	if (exit_code != NO_ERROR)
+		print_error(error, 0);
 	exit(exit_code);
 }
