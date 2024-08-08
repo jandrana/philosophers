@@ -156,7 +156,7 @@ void		init_philos(t_data	*data);
 
 // ---------------------- ERROR.C ----------------------- //
 int			check_parsing(t_data *data);
-int			print_error(t_type_error type, int errno);
+int			print_error(t_error type, int n_err);
 
 // -------------------- FREE_UTILS.C -------------------- //
 char		*free_str(char **str);
