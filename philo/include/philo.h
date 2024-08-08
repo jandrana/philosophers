@@ -63,18 +63,26 @@
 
 // --------------------- STRUCTURES --------------------- //
 
-typedef enum e_type_error
+typedef uint64_t	t_time;
+
+typedef enum e_input_error
 {
 	NO_ERROR = 0,
 	E_NARGS = 1,
 	E_NOTPOS = -1,
 	E_OORL = -2,
 	E_NAN = -3,
+}	t_input_error;
+
+typedef enum e_error
+{
 	E_TIME = 4,
 	E_INITMTX = 5,
 	E_DELMTX = 6,
-	E_NOMEM = 12
-}	t_type_error;
+	E_NEWTH = 7,
+	E_DETTH = 8,
+	E_NOMEM = 12,
+}	t_error;
 
 typedef enum e_n_input
 {
