@@ -117,20 +117,26 @@ typedef struct s_philo
 {
 	int				id;
 	int				meals;
-	uint32_t		hunger;
+	t_time			hunger;
 	t_action		status;
 	struct s_data	*data;
+	pthread_t		th;
+	pthread_mutex_t	lock;
+	pthread_mutex_t	*right;
+	pthread_mutex_t	*left;
 }	t_philo;
 
 typedef struct s_data
 {
-	char		**args;
-	int			*info;
-	int			stop;
-	uint64_t	start;
-	t_philo		*philos;
-	t_threads	*threads;
-	int			error;
+	char			**args;
+	int				*info;
+	int				stop;
+	t_time			start;
+	t_philo			*philos;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	lock;
+	t_threads		*threads;
+	int				error;
 }	t_data;
 
 // ------------------------------------------------------ //
