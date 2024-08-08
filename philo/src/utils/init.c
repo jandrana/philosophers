@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:33:52 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 20:58:53 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/08 21:08:08 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_data	*init_data(void)
 		data->philos = NULL;
 		data->threads = NULL;
 		data->error = 0;
+		data->forks = NULL;
+		pthread_mutex_init(&data->lock, NULL);
 	}
 	return (data);
 }
