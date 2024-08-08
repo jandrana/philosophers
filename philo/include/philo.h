@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 20:59:40 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:55:41 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@
 # define OE_OORL "\033[1;31m`OUT_OF_RANGE'\033[0m"
 # define OE_NAN "\033[1;31m`NOT_A_NUMBER'\033[0m"
 # define OE_NOMEM "\033[1;31m`OUT_OF_MEMORY'\033[0m"
-# define OE_TIME "\033[1;31m`gettimeofday failure'\033[0m"
+# define OE_TIME "\033[1;31m`gettimeofday()'\033[0m"
+# define OE_INITMTX "\033[1;31m`INIT_MUTEX_ERROR'\033[0m"
+# define OE_DELMTX "\033[1;31m`DETATCH_MUTEX_ERROR'\033[0m"
+# define OE_NEWTH "\033[1;31m`NEW_THREAD_CREATION_ERROR'\033[0m"
 
 # define ON_PHILOS "num_philos "
 # define OT_DIE "time_to_die "
@@ -60,18 +63,26 @@
 
 // --------------------- STRUCTURES --------------------- //
 
-typedef enum e_type_error
+typedef uint64_t	t_time;
+
+typedef enum e_input_error
 {
 	NO_ERROR = 0,
 	E_NARGS = 1,
 	E_NOTPOS = -1,
 	E_OORL = -2,
 	E_NAN = -3,
+}	t_input_error;
+
+typedef enum e_error
+{
 	E_TIME = 4,
 	E_INITMTX = 5,
 	E_DELMTX = 6,
-	E_NOMEM = 12
-}	t_type_error;
+	E_NEWTH = 7,
+	E_DETTH = 8,
+	E_NOMEM = 12,
+}	t_error;
 
 typedef enum e_n_input
 {
@@ -106,20 +117,26 @@ typedef struct s_philo
 {
 	int				id;
 	int				meals;
-	uint32_t		hunger;
+	t_time			hunger;
 	t_action		status;
 	struct s_data	*data;
+	pthread_t		th;
+	pthread_mutex_t	lock;
+	pthread_mutex_t	*right;
+	pthread_mutex_t	*left;
 }	t_philo;
 
 typedef struct s_data
 {
-	char		**args;
-	int			*info;
-	int			stop;
-	uint64_t	start;
-	t_philo		*philos;
-	t_threads	*threads;
-	int			error;
+	char			**args;
+	int				*info;
+	int				stop;
+	t_time			start;
+	t_philo			*philos;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	lock;
+	t_threads		*threads;
+	int				error;
 }	t_data;
 
 // ------------------------------------------------------ //
@@ -134,18 +151,20 @@ void		parse_input(int argc, char **argv, t_data *data);
 
 // ---------------------- INIT.C ----------------------- //
 t_data		*init_data(void);
+void		init_data_mutex(t_data *data);
 void		init_philos(t_data	*data);
 
 // ---------------------- ERROR.C ----------------------- //
 int			check_parsing(t_data *data);
-int			print_error(t_type_error type, int errno);
+int			print_error(t_error type, int n_err);
 
 // -------------------- FREE_UTILS.C -------------------- //
 char		*free_str(char **str);
 void		free_array(char ***array);
 void		free_data(t_data **data);
 void		*safe_calloc(size_t size, void *dst);
-void		exit_philo(t_data **data, t_type_error error);
+void		destroy_structs_mutex(t_data *data);
+void		exit_philo(t_data **data, int error);
 
 // --------------------- PH_SPLIT.C --------------------- //
 char		**ph_split(char const *s, char c);
@@ -161,12 +180,18 @@ int			ft_strlen(const char *str);
 char		*ft_strdup(char *s1);
 int			array_len(char **array);
 bool		in_range(ssize_t value, ssize_t min, ssize_t max);
-uint64_t	get_time_ms(uint64_t start);
+uint64_t	time_ms(uint64_t start);
 int			my_usleep(uint64_t sleep);
-int			ft_strncmp(char *s1, char *s2, size_t n);
 
 // ----------------------- LIBFT.C ---------------------- //
 void		philo_strcpy(char *dst, const char *src, int len);
 long		ft_atoui(char *str);
+
+void		start_threads(t_data *data);
+void		fight_for_forks(t_philo *philo);
+void		share_forks(t_philo *philo);
+void		spaguetti_time(t_philo *philo);
+void		rest_happily(t_philo *philo);
+void		increase_wisdom(t_philo *philo);
 
 #endif /* PHILO_H */

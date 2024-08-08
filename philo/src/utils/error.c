@@ -6,13 +6,13 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 20:41:25 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:59:44 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-char	*error_title(t_type_error type)
+char	*error_title(int type)
 {
 	char	*new_title;
 
@@ -25,6 +25,12 @@ char	*error_title(t_type_error type)
 		new_title = OE_OORL;
 	else if (type == E_NAN)
 		new_title = OE_NAN;
+	else if (type == E_INITMTX)
+		new_title = OE_INITMTX;
+	else if (type == E_DELMTX)
+		new_title = OE_DELMTX;
+	else if (type == E_NEWTH)
+		new_title = OE_NEWTH;
 	else if (type == E_NOMEM)
 		new_title = OE_NOMEM;
 	return (new_title);
@@ -68,7 +74,7 @@ void	print_output(t_data *data, bool value)
 int	check_parsing(t_data *data)
 {
 	if (!data)
-		return (print_output(NULL, false), E_NOMEM);
+		return (print_error(E_NOMEM, ENOMEM));
 	if (array_len(data->args) < 4 || array_len(data->args) > 5)
 		data->error++;
 	if (!data->error)
@@ -85,13 +91,19 @@ int	check_parsing(t_data *data)
 	return (data->error);
 }
 
-int	print_error(t_type_error type, int errno)
+int	print_error(t_error type, int n_err)
 {
-	if (type == E_NOMEM)
-		return (print_output(NULL, false), E_NOMEM);
+	char	*error_msg;
+
+	if (type == NO_ERROR)
+		return (NO_ERROR);
 	fprintf(stderr, RED BOLD "\nERROR:" WHITE);
 	if (type == E_TIME)
-		fprintf(stderr, OE_TIME ": %s\n", strerror(errno));
+		fprintf(stderr, OE_TIME ": %s\n", strerror(n_err));
+	else
+		error_msg = error_title(type);
+	if (type)
+		fprintf(stderr, "%s" WHITE, error_msg);
 	fprintf(stderr, "\n\n");
-	return (errno);
+	return (n_err);
 }

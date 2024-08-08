@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:33:52 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 20:58:53 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/08 21:08:08 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_data	*init_data(void)
 		data->philos = NULL;
 		data->threads = NULL;
 		data->error = 0;
+		data->forks = NULL;
+		pthread_mutex_init(&data->lock, NULL);
 	}
 	return (data);
 }
@@ -44,10 +46,8 @@ void	malloc_threads(t_data *data, int num_ph)
 void	init_structs_mutex(t_data *data)
 {
 	int			i;
-	t_threads	*th;
 
 	i = -1;
-	th = data->threads;
 	if (pthread_mutex_init(&data->threads->print, NULL))
 		exit_philo(&data, E_INITMTX);
 	if (pthread_mutex_init(&data->threads->lock, NULL))
@@ -61,6 +61,21 @@ void	init_structs_mutex(t_data *data)
 	}
 }
 
+void	init_data_mutex(t_data *data)
+{
+	int	num_ph;
+	int	i;
+
+	num_ph = data->info[N_PHILOS];
+	data->forks = safe_calloc(sizeof(pthread_mutex_t) * num_ph, &data);
+	i = -1;
+	while (++i < data->info[N_PHILOS])
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL))
+			exit_philo(&data, E_INITMTX);
+	}
+}
+
 void	init_philos(t_data	*data)
 {
 	int			num_ph;
@@ -68,16 +83,19 @@ void	init_philos(t_data	*data)
 
 	num_ph = data->info[N_PHILOS];
 	data->philos = safe_calloc(sizeof(t_philo) * num_ph, &data);
-	malloc_threads(data, num_ph);
+	init_data_mutex(data);
 	i = -1;
 	while (++i < num_ph)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].meals = 0;
-		data->philos[i].hunger = 0;
+		data->philos[i].hunger = data->info[T_DIE];
 		data->philos[i].status = THINK;
 		data->philos[i].data = data;
+		data->philos[i].th = 0;
+		data->philos[i].right = &data->forks[i];
+		data->philos[i].left = &data->forks[(i + 1) % num_ph];
+		if (pthread_mutex_init(&data->philos[i].lock, NULL))
+			exit_philo(&data, E_INITMTX);
 	}
-	init_structs_mutex(data);
-	data->start = get_time_ms(0);
 }
