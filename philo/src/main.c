@@ -19,6 +19,7 @@ int	main(int argc, char **argv)
 	data = init_data();
 	parse_input(argc, argv, data);
 	init_philos(data);
+	start_threads(data);
 	exit_philo(&data, 0);
 	return (0);
 }
