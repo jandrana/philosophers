@@ -134,6 +134,7 @@ typedef struct s_data
 	int				*info;
 	int				stop;
 	t_time			start;
+	struct timeval	t_start;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	lock;
