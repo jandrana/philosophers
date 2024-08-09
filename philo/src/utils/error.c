@@ -101,13 +101,12 @@ int	print_error(t_error type, int n_err)
 
 	if (type == NO_ERROR)
 		return (NO_ERROR);
+	error_msg = error_title(type);
 	fprintf(stderr, RED BOLD "\nERROR:" WHITE);
-	if (type == E_TIME)
-		fprintf(stderr, OE_TIME ": %s\n", strerror(n_err));
-	else
-		error_msg = error_title(type);
-	if (type)
+	if (error_msg)
 		fprintf(stderr, "%s" WHITE, error_msg);
+	if (type == E_TIME)
+		fprintf(stderr, ": %s", strerror(n_err));
 	fprintf(stderr, "\n\n");
 	return (n_err);
 }
