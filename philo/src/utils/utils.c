@@ -57,9 +57,9 @@ int	my_usleep(uint64_t sleep)
 {
 	uint64_t	stop;
 
-	stop = time_ms(0) + sleep;
-	while (time_ms(0) < stop)
-		;
+	stop = time_ms(0) - 1 + sleep;
+	while (time_ms(0) <= stop)
+		usleep(1);
 	return (0);
 }
 
