@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/08 19:55:41 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/09 20:04:09 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@
 # define OE_NOMEM "\033[1;31m`OUT_OF_MEMORY'\033[0m"
 # define OE_TIME "\033[1;31m`gettimeofday()'\033[0m"
 # define OE_INITMTX "\033[1;31m`INIT_MUTEX_ERROR'\033[0m"
-# define OE_DELMTX "\033[1;31m`DETATCH_MUTEX_ERROR'\033[0m"
+# define OE_DELMTX "\033[1;31m`DESTROY_MUTEX_ERROR'\033[0m"
 # define OE_NEWTH "\033[1;31m`NEW_THREAD_CREATION_ERROR'\033[0m"
+# define OE_DETTH "\033[1;31m`JOIN/DETATCH_THREAD_ERROR'\033[0m"
+# define OE_UNKNOWN "\033[1;31m`UNKNOWN ERROR'\033[0m"
 
 # define ON_PHILOS "num_philos "
 # define OT_DIE "time_to_die "
@@ -132,6 +134,7 @@ typedef struct s_data
 	int				*info;
 	int				stop;
 	t_time			start;
+	struct timeval	t_start;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	lock;
@@ -189,9 +192,11 @@ long		ft_atoui(char *str);
 
 void		start_threads(t_data *data);
 void		fight_for_forks(t_philo *philo);
-void		share_forks(t_philo *philo);
+void		share_forks_and_rest(t_philo *philo);
 void		spaguetti_time(t_philo *philo);
 void		rest_happily(t_philo *philo);
 void		increase_wisdom(t_philo *philo);
+
+uint64_t	time_ts(struct timeval t_start);
 
 #endif /* PHILO_H */

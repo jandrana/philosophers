@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/08 14:59:44 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:45:54 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ char	*error_title(int type)
 		new_title = OE_NEWTH;
 	else if (type == E_NOMEM)
 		new_title = OE_NOMEM;
+	else if (type == E_DETTH)
+		new_title = OE_DETTH;
+	else if (type == E_TIME)
+		new_title = OE_TIME;
 	return (new_title);
 }
 
@@ -97,13 +101,12 @@ int	print_error(t_error type, int n_err)
 
 	if (type == NO_ERROR)
 		return (NO_ERROR);
+	error_msg = error_title(type);
 	fprintf(stderr, RED BOLD "\nERROR:" WHITE);
-	if (type == E_TIME)
-		fprintf(stderr, OE_TIME ": %s\n", strerror(n_err));
-	else
-		error_msg = error_title(type);
-	if (type)
+	if (error_msg)
 		fprintf(stderr, "%s" WHITE, error_msg);
+	if (type == E_TIME)
+		fprintf(stderr, ": %s", strerror(n_err));
 	fprintf(stderr, "\n\n");
 	return (n_err);
 }
