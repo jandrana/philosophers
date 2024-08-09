@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/09 20:04:54 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/09 20:15:08 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	*routine(void	*v_philo)
 		exit_philo(&philo->data, E_NEWTH);
 	if (philo->data->info[N_PHILOS] == 1)
 	{
+		print_status(philo, FORK);
+		my_usleep(philo->data->info[T_DIE] - time_ms(philo->data->start));
 		while (!philo->data->stop)
 			my_usleep(1);
 		return (NULL);
