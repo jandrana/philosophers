@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/08 14:59:44 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:45:54 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ char	*error_title(int type)
 		new_title = OE_NEWTH;
 	else if (type == E_NOMEM)
 		new_title = OE_NOMEM;
+	else if (type == E_DETTH)
+		new_title = OE_DETTH;
+	else if (type == E_TIME)
+		new_title = OE_TIME;
 	return (new_title);
 }
 
