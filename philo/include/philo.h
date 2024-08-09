@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/09 19:04:24 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/09 20:04:09 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,9 +192,11 @@ long		ft_atoui(char *str);
 
 void		start_threads(t_data *data);
 void		fight_for_forks(t_philo *philo);
-void		share_forks(t_philo *philo);
+void		share_forks_and_rest(t_philo *philo);
 void		spaguetti_time(t_philo *philo);
 void		rest_happily(t_philo *philo);
 void		increase_wisdom(t_philo *philo);
+
+uint64_t	time_ts(struct timeval t_start);
 
 #endif /* PHILO_H */
