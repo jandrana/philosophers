@@ -6,17 +6,21 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 13:26:12 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:21:50 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-char	*free_str(char **str)
+void	*safe_calloc(size_t size, void *p_free)
 {
-	free(*str);
-	*str = NULL;
-	return (NULL);
+	void	*ptr;
+
+	ptr = (void *)malloc(size);
+	if (!ptr)
+		exit_philo(p_free, E_NOMEM);
+	memset(ptr, 0, size);
+	return (ptr);
 }
 
 void	free_array(char ***array)
