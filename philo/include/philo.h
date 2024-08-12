@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/09 20:04:09 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 13:14:18 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,10 @@ typedef enum e_action
 
 typedef struct s_threads
 {
-	pthread_t		data;
-	pthread_t		*philo;
-	pthread_mutex_t	print;
 	pthread_mutex_t	lock;
-	pthread_mutex_t	*ph_lock;
 	pthread_mutex_t	*fork;
+	pthread_t		*p_th;
+	pthread_mutex_t	*p_lck;
 }	t_threads;
 
 typedef struct s_philo
