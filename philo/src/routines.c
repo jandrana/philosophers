@@ -91,13 +91,11 @@ void	*routine(void	*v_philo)
 	sync_start(philo);
 	if (pthread_create(&schrodinger, NULL, &schrodinger_monitor, philo))
 		exit_philo(&philo->data, E_NEWTH);
-	if (philo->id % 2 == 0)
-		my_usleep(philo->data->info[T_EAT] / 2);
 	while (!philo->data->stop)
 	{
-		fight_for_forks(philo);
-		spaguetti_time(philo);
-		share_forks_and_rest(philo);
+		perform_action(philo, EAT);
+		perform_action(philo, SLEEP);
+		perform_action(philo, THINK);
 	}
 	return (NULL);
 }
