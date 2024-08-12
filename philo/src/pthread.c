@@ -6,13 +6,13 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 20:24:02 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 21:02:40 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-void	*get_routine_to_execute(t_data *data)
+static void	*get_routine_to_execute(t_data *data)
 {
 	void	*exec_routine;
 
@@ -46,4 +46,53 @@ void	start_threads(t_data *data)
 		if (pthread_join(data->th->p_th[i], NULL))
 			exit_philo(&data, E_DETTH);
 	}
+}
+
+void	*schrodinger_monitor(void *v_philo)
+{
+	t_philo	*philo;
+	time_t	t_to_starve;
+
+	philo = (t_philo *)v_philo;
+	pthread_mutex_lock(&philo->th->lock);
+	while (!philo->data->stop)
+	{
+		pthread_mutex_unlock(&philo->th->lock);
+		t_to_starve = philo->hunger - time_ts(philo->data->t_start);
+		pthread_mutex_lock(&philo->th->deadlock);
+		if (t_to_starve < 0 && philo->status != EAT)
+		{
+			print_status(philo, DEAD);
+			philo->data->stop = 1;
+			pthread_mutex_lock(&philo->th->deadlock);
+		}
+		else
+		{
+			pthread_mutex_unlock(&philo->th->deadlock);
+			my_usleep(t_to_starve - 10);
+		}
+		pthread_mutex_lock(&philo->th->lock);
+	}
+	pthread_mutex_unlock(&philo->th->lock);
+	return (NULL);
+}
+
+void	*greed_supervisor(void *v_data)
+{
+	t_data	*data;
+	int		i;
+
+	data = (t_data *)v_data;
+	if (!data->info[NT_EAT])
+		return (NULL);
+	i = -1;
+	while (data->info[N_PHILOS] && ++i < data->info[N_PHILOS] && !data->stop)
+	{
+		if (data->philos[i].meals < data->info[NT_EAT])
+			i = -1;
+	}
+	pthread_mutex_lock(&data->th->lock);
+	data->stop = 1;
+	pthread_mutex_unlock(&data->th->lock);
+	return (NULL);
 }

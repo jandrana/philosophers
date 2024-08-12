@@ -6,42 +6,52 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 20:24:50 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 21:01:32 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-void	*schrodinger_monitor(void	*v_philo)
+static void	fight_for_forks(t_philo *philo)
 {
-	t_philo	*philo;
-	time_t	t_to_starve;
+	int		id;
 
-	philo = (t_philo *)v_philo;
-	pthread_mutex_lock(&philo->th->lock);
-	while (!philo->data->stop)
-	{
-		pthread_mutex_unlock(&philo->th->lock);
-		t_to_starve = philo->hunger - time_ts(philo->data->t_start);
-		pthread_mutex_lock(&philo->th->deadlock);
-		if (t_to_starve < 0 && philo->status != EAT)
-		{
-			print_status(philo, DEAD);
-			philo->data->stop = 1;
-			pthread_mutex_lock(&philo->th->deadlock);
-		}
-		else
-		{
-			pthread_mutex_unlock(&philo->th->deadlock);
-			my_usleep(t_to_starve - 10);
-		}
-		pthread_mutex_lock(&philo->th->lock);
-	}
-	pthread_mutex_unlock(&philo->th->lock);
-	return (NULL);
+	id = philo->id;
+	pthread_mutex_lock(&philo->th->fork[id - 1]);
+	print_status(philo, FORK);
+	pthread_mutex_lock(&philo->th->fork[id % philo->data->info[N_PHILOS]]);
+	print_status(philo, FORK);
 }
 
-void	*sync_start(t_philo *philo)
+static void	perform_action(t_philo *philo, int action)
+{
+	t_data	*data;
+	int		id;
+
+	id = philo->id;
+	data = philo->data;
+	if (action == EAT)
+	{
+		fight_for_forks(philo);
+		print_status(philo, EAT);
+		philo->hunger = time_ts(data->t_start) + data->info[T_DIE];
+		philo->status = EAT;
+		philo->meals++;
+		my_usleep(philo->data->info[T_EAT]);
+	}
+	else if (action == SLEEP)
+	{
+		print_status(philo, SLEEP);
+		philo->status = SLEEP;
+		pthread_mutex_unlock(&philo->th->fork[id - 1]);
+		pthread_mutex_unlock(&philo->th->fork[id % data->info[N_PHILOS]]);
+		my_usleep(data->info[T_SLEEP]);
+	}
+	else if (action == THINK)
+		print_status(philo, THINK);
+}
+
+static void	*sync_start(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->th->lock);
 	philo->data->ready += 1;
@@ -97,25 +107,5 @@ void	*routine(void	*v_philo)
 		perform_action(philo, SLEEP);
 		perform_action(philo, THINK);
 	}
-	return (NULL);
-}
-
-void	*greed_supervisor(void *v_data)
-{
-	t_data	*data;
-	int		i;
-
-	data = (t_data *)v_data;
-	if (!data->info[NT_EAT])
-		return (NULL);
-	i = -1;
-	while (data->info[N_PHILOS] && ++i < data->info[N_PHILOS] && !data->stop)
-	{
-		if (data->philos[i].meals < data->info[NT_EAT])
-			i = -1;
-	}
-	pthread_mutex_lock(&data->th->lock);
-	data->stop = 1;
-	pthread_mutex_unlock(&data->th->lock);
 	return (NULL);
 }
