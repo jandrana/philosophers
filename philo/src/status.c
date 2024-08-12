@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 19:53:58 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 13:09:37 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:33:04 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,58 +14,41 @@
 
 void	fight_for_forks(t_philo *philo)
 {
-	int	right;
-	int	left;
+	int		id;
 
-	right = philo->id - 1;
-	left = philo->id % philo->data->info[N_PHILOS];
-	if (philo->id % 2 != 0)
-	{
-		pthread_mutex_lock(&philo->th->fork[right]);
-		pthread_mutex_lock(&philo->th->fork[left]);
-		print_status(philo, FORK);
-		print_status(philo, FORK);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->th->fork[left]);
-		pthread_mutex_lock(&philo->th->fork[right]);
-		print_status(philo, FORK);
-		print_status(philo, FORK);
-	}
+	id = philo->id;
+	pthread_mutex_lock(&philo->th->fork[id - 1]);
+	print_status(philo, FORK);
+	pthread_mutex_lock(&philo->th->fork[id % philo->data->info[N_PHILOS]]);
+	print_status(philo, FORK);
 }
 
-
-void	spaguetti_time(t_philo *philo)
+void	perform_action(t_philo *philo, int action)
 {
-	print_status(philo, EAT);
-	philo->hunger = time_ts(philo->data->t_start) + philo->data->info[T_DIE];
-	philo->status = EAT;
-	philo->meals++;
-	my_usleep(philo->data->info[T_EAT]);
-	print_status(philo, SLEEP);
-	philo->status = SLEEP;
-}
+	t_data	*data;
+	int		id;
 
-void	share_forks_and_rest(t_philo *philo)
-{
-	int	right;
-	int	left;
-
-	right = philo->id - 1;
-	left = philo->id % philo->data->info[N_PHILOS];
-	if (philo->id % 2 != 0)
+	id = philo->id;
+	data = philo->data;
+	if (action == EAT)
 	{
-		pthread_mutex_unlock(&philo->th->fork[left]);
-		pthread_mutex_unlock(&philo->th->fork[right]);
+		fight_for_forks(philo);
+		print_status(philo, EAT);
+		philo->hunger = time_ts(data->t_start) + data->info[T_DIE];
+		philo->status = EAT;
+		philo->meals++;
+		my_usleep(philo->data->info[T_EAT]);
 	}
-	else
+	else if (action == SLEEP)
 	{
-		pthread_mutex_unlock(&philo->th->fork[right]);
-		pthread_mutex_unlock(&philo->th->fork[left]);
+		print_status(philo, SLEEP);
+		philo->status = SLEEP;
+		pthread_mutex_unlock(&philo->th->fork[id - 1]);
+		pthread_mutex_unlock(&philo->th->fork[id % data->info[N_PHILOS]]);
+		my_usleep(data->info[T_SLEEP]);
 	}
-	my_usleep(philo->data->info[T_SLEEP]);
-	print_status(philo, THINK);
+	else if (action == THINK)
+		print_status(philo, THINK);
 }
 
 void	increase_wisdom(t_philo *philo)
