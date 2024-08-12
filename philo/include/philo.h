@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 20:26:44 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:52:43 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,8 @@ typedef struct s_data
 	char			**args;
 	int				*info;
 	int				stop;
-	t_time			start;
 	int				ready;
+	t_time			start;
 	struct timeval	t_start;
 	t_philo			*philos;
 	t_threads		*th;
@@ -141,7 +141,29 @@ typedef struct s_data
 //                     MAIN FUNCTIONS                     //
 // ------------------------------------------------------ //
 int			check_args(t_data *data, int pos);
+
+// --------------------- PTHREAD.C ---------------------- //
+void		start_threads(t_data *data);
+
+// ---------------------- ROUTINES.C -------------------- //
+void		*schrodinger_monitor(void *v_philo);
+void		*lonely_philo(void *v_philo);
+void		*routine(void *v_philo);
+void		*greed_supervisor(void *v_data);
+
+// ---------------------- STATUS.C ---------------------- //
+void		perform_action(t_philo *philo, int action);
+
+// ------------------------------------------------------ //
+//                      PARSER FOLDER                     //
+// ------------------------------------------------------ //
+
+// ------------------- PARSE_INPUT.C -------------------- //
 void		parse_input(int argc, char **argv, t_data *data);
+
+// ---------------------- ERROR.C ----------------------- //
+int			check_parsing(t_data *data);
+int			print_error(t_error type, int n_err);
 
 // ------------------------------------------------------ //
 //                      UTILS FOLDER                      //
@@ -152,17 +174,12 @@ t_data		*init_data(void);
 void		init_threads(t_data *data, int num_ph);
 void		init_philos(t_data	*data);
 
-// ---------------------- ERROR.C ----------------------- //
-int			check_parsing(t_data *data);
-int			print_error(t_error type, int n_err);
-
-// -------------------- FREE_UTILS.C -------------------- //
-char		*free_str(char **str);
-void		free_array(char ***array);
-void		free_data(t_data **data);
-void		*safe_calloc(size_t size, void *dst);
-void		destroy_structs_mutex(t_data *data);
-void		exit_philo(t_data **data, int error);
+// ----------------------- LIBFT.C ---------------------- //
+int			ft_strlen(const char *str);
+void		philo_strcpy(char *dst, const char *src, int len);
+char		*ft_strdup(char *s1);
+char		*ft_substr(const char *str, ssize_t start, ssize_t len);
+long		ft_atoui(char *str);
 
 // --------------------- PH_SPLIT.C --------------------- //
 char		**ph_split(char const *s, char c);
@@ -172,26 +189,21 @@ void		print_input(t_data *data);
 char		*get_action_msg(int action);
 void		print_status(t_philo *wise_man, int action);
 
+// --------------------- SAFE_EXIT.C -------------------- //
+void		free_array(char ***array);
+void		free_data(t_data **data);
+void		*safe_calloc(size_t size, void *dst);
+void		destroy_structs_mutex(t_data *data);
+void		exit_philo(t_data **data, int error);
+
 // ----------------------- UTILS.C ---------------------- //
-char		*ft_substr(const char *str, ssize_t start, ssize_t len);
-int			ft_strlen(const char *str);
-char		*ft_strdup(char *s1);
 int			array_len(char **array);
 bool		in_range(ssize_t value, ssize_t min, ssize_t max);
 uint64_t	time_ms(uint64_t start);
+uint64_t	time_ts(struct timeval t_start);
 int			my_usleep(uint64_t sleep);
 
-// ----------------------- LIBFT.C ---------------------- //
-void		philo_strcpy(char *dst, const char *src, int len);
-long		ft_atoui(char *str);
 
-void		start_threads(t_data *data);
-void		fight_for_forks(t_philo *philo);
-void		share_forks_and_rest(t_philo *philo);
-void		spaguetti_time(t_philo *philo);
-void		rest_happily(t_philo *philo);
-void		increase_wisdom(t_philo *philo);
 
-uint64_t	time_ts(struct timeval t_start);
 
 #endif /* PHILO_H */
