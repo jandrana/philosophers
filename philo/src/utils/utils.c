@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:11:50 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 20:21:46 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 21:10:04 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@ int	array_len(char **array)
 	while (array[++len])
 		;
 	return (len);
-}
-
-bool	in_range(ssize_t value, ssize_t min, ssize_t max)
-{
-	if (value >= min && value <= max)
-		return (0);
-	return (1);
 }
 
 uint64_t	time_ms(uint64_t start)

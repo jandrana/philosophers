@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 20:56:55 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 21:13:33 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,17 +142,14 @@ typedef struct s_data
 // ------------------------------------------------------ //
 int			check_args(t_data *data, int pos);
 
-// --------------------- PTHREAD.C ---------------------- //
+// --------------------- THREADS.C ---------------------- //
 void		start_threads(t_data *data);
-
-// ---------------------- ROUTINES.C -------------------- //
+void		*greed_supervisor(void *v_data);
 void		*schrodinger_monitor(void *v_philo);
+
+// ------------------- PHILO_ROUTINES.C ----------------- //
 void		*lonely_philo(void *v_philo);
 void		*routine(void *v_philo);
-void		*greed_supervisor(void *v_data);
-
-// ---------------------- STATUS.C ---------------------- //
-void		perform_action(t_philo *philo, int action);
 
 // ------------------------------------------------------ //
 //                      PARSER FOLDER                     //
@@ -184,8 +181,8 @@ long		ft_atoui(char *str);
 // ----------------------- SPLIT.C ---------------------- //
 char		**split(char const *s, char c);
 
-// ------------------- PRINT_UTILS.C -------------------- //
-void		print_input(t_data *data);
+// ------------------ THREADS_UTILS.C ------------------- //
+void		perform_action(t_philo *philo, int action);
 char		*get_action_msg(int action);
 void		print_status(t_philo *wise_man, int action);
 
