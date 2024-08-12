@@ -12,6 +12,17 @@
 
 #include <philo.h>
 
+void	*get_routine_to_execute(t_data *data)
+{
+	void	*exec_routine;
+
+	if (data->info[N_PHILOS] == 1)
+		exec_routine = &lonely_philo;
+	else
+		exec_routine = &routine;
+	return (exec_routine);
+}
+
 void	start_threads(t_data *data)
 {
 	int			i;
