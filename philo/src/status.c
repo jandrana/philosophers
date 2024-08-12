@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 19:53:58 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 19:33:04 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:38:16 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,4 @@ void	perform_action(t_philo *philo, int action)
 	}
 	else if (action == THINK)
 		print_status(philo, THINK);
-}
-
-void	increase_wisdom(t_philo *philo)
-{
-	print_status(philo, THINK);
 }
