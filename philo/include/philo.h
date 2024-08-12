@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/09 20:04:09 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 21:13:33 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,11 @@ typedef enum e_action
 
 typedef struct s_threads
 {
-	pthread_t		data;
-	pthread_t		*philo;
-	pthread_mutex_t	print;
 	pthread_mutex_t	lock;
-	pthread_mutex_t	*ph_lock;
 	pthread_mutex_t	*fork;
+	pthread_t		*p_th;
+	pthread_mutex_t	*p_lck;
+	pthread_mutex_t	deadlock;
 }	t_threads;
 
 typedef struct s_philo
@@ -122,10 +121,7 @@ typedef struct s_philo
 	t_time			hunger;
 	t_action		status;
 	struct s_data	*data;
-	pthread_t		th;
-	pthread_mutex_t	lock;
-	pthread_mutex_t	*right;
-	pthread_mutex_t	*left;
+	t_threads		*th;
 }	t_philo;
 
 typedef struct s_data
@@ -133,12 +129,11 @@ typedef struct s_data
 	char			**args;
 	int				*info;
 	int				stop;
+	int				ready;
 	t_time			start;
 	struct timeval	t_start;
 	t_philo			*philos;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	lock;
-	t_threads		*threads;
+	t_threads		*th;
 	int				error;
 }	t_data;
 
@@ -146,7 +141,26 @@ typedef struct s_data
 //                     MAIN FUNCTIONS                     //
 // ------------------------------------------------------ //
 int			check_args(t_data *data, int pos);
+
+// --------------------- THREADS.C ---------------------- //
+void		start_threads(t_data *data);
+void		*greed_supervisor(void *v_data);
+void		*schrodinger_monitor(void *v_philo);
+
+// ------------------- PHILO_ROUTINES.C ----------------- //
+void		*lonely_philo(void *v_philo);
+void		*routine(void *v_philo);
+
+// ------------------------------------------------------ //
+//                      PARSER FOLDER                     //
+// ------------------------------------------------------ //
+
+// ------------------- PARSE_INPUT.C -------------------- //
 void		parse_input(int argc, char **argv, t_data *data);
+
+// ---------------------- ERROR.C ----------------------- //
+int			check_parsing(t_data *data);
+int			print_error(t_error type, int n_err);
 
 // ------------------------------------------------------ //
 //                      UTILS FOLDER                      //
@@ -154,49 +168,36 @@ void		parse_input(int argc, char **argv, t_data *data);
 
 // ---------------------- INIT.C ----------------------- //
 t_data		*init_data(void);
-void		init_data_mutex(t_data *data);
+void		init_threads(t_data *data, int num_ph);
 void		init_philos(t_data	*data);
 
-// ---------------------- ERROR.C ----------------------- //
-int			check_parsing(t_data *data);
-int			print_error(t_error type, int n_err);
+// ----------------------- LIBFT.C ---------------------- //
+int			ft_strlen(const char *str);
+void		philo_strcpy(char *dst, const char *src, int len);
+char		*ft_strdup(char *s1);
+char		*ft_substr(const char *str, ssize_t start, ssize_t len);
+long		ft_atoui(char *str);
 
-// -------------------- FREE_UTILS.C -------------------- //
-char		*free_str(char **str);
+// ----------------------- SPLIT.C ---------------------- //
+char		**split(char const *s, char c);
+
+// ------------------ THREADS_UTILS.C ------------------- //
+void		perform_action(t_philo *philo, int action);
+char		*get_action_msg(int action);
+void		print_status(t_philo *wise_man, int action);
+
+// --------------------- SAFE_EXIT.C -------------------- //
 void		free_array(char ***array);
 void		free_data(t_data **data);
 void		*safe_calloc(size_t size, void *dst);
 void		destroy_structs_mutex(t_data *data);
 void		exit_philo(t_data **data, int error);
 
-// --------------------- PH_SPLIT.C --------------------- //
-char		**ph_split(char const *s, char c);
-
-// ------------------- PRINT_UTILS.C -------------------- //
-void		print_input(t_data *data);
-char		*get_action_msg(int action);
-void		print_status(t_philo *wise_man, int action);
-
 // ----------------------- UTILS.C ---------------------- //
-char		*ft_substr(const char *str, ssize_t start, ssize_t len);
-int			ft_strlen(const char *str);
-char		*ft_strdup(char *s1);
 int			array_len(char **array);
 bool		in_range(ssize_t value, ssize_t min, ssize_t max);
 uint64_t	time_ms(uint64_t start);
-int			my_usleep(uint64_t sleep);
-
-// ----------------------- LIBFT.C ---------------------- //
-void		philo_strcpy(char *dst, const char *src, int len);
-long		ft_atoui(char *str);
-
-void		start_threads(t_data *data);
-void		fight_for_forks(t_philo *philo);
-void		share_forks_and_rest(t_philo *philo);
-void		spaguetti_time(t_philo *philo);
-void		rest_happily(t_philo *philo);
-void		increase_wisdom(t_philo *philo);
-
 uint64_t	time_ts(struct timeval t_start);
+int			my_usleep(uint64_t sleep);
 
 #endif /* PHILO_H */

@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:11:50 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/09 19:55:42 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 21:10:04 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@ int	array_len(char **array)
 	while (array[++len])
 		;
 	return (len);
-}
-
-bool	in_range(ssize_t value, ssize_t min, ssize_t max)
-{
-	if (value >= min && value <= max)
-		return (0);
-	return (1);
 }
 
 uint64_t	time_ms(uint64_t start)
@@ -61,15 +54,4 @@ int	my_usleep(uint64_t sleep)
 	while (time_ms(0) <= stop)
 		usleep(1);
 	return (0);
-}
-
-void	*safe_calloc(size_t size, void *p_free)
-{
-	void	*ptr;
-
-	ptr = (void *)malloc(size);
-	if (!ptr)
-		exit_philo(p_free, E_NOMEM);
-	memset(ptr, 0, size);
-	return (ptr);
 }
