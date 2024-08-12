@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 20:52:43 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:54:55 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,8 +202,5 @@ bool		in_range(ssize_t value, ssize_t min, ssize_t max);
 uint64_t	time_ms(uint64_t start);
 uint64_t	time_ts(struct timeval t_start);
 int			my_usleep(uint64_t sleep);
-
-
-
 
 #endif /* PHILO_H */
