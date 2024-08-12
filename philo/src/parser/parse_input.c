@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:09:11 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/07 20:37:07 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:56:30 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	parse_input(int argc, char **argv, t_data *data)
 	if (!data)
 		exit_philo(NULL, E_NOMEM);
 	if (argc == 2)
-		data->args = ph_split(argv[1], ' ');
+		data->args = split(argv[1], ' ');
 	else
 		data->args = strarray_dup(argv + 1);
 	if (!data->args)

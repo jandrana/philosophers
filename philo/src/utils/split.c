@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_split.c                                         :+:      :+:    :+:   */
+/*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:48:21 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/07/30 20:43:27 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:56:21 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	position_start_end(char const *s, int *start, int *end, char c)
 		*end += 1;
 }
 
-char	**ph_split(char const *s, char c)
+char	**split(char const *s, char c)
 {
 	char	**result;
 	int		start;

@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 20:54:55 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:56:55 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,8 +181,8 @@ char		*ft_strdup(char *s1);
 char		*ft_substr(const char *str, ssize_t start, ssize_t len);
 long		ft_atoui(char *str);
 
-// --------------------- PH_SPLIT.C --------------------- //
-char		**ph_split(char const *s, char c);
+// ----------------------- SPLIT.C ---------------------- //
+char		**split(char const *s, char c);
 
 // ------------------- PRINT_UTILS.C -------------------- //
 void		print_input(t_data *data);
