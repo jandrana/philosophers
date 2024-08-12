@@ -51,6 +51,8 @@ void	destroy_structs_mutex(t_data *data)
 	}
 	if (pthread_mutex_destroy(&data->th->lock))
 		exit_philo(&data, E_DELMTX);
+	if (pthread_mutex_destroy(&data->th->deadlock))
+		exit_philo(&data, E_DELMTX);
 }
 
 void	free_data(t_data **data)
