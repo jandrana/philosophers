@@ -41,6 +41,31 @@ void	*schrodinger_monitor(void	*v_philo)
 	return (NULL);
 }
 
+void	*sync_start(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->th->lock);
+	philo->data->ready += 1;
+	pthread_mutex_unlock(&philo->th->lock);
+	while (true)
+	{
+		pthread_mutex_lock(&philo->th->lock);
+		if (philo->data->ready == philo->data->info[N_PHILOS] && philo->id == 1)
+		{
+			philo->data->start = time_ms(0);
+			gettimeofday(&philo->data->t_start, NULL);
+			pthread_mutex_unlock(&philo->th->lock);
+			return (NULL);
+		}
+		pthread_mutex_unlock(&philo->th->lock);
+		if (philo->data->start)
+		{
+			if (philo->id % 2 == 0)
+				my_usleep(philo->data->info[T_EAT] / 2);
+			return (NULL);
+		}
+	}
+}
+
 void	*lonely_philo(void	*v_philo)
 {
 	t_philo		*philo;
