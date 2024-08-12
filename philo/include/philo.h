@@ -120,10 +120,7 @@ typedef struct s_philo
 	t_time			hunger;
 	t_action		status;
 	struct s_data	*data;
-	pthread_t		th;
-	pthread_mutex_t	lock;
-	pthread_mutex_t	*right;
-	pthread_mutex_t	*left;
+	t_threads		*th;
 }	t_philo;
 
 typedef struct s_data
