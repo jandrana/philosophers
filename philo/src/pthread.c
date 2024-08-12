@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/09 20:15:08 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 13:09:31 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	*dead_alive(void	*v_philo)
 	time_t	t_to_starve;
 
 	philo = (t_philo *)v_philo;
-	pthread_mutex_lock(&philo->data->lock);
+	pthread_mutex_lock(&philo->th->lock);
 	while (!philo->data->stop)
 	{
-		pthread_mutex_unlock(&philo->data->lock);
+		pthread_mutex_unlock(&philo->th->lock);
 		t_to_starve = philo->hunger - time_ts(philo->data->t_start);
 		if (t_to_starve < 0 && philo->status != EAT)
 		{
@@ -30,9 +30,9 @@ void	*dead_alive(void	*v_philo)
 		}
 		else
 			my_usleep(t_to_starve - 10);
-		pthread_mutex_lock(&philo->data->lock);
+		pthread_mutex_lock(&philo->th->lock);
 	}
-	pthread_mutex_unlock(&philo->data->lock);
+	pthread_mutex_unlock(&philo->th->lock);
 	return (NULL);
 }
 
@@ -77,9 +77,9 @@ void	*check_complete(void *v_data)
 		if (data->philos[i].meals < data->info[NT_EAT])
 			i = -1;
 	}
-	pthread_mutex_lock(&data->lock);
+	pthread_mutex_lock(&data->th->lock);
 	data->stop = 1;
-	pthread_mutex_unlock(&data->lock);
+	pthread_mutex_unlock(&data->th->lock);
 	return (NULL);
 }
 
@@ -95,7 +95,7 @@ void	start_threads(t_data *data)
 	gettimeofday(&data->t_start, NULL);
 	while (++i < data->info[N_PHILOS])
 	{
-		if (pthread_create(&philos[i].th, NULL, &routine, &philos[i]))
+		if (pthread_create(&data->th->p_th[i], NULL, &routine, &philos[i]))
 			exit_philo(&data, E_NEWTH);
 	}
 	if (pthread_create(&th_sup, NULL, &check_complete, data))
@@ -103,7 +103,7 @@ void	start_threads(t_data *data)
 	i = -1;
 	while (++i < data->info[N_PHILOS])
 	{
-		if (pthread_join(philos[i].th, NULL))
+		if (pthread_join(data->th->p_th[i], NULL))
 			exit_philo(&data, E_DETTH);
 	}
 }
