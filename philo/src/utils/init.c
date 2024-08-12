@@ -30,46 +30,24 @@ t_data	*init_data(void)
 	return (data);
 }
 
-void	malloc_threads(t_data *data, int num_ph)
-{
-	t_threads	*th;
-
-	data->threads = safe_calloc(sizeof(t_threads), &data);
-	th = data->threads;
-	th->philo = safe_calloc(sizeof(pthread_t) * num_ph, &data);
-	th->ph_lock = safe_calloc(sizeof(pthread_mutex_t) * num_ph, &data);
-	th->fork = safe_calloc(sizeof(pthread_mutex_t) * num_ph, &data);
-}
-
-void	init_structs_mutex(t_data *data)
+void	init_threads(t_data *data, int num_ph)
 {
 	int			i;
 
 	i = -1;
-	if (pthread_mutex_init(&data->threads->print, NULL))
+	data->th = safe_calloc(sizeof(t_threads), &data);
+	data->th->p_th = safe_calloc(sizeof(pthread_t) * num_ph, &data);
+	data->th->p_lck = safe_calloc(sizeof(pthread_mutex_t) * num_ph, &data);
+	data->th->fork = safe_calloc(sizeof(pthread_mutex_t) * num_ph, &data);
+	if (pthread_mutex_init(&data->th->lock, NULL))
 		exit_philo(&data, E_INITMTX);
-	if (pthread_mutex_init(&data->threads->lock, NULL))
+	if (pthread_mutex_init(&data->th->lock, NULL))
 		exit_philo(&data, E_INITMTX);
 	while (++i < data->info[N_PHILOS])
 	{
-		if (pthread_mutex_init(&data->threads->ph_lock[i], NULL))
+		if (pthread_mutex_init(&data->th->p_lck[i], NULL))
 			exit_philo(&data, E_INITMTX);
-		if (pthread_mutex_init(&data->threads->fork[i], NULL))
-			exit_philo(&data, E_INITMTX);
-	}
-}
-
-void	init_data_mutex(t_data *data)
-{
-	int	num_ph;
-	int	i;
-
-	num_ph = data->info[N_PHILOS];
-	data->forks = safe_calloc(sizeof(pthread_mutex_t) * num_ph, &data);
-	i = -1;
-	while (++i < data->info[N_PHILOS])
-	{
-		if (pthread_mutex_init(&data->forks[i], NULL))
+		if (pthread_mutex_init(&data->th->fork[i], NULL))
 			exit_philo(&data, E_INITMTX);
 	}
 }
