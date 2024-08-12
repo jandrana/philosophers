@@ -100,7 +100,7 @@ void	*routine(void	*v_philo)
 	return (NULL);
 }
 
-void	*check_complete(void *v_data)
+void	*greed_supervisor(void *v_data)
 {
 	t_data	*data;
 	int		i;
