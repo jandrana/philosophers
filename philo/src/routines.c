@@ -69,17 +69,16 @@ void	*sync_start(t_philo *philo)
 void	*lonely_philo(void	*v_philo)
 {
 	t_philo		*philo;
-	pthread_t	schrodinger;
 
 	philo = (t_philo *)v_philo;
-	if (pthread_create(&schrodinger, NULL, &dead_alive, philo))
-		exit_philo(&philo->data, E_NEWTH);
+	sync_start(philo);
 	pthread_mutex_lock(&philo->th->fork[philo->id - 1]);
 	print_status(philo, FORK);
 	pthread_mutex_unlock(&philo->th->fork[philo->id - 1]);
 	my_usleep(philo->data->info[T_DIE] - time_ms(philo->data->start));
-	while (!philo->data->stop)
+	while (time_ms(philo->data->start) < (uint64_t)philo->data->info[T_DIE])
 		my_usleep(1);
+	print_status(philo, DEAD);
 	return (NULL);
 }
 
