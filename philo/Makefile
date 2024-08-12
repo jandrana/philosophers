@@ -6,7 +6,7 @@
 #    By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 15:05:47 by ana-cast          #+#    #+#              #
-#    Updated: 2024/08/12 14:15:14 by ana-cast         ###   ########.fr        #
+#    Updated: 2024/08/12 21:06:20 by ana-cast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,16 +40,15 @@ DEPS = -I include
 ################################################################################
 
 SRC = src/main.c \
-	src/parse_input.c \
-	src/routines.c \
-	src/pthread.c \
-	src/status.c \
-	src/utils/error.c \
-	src/utils/free_utils.c \
-	src/utils/ph_split.c \
-	src/utils/print_utils.c \
+	src/parser/parse_input.c \
+	src/parser/error.c \
+	src/parser/split.c \
+	src/threads.c \
+	src/philo_routines.c \
 	src/utils/init.c \
 	src/utils/libft.c \
+	src/utils/print_utils.c \
+	src/utils/safe_exit.c \
 	src/utils/utils.c
 
 OBJECTS = $(SRC:.c=.o)
