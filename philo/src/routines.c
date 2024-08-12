@@ -88,7 +88,8 @@ void	*routine(void	*v_philo)
 	pthread_t	schrodinger;
 
 	philo = (t_philo *)v_philo;
-	if (pthread_create(&schrodinger, NULL, &dead_alive, philo))
+	sync_start(philo);
+	if (pthread_create(&schrodinger, NULL, &schrodinger_monitor, philo))
 		exit_philo(&philo->data, E_NEWTH);
 	if (philo->id % 2 == 0)
 		my_usleep(philo->data->info[T_EAT] / 2);
