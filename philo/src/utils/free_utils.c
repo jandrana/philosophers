@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/08 16:50:10 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 13:10:36 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	free_data(t_data **data)
 			free((*data)->info);
 		if ((*data)->args)
 			free_array(&(*data)->args);
-		if ((*data)->threads)
+		if ((*data)->th)
 		{
-			free((*data)->threads->philo);
-			free((*data)->threads->ph_lock);
-			free((*data)->threads->fork);
-			free((*data)->threads);
+			free((*data)->th->p_th);
+			free((*data)->th->p_lck);
+			free((*data)->th->fork);
+			free((*data)->th);
 		}
 		free(*data);
 	}
