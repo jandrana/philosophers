@@ -6,13 +6,13 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 14:11:14 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:24:50 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-void	*dead_alive(void	*v_philo)
+void	*schrodinger_monitor(void	*v_philo)
 {
 	t_philo	*philo;
 	time_t	t_to_starve;
@@ -23,13 +23,18 @@ void	*dead_alive(void	*v_philo)
 	{
 		pthread_mutex_unlock(&philo->th->lock);
 		t_to_starve = philo->hunger - time_ts(philo->data->t_start);
+		pthread_mutex_lock(&philo->th->deadlock);
 		if (t_to_starve < 0 && philo->status != EAT)
 		{
 			print_status(philo, DEAD);
 			philo->data->stop = 1;
+			pthread_mutex_lock(&philo->th->deadlock);
 		}
 		else
+		{
+			pthread_mutex_unlock(&philo->th->deadlock);
 			my_usleep(t_to_starve - 10);
+		}
 		pthread_mutex_lock(&philo->th->lock);
 	}
 	pthread_mutex_unlock(&philo->th->lock);
