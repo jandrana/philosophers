@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:34:13 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/09 19:48:02 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 13:09:43 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	print_status(t_philo *wise_man, int action)
 {
 	uint64_t	time;
 
-	pthread_mutex_lock(&wise_man->data->lock);
+	pthread_mutex_lock(&wise_man->th->lock);
 	time = time_ms(wise_man->data->start);
 	if (!wise_man->data->stop)
 		printf("%lu %i %s", time, wise_man->id, get_action_msg(action));
-	pthread_mutex_unlock(&wise_man->data->lock);
+	pthread_mutex_unlock(&wise_man->th->lock);
 }
