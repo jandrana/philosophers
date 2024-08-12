@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:33:52 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 13:13:51 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:13:41 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_data	*init_data(void)
 		data->info = safe_calloc(sizeof(int) * 5, &data);
 		data->stop = 0;
 		data->start = 0;
+		data->ready = 0;
 		data->philos = NULL;
 		data->th = NULL;
 		data->error = 0;
@@ -42,6 +43,8 @@ void	init_threads(t_data *data, int num_ph)
 	if (pthread_mutex_init(&data->th->lock, NULL))
 		exit_philo(&data, E_INITMTX);
 	if (pthread_mutex_init(&data->th->lock, NULL))
+		exit_philo(&data, E_INITMTX);
+	if (pthread_mutex_init(&data->th->deadlock, NULL))
 		exit_philo(&data, E_INITMTX);
 	while (++i < data->info[N_PHILOS])
 	{
