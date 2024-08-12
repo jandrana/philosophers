@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 20:27:57 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:29:04 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	free_array(char ***array)
 
 void	destroy_structs_mutex(t_data *data)
 {
-	int			i;
+	int	i;
 
 	i = -1;
 	while (++i < data->info[N_PHILOS])
