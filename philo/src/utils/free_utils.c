@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 13:10:36 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 13:26:12 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@ void	free_array(char ***array)
 		free(*array);
 		*array = NULL;
 	}
+}
+
+void	destroy_structs_mutex(t_data *data)
+{
+	int			i;
+
+	i = -1;
+	while (++i < data->info[N_PHILOS])
+	{
+		if (pthread_mutex_destroy(&data->th->fork[i]))
+			exit_philo(&data, E_DELMTX);
+		if (pthread_mutex_destroy(&data->th->p_lck[i]))
+			exit_philo(&data, E_DELMTX);
+	}
+	if (pthread_mutex_destroy(&data->th->lock))
+		exit_philo(&data, E_DELMTX);
 }
 
 void	free_data(t_data **data)
