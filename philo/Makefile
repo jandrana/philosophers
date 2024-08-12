@@ -6,7 +6,7 @@
 #    By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 15:05:47 by ana-cast          #+#    #+#              #
-#    Updated: 2024/08/06 19:58:32 by ana-cast         ###   ########.fr        #
+#    Updated: 2024/08/12 14:15:14 by ana-cast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ DEPS = -I include
 
 SRC = src/main.c \
 	src/parse_input.c \
+	src/routines.c \
 	src/pthread.c \
 	src/status.c \
 	src/utils/error.c \
