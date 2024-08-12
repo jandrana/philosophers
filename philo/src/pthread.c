@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 13:09:31 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 13:57:38 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,6 @@ void	*routine(void	*v_philo)
 	philo = (t_philo *)v_philo;
 	if (pthread_create(&schrodinger, NULL, &dead_alive, philo))
 		exit_philo(&philo->data, E_NEWTH);
-	if (philo->data->info[N_PHILOS] == 1)
-	{
-		print_status(philo, FORK);
-		my_usleep(philo->data->info[T_DIE] - time_ms(philo->data->start));
-		while (!philo->data->stop)
-			my_usleep(1);
-		return (NULL);
-	}
 	if (philo->id % 2 == 0)
 		my_usleep(philo->data->info[T_EAT] / 2);
 	while (!philo->data->stop)
