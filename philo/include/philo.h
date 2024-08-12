@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 13:14:18 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:26:44 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_threads
 	pthread_mutex_t	*fork;
 	pthread_t		*p_th;
 	pthread_mutex_t	*p_lck;
+	pthread_mutex_t	deadlock;
 }	t_threads;
 
 typedef struct s_philo
@@ -129,6 +130,7 @@ typedef struct s_data
 	int				*info;
 	int				stop;
 	t_time			start;
+	int				ready;
 	struct timeval	t_start;
 	t_philo			*philos;
 	t_threads		*th;
