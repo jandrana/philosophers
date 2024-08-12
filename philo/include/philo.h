@@ -131,9 +131,7 @@ typedef struct s_data
 	t_time			start;
 	struct timeval	t_start;
 	t_philo			*philos;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	lock;
-	t_threads		*threads;
+	t_threads		*th;
 	int				error;
 }	t_data;
 
