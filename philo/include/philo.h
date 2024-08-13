@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 21:13:33 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:35:29 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@
 # define OT_SLEEP "time_to_sleep "
 # define ONT_EAT "[num_times_each_must_eat] "
 
-# define O_THINK " is thinking\n"
-# define O_FORK " has taken a fork\n"
-# define O_EAT " is eating\n"
-# define O_SLEEP " is sleeping\n"
-# define O_DEAD " died\n"
+# define O_THINK "is thinking\n"
+# define O_FORK "has taken a fork\n"
+# define O_EAT "is eating\n"
+# define O_SLEEP "is sleeping\n"
+# define O_DEAD "died\n"
 
 // --------------------- STRUCTURES --------------------- //
 
