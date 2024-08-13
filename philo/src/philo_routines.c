@@ -33,16 +33,17 @@ static void	*sync_start(t_philo *philo)
 
 void	*lonely_philo(void	*v_philo)
 {
-	t_philo		*philo;
+	t_philo			*philo;
+	t_data			*data;
 
 	philo = (t_philo *)v_philo;
+	data = philo->data;
 	sync_start(philo);
 	pthread_mutex_lock(&philo->th->fork[philo->id - 1]);
 	print_status(philo, FORK);
 	pthread_mutex_unlock(&philo->th->fork[philo->id - 1]);
-	my_usleep(philo->data->info[T_DIE] - time_ms(philo->data->start));
-	while (time_ms(philo->data->start) < (uint64_t)philo->data->info[T_DIE])
-		my_usleep(1);
+	while (time_ts(data->t_start) < (uint64_t)data->info[T_DIE])
+		my_usleep(1, time_ts(data->t_start), data->t_start);
 	print_status(philo, DEAD);
 	return (NULL);
 }
