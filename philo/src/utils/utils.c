@@ -35,17 +35,15 @@ uint64_t	time_ts(struct timeval t_start)
 	return (sec + (time.tv_usec - t_start.tv_usec) / 1000);
 }
 
-uint64_t	time_ts(struct timeval t_start)
+t_time	timestamp_ms(void)
 {
 	struct timeval	time;
 	int				errno;
-	long			sec;
 
 	errno = gettimeofday(&time, NULL);
 	if (errno)
 		return (print_error(E_TIME, errno), 0);
-	sec = time.tv_sec * 1000LL - (t_start.tv_sec * 1000LL);
-	return (sec + (time.tv_usec - t_start.tv_usec) / 1000);
+	return (time.tv_sec * 1000LL + (time.tv_usec) / 1000);
 }
 
 int	my_usleep(uint64_t sleep)
