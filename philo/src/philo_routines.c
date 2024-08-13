@@ -61,7 +61,7 @@ void	*routine(void	*v_philo)
 	{
 		perform_action(philo, EAT);
 		perform_action(philo, SLEEP);
-		perform_action(philo, THINK);
+		print_status(philo, THINK);
 	}
 	return (NULL);
 }
