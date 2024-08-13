@@ -53,29 +53,20 @@ void	start_threads(t_data *data)
 void	*schrodinger_monitor(void *v_philo)
 {
 	t_philo	*philo;
-	time_t	t_to_starve;
+	t_time	t_to_starve;
 
 	philo = (t_philo *)v_philo;
-	pthread_mutex_lock(&philo->th->lock);
 	while (!philo->data->stop)
 	{
-		pthread_mutex_unlock(&philo->th->lock);
+		pthread_mutex_lock(&philo->th->p_lck[philo->id - 1]);
 		t_to_starve = philo->hunger - time_ts(philo->data->t_start);
-		pthread_mutex_lock(&philo->th->deadlock);
-		if (t_to_starve < 0 && philo->status != EAT)
-		{
+		pthread_mutex_unlock(&philo->th->p_lck[philo->id - 1]);
+		if (t_to_starve <= 0 && philo->status != EAT)
 			print_status(philo, DEAD);
-			philo->data->stop = 1;
-			pthread_mutex_lock(&philo->th->deadlock);
-		}
 		else
-		{
-			pthread_mutex_unlock(&philo->th->deadlock);
-			my_usleep(t_to_starve - 10);
-		}
-		pthread_mutex_lock(&philo->th->lock);
+			my_usleep(5, time_ts(philo->data->t_start), \
+				philo->data->t_start);
 	}
-	pthread_mutex_unlock(&philo->th->lock);
 	return (NULL);
 }
 
