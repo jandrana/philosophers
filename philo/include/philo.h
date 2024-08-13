@@ -184,7 +184,7 @@ char		**split(char const *s, char c);
 // ------------------ THREADS_UTILS.C ------------------- //
 void		perform_action(t_philo *philo, int action);
 char		*get_action_msg(int action);
-void		print_status(t_philo *wise_man, int action);
+t_time		print_status(t_philo *wise_man, int action);
 
 // --------------------- SAFE_EXIT.C -------------------- //
 void		free_array(char ***array);
@@ -196,8 +196,7 @@ void		exit_philo(t_data **data, int error);
 // ----------------------- UTILS.C ---------------------- //
 int			array_len(char **array);
 bool		in_range(ssize_t value, ssize_t min, ssize_t max);
-uint64_t	time_ms(uint64_t start);
 uint64_t	time_ts(struct timeval t_start);
-int			my_usleep(uint64_t sleep);
+int			my_usleep(t_time sleep, t_time current, struct timeval t_start);
 
 #endif /* PHILO_H */
