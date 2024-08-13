@@ -46,12 +46,9 @@ t_time	timestamp_ms(void)
 	return (time.tv_sec * 1000LL + (time.tv_usec) / 1000);
 }
 
-int	my_usleep(uint64_t sleep)
+int	my_usleep(t_time sleep, t_time current, struct timeval t_start)
 {
-	uint64_t	stop;
-
-	stop = time_ms(0) - 1 + sleep;
-	while (time_ms(0) <= stop)
+	while (time_ts(t_start) - current < sleep)
 		usleep(1);
 	return (0);
 }
