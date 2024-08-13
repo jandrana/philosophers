@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pthread.c                                          :+:      :+:    :+:   */
+/*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 21:02:40 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:24:07 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ void	start_threads(t_data *data)
 	if (pthread_create(&th_sup, NULL, &greed_supervisor, data))
 		exit_philo(&data, E_NEWTH);
 	i = -1;
-	while (!data->start)
-		my_usleep(10);
+	while (data->ready != data->info[N_PHILOS])
+		my_usleep(10, time_ts(data->t_start), data->t_start);
+	data->start = 1;
+	gettimeofday(&data->t_start, NULL);
 	while (++i < data->info[N_PHILOS])
 	{
 		if (pthread_join(data->th->p_th[i], NULL))
