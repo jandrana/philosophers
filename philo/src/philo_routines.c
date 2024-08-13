@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 21:08:33 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:35:53 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,18 @@
 
 static void	*sync_start(t_philo *philo)
 {
+	struct timeval	start;
+
+	start = philo->data->t_start;
 	pthread_mutex_lock(&philo->th->lock);
 	philo->data->ready += 1;
 	pthread_mutex_unlock(&philo->th->lock);
 	while (true)
 	{
-		pthread_mutex_lock(&philo->th->lock);
-		if (philo->data->ready == philo->data->info[N_PHILOS] && philo->id == 1)
-		{
-			philo->data->start = time_ms(0);
-			gettimeofday(&philo->data->t_start, NULL);
-			pthread_mutex_unlock(&philo->th->lock);
-			return (NULL);
-		}
-		pthread_mutex_unlock(&philo->th->lock);
 		if (philo->data->start)
 		{
 			if (philo->id % 2 == 0)
-				my_usleep(philo->data->info[T_EAT] / 2);
+				my_usleep(philo->data->info[T_EAT] / 2, time_ts(start), start);
 			return (NULL);
 		}
 	}
