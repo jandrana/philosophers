@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:34:13 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/13 20:29:20 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:52:16 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,16 @@ t_time	print_status(t_philo *wise_man, int action)
 static void	fight_for_forks(t_philo *philo)
 {
 	int		id;
+	int		right;
+	int		left;
 
 	id = philo->id;
-	pthread_mutex_lock(&philo->th->fork[id - 1]);
+	right = id - 1;
+	left = id % philo->data->info[N_PHILOS];
+	pthread_mutex_lock(&philo->th->fork[right]);
 	print_status(philo, FORK);
-	pthread_mutex_lock(&philo->th->fork[id % philo->data->info[N_PHILOS]]);
+	pthread_mutex_lock(&philo->th->fork[left]);
+	philo->status = EAT;
 	print_status(philo, FORK);
 }
 
@@ -66,26 +71,26 @@ void	perform_action(t_philo *philo, int action)
 {
 	t_data	*data;
 	int		id;
+	t_time	current;
 
 	id = philo->id;
 	data = philo->data;
 	if (action == EAT)
 	{
 		fight_for_forks(philo);
-		print_status(philo, EAT);
-		philo->hunger = time_ts(data->t_start) + data->info[T_DIE];
-		philo->status = EAT;
+		current = print_status(philo, EAT);
+		pthread_mutex_lock(&philo->th->p_lck[philo->id - 1]);
+		philo->hunger = current + data->info[T_DIE];
+		pthread_mutex_unlock(&philo->th->p_lck[philo->id - 1]);
 		philo->meals++;
-		my_usleep(philo->data->info[T_EAT]);
+		my_usleep(data->info[T_EAT], current, data->t_start);
 	}
 	else if (action == SLEEP)
 	{
-		print_status(philo, SLEEP);
+		current = print_status(philo, SLEEP);
 		philo->status = SLEEP;
-		pthread_mutex_unlock(&philo->th->fork[id - 1]);
 		pthread_mutex_unlock(&philo->th->fork[id % data->info[N_PHILOS]]);
-		my_usleep(data->info[T_SLEEP]);
+		pthread_mutex_unlock(&philo->th->fork[id - 1]);
+		my_usleep(data->info[T_SLEEP], current, data->t_start);
 	}
-	else if (action == THINK)
-		print_status(philo, THINK);
 }
