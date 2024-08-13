@@ -130,7 +130,7 @@ typedef struct s_data
 	int				*info;
 	int				stop;
 	int				ready;
-	t_time			start;
+	bool			start;
 	struct timeval	t_start;
 	t_philo			*philos;
 	t_threads		*th;
