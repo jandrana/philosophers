@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_utils.c                                      :+:      :+:    :+:   */
+/*   threads_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:34:13 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 21:09:10 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:29:20 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,28 @@ char	*get_action_msg(int action)
 	return (NULL);
 }
 
-void	print_status(t_philo *wise_man, int action)
+t_time	print_status(t_philo *wise_man, int action)
 {
-	uint64_t	time;
+	t_time	time;
 
 	pthread_mutex_lock(&wise_man->th->lock);
-	time = time_ms(wise_man->data->start);
-	if (!wise_man->data->stop)
+	time = time_ts(wise_man->data->t_start);
+	if (wise_man->data->stop)
+	{
+		pthread_mutex_unlock(&wise_man->th->lock);
+		return (time);
+	}
+	if (wise_man->hunger < time && action != EAT)
+		action = DEAD;
+	if (action == DEAD)
+	{
+		printf("%lu %i %s", time, wise_man->id, O_DEAD);
+		wise_man->data->stop = 1;
+	}
+	else
 		printf("%lu %i %s", time, wise_man->id, get_action_msg(action));
 	pthread_mutex_unlock(&wise_man->th->lock);
+	return (time);
 }
 
 static void	fight_for_forks(t_philo *philo)
