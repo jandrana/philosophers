@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 21:13:33 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:35:29 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@
 # define OT_SLEEP "time_to_sleep "
 # define ONT_EAT "[num_times_each_must_eat] "
 
-# define O_THINK " is thinking\n"
-# define O_FORK " has taken a fork\n"
-# define O_EAT " is eating\n"
-# define O_SLEEP " is sleeping\n"
-# define O_DEAD " died\n"
+# define O_THINK "is thinking\n"
+# define O_FORK "has taken a fork\n"
+# define O_EAT "is eating\n"
+# define O_SLEEP "is sleeping\n"
+# define O_DEAD "died\n"
 
 // --------------------- STRUCTURES --------------------- //
 
@@ -130,7 +130,7 @@ typedef struct s_data
 	int				*info;
 	int				stop;
 	int				ready;
-	t_time			start;
+	bool			start;
 	struct timeval	t_start;
 	t_philo			*philos;
 	t_threads		*th;
@@ -184,7 +184,7 @@ char		**split(char const *s, char c);
 // ------------------ THREADS_UTILS.C ------------------- //
 void		perform_action(t_philo *philo, int action);
 char		*get_action_msg(int action);
-void		print_status(t_philo *wise_man, int action);
+t_time		print_status(t_philo *wise_man, int action);
 
 // --------------------- SAFE_EXIT.C -------------------- //
 void		free_array(char ***array);
@@ -196,8 +196,7 @@ void		exit_philo(t_data **data, int error);
 // ----------------------- UTILS.C ---------------------- //
 int			array_len(char **array);
 bool		in_range(ssize_t value, ssize_t min, ssize_t max);
-uint64_t	time_ms(uint64_t start);
 uint64_t	time_ts(struct timeval t_start);
-int			my_usleep(uint64_t sleep);
+int			my_usleep(t_time sleep, t_time current, struct timeval t_start);
 
 #endif /* PHILO_H */

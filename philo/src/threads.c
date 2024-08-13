@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pthread.c                                          :+:      :+:    :+:   */
+/*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 21:02:40 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:24:07 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ void	start_threads(t_data *data)
 	if (pthread_create(&th_sup, NULL, &greed_supervisor, data))
 		exit_philo(&data, E_NEWTH);
 	i = -1;
-	while (!data->start)
-		my_usleep(10);
+	while (data->ready != data->info[N_PHILOS])
+		my_usleep(10, time_ts(data->t_start), data->t_start);
+	data->start = 1;
+	gettimeofday(&data->t_start, NULL);
 	while (++i < data->info[N_PHILOS])
 	{
 		if (pthread_join(data->th->p_th[i], NULL))
@@ -51,29 +53,20 @@ void	start_threads(t_data *data)
 void	*schrodinger_monitor(void *v_philo)
 {
 	t_philo	*philo;
-	time_t	t_to_starve;
+	t_time	t_to_starve;
 
 	philo = (t_philo *)v_philo;
-	pthread_mutex_lock(&philo->th->lock);
 	while (!philo->data->stop)
 	{
-		pthread_mutex_unlock(&philo->th->lock);
+		pthread_mutex_lock(&philo->th->p_lck[philo->id - 1]);
 		t_to_starve = philo->hunger - time_ts(philo->data->t_start);
-		pthread_mutex_lock(&philo->th->deadlock);
-		if (t_to_starve < 0 && philo->status != EAT)
-		{
+		pthread_mutex_unlock(&philo->th->p_lck[philo->id - 1]);
+		if (t_to_starve <= 0 && philo->status != EAT)
 			print_status(philo, DEAD);
-			philo->data->stop = 1;
-			pthread_mutex_lock(&philo->th->deadlock);
-		}
 		else
-		{
-			pthread_mutex_unlock(&philo->th->deadlock);
-			my_usleep(t_to_starve - 10);
-		}
-		pthread_mutex_lock(&philo->th->lock);
+			my_usleep(5, time_ts(philo->data->t_start), \
+				philo->data->t_start);
 	}
-	pthread_mutex_unlock(&philo->th->lock);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:11:50 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 21:10:04 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:53:08 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,6 @@ int	array_len(char **array)
 	return (len);
 }
 
-uint64_t	time_ms(uint64_t start)
-{
-	struct timeval	time;
-	int				errno;
-
-	errno = gettimeofday(&time, NULL);
-	if (errno)
-		return (print_error(E_TIME, errno), 0);
-	return (time.tv_sec * 1000LL + (time.tv_usec) / 1000 - (long)start);
-}
-
 uint64_t	time_ts(struct timeval t_start)
 {
 	struct timeval	time;
@@ -46,12 +35,20 @@ uint64_t	time_ts(struct timeval t_start)
 	return (sec + (time.tv_usec - t_start.tv_usec) / 1000);
 }
 
-int	my_usleep(uint64_t sleep)
+t_time	timestamp_ms(void)
 {
-	uint64_t	stop;
+	struct timeval	time;
+	int				errno;
 
-	stop = time_ms(0) - 1 + sleep;
-	while (time_ms(0) <= stop)
+	errno = gettimeofday(&time, NULL);
+	if (errno)
+		return (print_error(E_TIME, errno), 0);
+	return (time.tv_sec * 1000LL + (time.tv_usec) / 1000);
+}
+
+int	my_usleep(t_time sleep, t_time current, struct timeval t_start)
+{
+	while (time_ts(t_start) - current < sleep)
 		usleep(1);
 	return (0);
 }

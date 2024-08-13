@@ -6,7 +6,7 @@
 #    By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 15:05:47 by ana-cast          #+#    #+#              #
-#    Updated: 2024/08/12 21:06:20 by ana-cast         ###   ########.fr        #
+#    Updated: 2024/08/13 12:25:33 by ana-cast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ SRC = src/main.c \
 	src/philo_routines.c \
 	src/utils/init.c \
 	src/utils/libft.c \
-	src/utils/print_utils.c \
+	src/utils/threads_utils.c \
 	src/utils/safe_exit.c \
 	src/utils/utils.c
 
