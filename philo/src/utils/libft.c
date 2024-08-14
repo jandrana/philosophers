@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 12:44:40 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/14 12:50:16 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:54:06 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ int	ft_strlen(const char *str)
 	while (str[count])
 		count++;
 	return (count);
+}
+
+int	array_len(char **array)
+{
+	int	len;
+
+	len = -1;
+	while (array[++len])
+		;
+	return (len);
 }
 
 char	*ft_strdup(char *str)
