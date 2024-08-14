@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:11:50 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/13 16:53:08 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:27:56 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,6 @@ uint64_t	time_ts(struct timeval t_start)
 		return (print_error(E_TIME, errno), 0);
 	sec = time.tv_sec * 1000LL - (t_start.tv_sec * 1000LL);
 	return (sec + (time.tv_usec - t_start.tv_usec) / 1000);
-}
-
-t_time	timestamp_ms(void)
-{
-	struct timeval	time;
-	int				errno;
-
-	errno = gettimeofday(&time, NULL);
-	if (errno)
-		return (print_error(E_TIME, errno), 0);
-	return (time.tv_sec * 1000LL + (time.tv_usec) / 1000);
 }
 
 int	my_usleep(t_time sleep, t_time current, struct timeval t_start)
