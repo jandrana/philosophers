@@ -163,3 +163,175 @@ The pthread_mutex_lock() unlocks the specified mutex.
  - EINVAL: Incorrect value for argument
  - EPERM: The mutex is not currently held by the caller.
 
+
+## Bonus allowed functions (from semaphores.h -- bonus substitutes for mutex)
+
+### Semaphores Overview
+
+**Include requirements:**
+```c
+#include <fcntl.h>           /* For O_* constants -- for sem_open()*/
+#include <sys/stat.h>        /* For mode constants -- for sem_open()*/
+#include <semaphore.h>
+```
+
+**POSIX  semaphores** allow processes and threads to synchronize their ac‐
+tions.
+
+A semaphore is an integer whose value is never allowed to fall below
+zero.  Two operations can be performed on semaphores: increment the
+semaphore value by one `sem_post(3)`; and decrement the semaphore value
+by one `sem_wait(3)`. If the value of a semaphore is currently zero,
+then a `sem_wait(3)` operation will block until the value becomes greater
+than zero.
+
+POSIX semaphores come in two forms: named semaphores and unnamed sema‐
+phores
+
+1. **Named semaphores**
+	A named semaphore is identified by a name of the form /somename;
+	that is, a null-terminated string of up to `NAME_MAX-4` (i.e.,
+	251) characters consisting of an initial slash, followed by one
+	or more characters, none of which are slashes. Two processes
+	can operate on the same named semaphore by passing the same name
+	to `sem_open(3)`.
+
+	The `sem_open(3)` function creates a new named semaphore or opens
+	an existing named semaphore.  After the semaphore has been
+	opened, it can be operated on using `sem_post(3)` and `sem_wait(3)`.
+	When a process has finished using the semaphore, it can use
+	`sem_close(3)` to close the semaphore. When all processes have
+	finished using the semaphore, it can be removed from the system
+	using `sem_unlink(3)`.
+
+2. **Unnamed semaphores** (memory-based semaphores)
+	Not allowed in this project (interesting to learn in the close future)
+
+See `man sem_overview` for an overview of POSIX semaphores
+
+
+### 1. **sem_open()** -- initialize and open a named semaphore
+
+#### Prototype
+```c
+sem_t *sem_open(const char *name, int oflag);
+sem_t *sem_open(const char *name, int oflag,
+	mode_t mode, unsigned int value);
+```
+Creates a new POSIX semaphore or opens an existing sema‐phore.
+
+ - The semaphore is identified by `name` (see [Overview](#semaphores-overview))
+
+ - The `oflag` argument specifies flags that control the
+ operation of the call. (Definitions in <fcntl.h>.)
+ If `O_CREAT` is specified in `oflag`, then the semaphore is
+	created if it does not already exist
+ If both `O_CREAT` and `O_EXCL` are specified in `oflag`,
+	then an error is returned if a semaphore with
+  the given `name` already exists.
+ - If `O_CREAT` is specified in `oflag`, two additional arguments must be supplied.
+	The `mode` argument specifies the permissions to be placed on the new semaphore,
+	as for `open(2)` (Definitions in <sys/stat.h>.)
+	The `value` argument specifies the initial value for the new semaphore.
+	If `O_CREAT` is specified, and a semaphore with the given name already exists,
+	mode and value are ignored
+
+#### Examples:
+```c
+pthread_t thread;
+
+pthread_create(&thread, NULL, &routine, &p_data);
+```
+
+#### Return Values:
+
+**SUCCESS:** `sem_open()` returns the address of the new semaphore;
+this address is used when calling other semaphore-related functions.
+
+**ERROR:** `sem_open()` returns `SEM_FAILED`, with `errno` set to indicate the error.
+
+##### Error Codes:
+ - EACCES:
+ - EEXIST:
+ - EINVAL:
+ - EMFILE:
+ - ENAMETOOLONG:
+ - ENFILE:
+ - ENOENT:
+ - ENOMEM:
+
+
+### 2. **sem_close()** -- close a named semaphore
+
+#### Prototype
+```c
+int sem_close(sem_t *sem);
+```
+It closes the named semaphore referred to by `sem`, allowing any resources that
+the system has allocated to the calling process for this semaphore to be freed.
+
+#### Return Values:
+**SUCCESS:** `sem_close()` returns 0
+**ERROR:** -1, with `errno` set to indicate the error
+
+##### Error Codes:
+ - EINVAL: `sem` is not a valid semaphore
+
+
+### 3. **sem_post()** -- unlock a semaphore
+
+#### Prototype
+```c
+int sem_post(sem_t *sem);
+```
+It increments (unlocks) the semaphore pointed to by `sem`.
+If the semaphore's value consequently becomes greater than zero, another process or
+thread blocked in a `sem_wait(3)` call will be woken up and proceed to lock the semaphore.
+
+#### Return Values:
+**SUCCESS:** `sem_close()` returns 0
+**ERROR:** -1, with `errno` set to indicate the error
+
+##### Error Codes:
+ - EINVAL: `sem` is not a valid semaphore
+ - EOVERFLOW: The maximum allowable value for a semaphore would be exceeded.
+
+
+### 4. **sem_wait()** -- lock a semaphore
+
+#### Prototype
+```c
+int sem_wait(sem_t *sem);
+```
+It decrements (locks) the semaphore pointed to by `sem`.
+If the semaphore's value is greater than zero, then the decrement proceeds,
+and the function returns, immediately.
+If the semaphore currently has the value zero, then the call blocks until either it
+becomes possible to perform the decrement (i.e., the semaphore value rises above zero),
+or a signal handler interrupts the call.
+
+#### Return Values:
+**SUCCESS:** `sem_close()` returns 0
+**ERROR:** -1, with `errno` set to indicate the error
+
+##### Error Codes:
+ - EINTR: The call was interrupted by a signal handler
+ - EINVAL: `sem` is not a valid semaphore
+
+### 5. **sem_unlink()** -- remove a named semaphore
+
+#### Prototype
+```c
+int sem_unlink(const char *name);
+```
+It removes the named semaphore referred to by `name`.
+The semaphore name is removed immediately. The semaphore is destroyed once all other processes that have the semaphore open close it.
+
+#### Return Values:
+**SUCCESS:** `sem_close()` returns 0
+**ERROR:** -1, with `errno` set to indicate the error
+
+##### Error Codes:
+ - EACCES: caller  does not have permission to unlink this semaphore.
+ - ENAMETOOLONG: `name` was too long
+ - ENOENT: There is no semaphore with the given `name`
