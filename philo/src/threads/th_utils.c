@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:34:13 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/14 12:24:01 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:53:38 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,28 @@ t_time	print_status(t_philo *wise_man, int action)
 	return (time);
 }
 
-static void	fight_for_forks(t_philo *philo)
+void	perform_routine(t_philo *philo)
 {
-	int		id;
-	int		right;
-	int		left;
+	t_data	*data;
+	t_time	current;
 
-	id = philo->id;
-	right = id - 1;
-	left = id % philo->data->info[N_PHILOS];
-	pthread_mutex_lock(&philo->th->fork[right]);
+	data = philo->data;
+	pthread_mutex_lock(&philo->th->fork[philo->id - 1]);
 	print_status(philo, FORK);
-	pthread_mutex_lock(&philo->th->fork[left]);
+	pthread_mutex_lock(&philo->th->fork[philo->id % data->info[N_PHILOS]]);
 	philo->status = EAT;
 	print_status(philo, FORK);
+	current = print_status(philo, EAT);
+	pthread_mutex_lock(&philo->th->p_lck[philo->id - 1]);
+	philo->hunger = current + data->info[T_DIE];
+	pthread_mutex_unlock(&philo->th->p_lck[philo->id - 1]);
+	philo->meals++;
+	my_usleep(data->info[T_EAT], current, data->t_start);
+	current = print_status(philo, SLEEP);
+	philo->status = SLEEP;
+	pthread_mutex_unlock(&philo->th->fork[philo->id % data->info[N_PHILOS]]);
+	pthread_mutex_unlock(&philo->th->fork[philo->id - 1]);
+	my_usleep(data->info[T_SLEEP], current, data->t_start);
 }
 
 void	perform_action(t_philo *philo, int action)
