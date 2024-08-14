@@ -75,30 +75,22 @@ void	perform_routine(t_philo *philo)
 	my_usleep(data->info[T_SLEEP], current, data->t_start);
 }
 
-void	perform_action(t_philo *philo, int action)
+uint64_t	time_ts(struct timeval t_start)
 {
-	t_data	*data;
-	int		id;
-	t_time	current;
+	struct timeval	time;
+	int				errno;
+	long			sec;
 
-	id = philo->id;
-	data = philo->data;
-	if (action == EAT)
-	{
-		fight_for_forks(philo);
-		current = print_status(philo, EAT);
-		pthread_mutex_lock(&philo->th->p_lck[philo->id - 1]);
-		philo->hunger = current + data->info[T_DIE];
-		pthread_mutex_unlock(&philo->th->p_lck[philo->id - 1]);
-		philo->meals++;
-		my_usleep(data->info[T_EAT], current, data->t_start);
-	}
-	else if (action == SLEEP)
-	{
-		current = print_status(philo, SLEEP);
-		philo->status = SLEEP;
-		pthread_mutex_unlock(&philo->th->fork[id % data->info[N_PHILOS]]);
-		pthread_mutex_unlock(&philo->th->fork[id - 1]);
-		my_usleep(data->info[T_SLEEP], current, data->t_start);
-	}
+	errno = gettimeofday(&time, NULL);
+	if (errno)
+		return (print_error(E_TIME, errno), 0);
+	sec = time.tv_sec * 1000LL - (t_start.tv_sec * 1000LL);
+	return (sec + (time.tv_usec - t_start.tv_usec) / 1000);
+}
+
+int	my_usleep(t_time sleep, t_time current, struct timeval t_start)
+{
+	while (time_ts(t_start) - current < sleep)
+		usleep(1);
+	return (0);
 }
