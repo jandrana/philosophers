@@ -47,13 +47,17 @@ char	*ft_strdup(char *str)
 char	*ft_substr(const char *str, ssize_t start, ssize_t len)
 {
 	char	*substr;
+	int		i;
 
 	if (start >= ft_strlen(str))
 		return (NULL);
 	substr = malloc(len + 1);
 	if (!substr)
 		return (NULL);
-	philo_strcpy(substr, str + start, len + 1);
+	i = -1;
+	while (str[++i + start] && --len + 1)
+		substr[i] = str[i + start];
+	substr[i] = '\0';
 	return (substr);
 }
 
