@@ -1,5 +1,7 @@
 # PTHREAD
 
+## Mandatory allowed functions (mutex)
+
 ### 1. **pthread_mutex_init()**
 
 #### Prototype
@@ -75,87 +77,4 @@ The pthread_mutex_lock() unlocks the specified mutex.
 ##### Error Codes:
  - EINVAL: Incorrect value for argument
  - EPERM: The mutex is not currently held by the caller.
-
-### 4. **pthread_create()**
-
-#### Prototype
-```c
-int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
-	void *(*start_routine)(void *), void *arg);
-```
-Creates a new thread of execution.
-The new thread starts execution by invoking `start_routine()`; where `arg` is passed as the sole argument of `start_routine()`.
-
-#### Examples: 
-```c
-pthread_t  thread;
-
-pthread_create(&thread, NULL, &routine, &p_data);
-```
-
-#### Return Values: 
- - 0: **OK**
- - !0: **Error Code**
-
-##### Error Codes:
- - EAGAIN(1): Insufficient resources to create another thread.
- - EAGAIN(2): A system-imposed limit on the number of threads was met.
- - EINVAL: Incorrect value for argument
- - EPERM: No permission to set the scheduling policy and parameters specified in attr.
-
-### 5. **pthread_join()**
-
-#### Prototype
-```c
-int pthread_join(pthread_t thread, void **status);
-```
-It suspends execution of the calling thread until the target `thread` terminates unless it has already terminated.
-
-#### Examples: 
-
-##### Code:
-```c
-void	*routine(void *arg)
-{
-	char	*ret_val;
-
-	printf("routine() entered with arg %s\n", arg);
-	ret_val = malloc(20);
-	if (!ret_val)
-		return (perror("ENOMEM: Out of Memory"), NULL);
-	strcpy(ret_val, "Test");
-	pthread_exit(ret_val);
-}
-
-int main(void)
-{
-	pthread_t  thread;
-	void		*ret_val;
-
-	if (pthread_create(&thread, NULL, routine, "hola"))
-		return (perror("pthread_create() error"), 1);
-
-	if (pthread_join(&thread, &ret))
-		return (perror("pthread_create() error"), 3);
-
-	printf("Thread exited with %s\n", ret);
-}
-```
-##### Output:
-```bash
-routine() entered with arg hola
-Thread exited with Test
-```
-
-#### Return Values: 
- - 0: **OK**
- - -1: **KO** and sets errno to EDEADLK, EINVAL or ESRCH
-
-### 5. **pthread_detach()**
-
-#### Prototype
-```c
-int pthread_detach(pthread_t thread);
-```
-Marks a thread for deletion.
 
