@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads_utils.c                                    :+:      :+:    :+:   */
+/*   th_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:34:13 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/13 20:52:16 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:24:01 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-char	*get_action_msg(int action)
+static char	*get_action_msg(int action)
 {
 	if (action == THINK)
 		return (O_THINK);
