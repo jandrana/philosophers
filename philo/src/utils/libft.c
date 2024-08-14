@@ -22,13 +22,6 @@ int	ft_strlen(const char *str)
 	return (count);
 }
 
-void	philo_strcpy(char *dst, const char *src, int len)
-{
-	while (*src && --len)
-		*dst++ = *src++;
-	*dst = '\0';
-}
-
 char	*ft_strdup(char *str)
 {
 	char	*dup;
