@@ -6,7 +6,7 @@
 #    By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 15:05:47 by ana-cast          #+#    #+#              #
-#    Updated: 2024/08/14 13:02:49 by ana-cast         ###   ########.fr        #
+#    Updated: 2024/08/14 17:09:05 by ana-cast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 ##                               COMPILATION INFO                             ##
 ################################################################################
 
-NAME = philo
+NAME = philo_bonus
 
 # Check if gcc is installed
 HAS_GCC := $(shell command -v gcc 2> /dev/null)
@@ -30,7 +30,7 @@ else
   $(error No compiler found)
 endif
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 RM = rm -f
 PHILO = include/
 DEPS = -I include
@@ -78,7 +78,9 @@ head :
 	@echo "\t██████  ███████ ██ ██      ██    ██ "
 	@echo "\t██      ██   ██ ██ ██      ██    ██ "
 	@echo "\t██      ██   ██ ██ ███████  ██████  "
-	@echo ""
+	@echo "$(TURQUOISE)$(BOLD)"
+	@echo "\t       B    0    N    U    $$"
+	@echo "$(END)$(MAGENTA)"
 	@echo "\t        42MLG: by ana-cast"
 	@echo "\tProyect: \033[36m Philosophers $(MAGENTA)"
 	@echo "\tCommands:\033[36m all clean fclean re $(BLUE)"

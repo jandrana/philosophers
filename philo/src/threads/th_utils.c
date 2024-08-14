@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads_utils.c                                    :+:      :+:    :+:   */
+/*   th_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:34:13 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/13 20:52:16 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:53:38 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-char	*get_action_msg(int action)
+static char	*get_action_msg(int action)
 {
 	if (action == THINK)
 		return (O_THINK);
@@ -51,46 +51,46 @@ t_time	print_status(t_philo *wise_man, int action)
 	return (time);
 }
 
-static void	fight_for_forks(t_philo *philo)
-{
-	int		id;
-	int		right;
-	int		left;
-
-	id = philo->id;
-	right = id - 1;
-	left = id % philo->data->info[N_PHILOS];
-	pthread_mutex_lock(&philo->th->fork[right]);
-	print_status(philo, FORK);
-	pthread_mutex_lock(&philo->th->fork[left]);
-	philo->status = EAT;
-	print_status(philo, FORK);
-}
-
-void	perform_action(t_philo *philo, int action)
+void	perform_routine(t_philo *philo)
 {
 	t_data	*data;
-	int		id;
 	t_time	current;
 
-	id = philo->id;
 	data = philo->data;
-	if (action == EAT)
-	{
-		fight_for_forks(philo);
-		current = print_status(philo, EAT);
-		pthread_mutex_lock(&philo->th->p_lck[philo->id - 1]);
-		philo->hunger = current + data->info[T_DIE];
-		pthread_mutex_unlock(&philo->th->p_lck[philo->id - 1]);
-		philo->meals++;
-		my_usleep(data->info[T_EAT], current, data->t_start);
-	}
-	else if (action == SLEEP)
-	{
-		current = print_status(philo, SLEEP);
-		philo->status = SLEEP;
-		pthread_mutex_unlock(&philo->th->fork[id % data->info[N_PHILOS]]);
-		pthread_mutex_unlock(&philo->th->fork[id - 1]);
-		my_usleep(data->info[T_SLEEP], current, data->t_start);
-	}
+	pthread_mutex_lock(&philo->th->fork[philo->id - 1]);
+	print_status(philo, FORK);
+	pthread_mutex_lock(&philo->th->fork[philo->id % data->info[N_PHILOS]]);
+	philo->status = EAT;
+	print_status(philo, FORK);
+	current = print_status(philo, EAT);
+	pthread_mutex_lock(&philo->th->p_lck[philo->id - 1]);
+	philo->hunger = current + data->info[T_DIE];
+	pthread_mutex_unlock(&philo->th->p_lck[philo->id - 1]);
+	philo->meals++;
+	my_usleep(data->info[T_EAT], current, data->t_start);
+	current = print_status(philo, SLEEP);
+	philo->status = SLEEP;
+	pthread_mutex_unlock(&philo->th->fork[philo->id % data->info[N_PHILOS]]);
+	pthread_mutex_unlock(&philo->th->fork[philo->id - 1]);
+	my_usleep(data->info[T_SLEEP], current, data->t_start);
+}
+
+uint64_t	time_ts(struct timeval t_start)
+{
+	struct timeval	time;
+	int				errno;
+	long			sec;
+
+	errno = gettimeofday(&time, NULL);
+	if (errno)
+		return (print_error(E_TIME, errno), 0);
+	sec = time.tv_sec * 1000LL - (t_start.tv_sec * 1000LL);
+	return (sec + (time.tv_usec - t_start.tv_usec) / 1000);
+}
+
+int	my_usleep(t_time sleep, t_time current, struct timeval t_start)
+{
+	while (time_ts(t_start) - current < sleep)
+		usleep(1);
+	return (0);
 }

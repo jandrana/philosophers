@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 12:44:40 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/05 18:35:50 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:54:06 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,45 @@ int	ft_strlen(const char *str)
 	return (count);
 }
 
-void	philo_strcpy(char *dst, const char *src, int len)
+int	array_len(char **array)
 {
-	while (*src && --len)
-		*dst++ = *src++;
-	*dst = '\0';
+	int	len;
+
+	len = -1;
+	while (array[++len])
+		;
+	return (len);
 }
 
 char	*ft_strdup(char *str)
 {
 	char	*dup;
+	int		i;
 
 	dup = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!dup)
 		return (NULL);
-	return (philo_strcpy(dup, str, 0), dup);
+	i = -1;
+	while (str[++i])
+		dup[i] = str[i];
+	dup[i] = '\0';
+	return (dup);
 }
 
 char	*ft_substr(const char *str, ssize_t start, ssize_t len)
 {
 	char	*substr;
+	int		i;
 
 	if (start >= ft_strlen(str))
 		return (NULL);
 	substr = malloc(len + 1);
 	if (!substr)
 		return (NULL);
-	philo_strcpy(substr, str + start, len + 1);
+	i = -1;
+	while (str[++i + start] && --len + 1)
+		substr[i] = str[i + start];
+	substr[i] = '\0';
 	return (substr);
 }
 

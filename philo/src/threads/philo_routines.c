@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/13 20:35:53 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:22:31 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ void	*routine(void	*v_philo)
 		exit_philo(&philo->data, E_NEWTH);
 	while (!philo->data->stop)
 	{
-		perform_action(philo, EAT);
-		perform_action(philo, SLEEP);
+		perform_routine(philo);
 		print_status(philo, THINK);
 	}
 	return (NULL);
