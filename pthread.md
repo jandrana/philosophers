@@ -96,7 +96,7 @@ int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);
 
 Initializes a mutex with the specified attributes. If `attr` is specified as `NULL`, all attributes are set to default.
 
-#### Example: 
+#### Example:
 ```c
 pthread_mutex_t  mutex;
 pthread_mutex_t  mutex2;
@@ -106,7 +106,7 @@ pthread_mutex_init(&mutex, NULL); // Atributes set to default
 pthread_mutexattr_init(&mta); // Create a default mutex attribute
 pthread_mutex_init(&mutex2, &mta); // Atributes set to mta (default attributes)
 ```
-#### Return Values: 
+#### Return Values:
  - 0: **OK**
  - !0: **Error Code**
 
@@ -123,14 +123,14 @@ int pthread_mutex_destroy(pthread_mutex_t *mutex);
 Destroys the named mutex and can no longer be used.
 
 
-#### Example: 
+#### Example:
 ```c
 pthread_mutex_t  mutex;
 
 pthread_mutex_init(&mutex, NULL);
 pthread_mutex_destroy(&mutex);
 ```
-#### Return Values: 
+#### Return Values:
  - 0: **OK**
  - !0: **Error Code**
 
