@@ -161,7 +161,7 @@ pthread_mutex_destroy(&mutex);
 The pthread_mutex_lock() unlocks the specified mutex.
 
 
-#### Return Values: 
+#### Return Values:
  - 0: **OK**
  - !0: **Error Code**
 
@@ -253,14 +253,16 @@ this address is used when calling other semaphore-related functions.
 **ERROR:** `sem_open()` returns `SEM_FAILED`, with `errno` set to indicate the error.
 
 ##### Error Codes:
- - EACCES:
- - EEXIST:
- - EINVAL:
- - EMFILE:
- - ENAMETOOLONG:
- - ENFILE:
- - ENOENT:
- - ENOMEM:
+ - EACCES: The semaphore exists, but the caller does not have permission to open it.
+ - EEXIST: Both O_CREAT and O_EXCL were specified in `oflag`, but a semaphore with this `name` already exists.
+ - EINVAL(1): value was greater than `SEM_VALUE_MAX`
+ - EINVAL(2): `name` consists of just "/", followed by no other characters.
+ - EMFILE: The per-process limit on the number of open file descriptors has been reached.
+ - ENAMETOOLONG: `name` was too long
+ - ENFILE: The system-wide limit on the total number of open files has been reached.
+ - ENOENT: The `O_CREAT` flag was not specified in `oflag` and no semaphore with this `name` exists;
+ or, `O_CREAT` was specified, but `name` wasn't well formed.
+ - ENOMEM: Out of memory
 
 
 ### 2. **sem_close()** -- close a named semaphore
@@ -334,6 +336,6 @@ The semaphore name is removed immediately. The semaphore is destroyed once all o
 **ERROR:** -1, with `errno` set to indicate the error
 
 ##### Error Codes:
- - EACCES: caller  does not have permission to unlink this semaphore.
+ - EACCES: caller does not have permission to unlink this semaphore.
  - ENAMETOOLONG: `name` was too long
  - ENOENT: There is no semaphore with the given `name`
