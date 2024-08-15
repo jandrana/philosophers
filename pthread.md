@@ -1,6 +1,12 @@
 # PTHREAD
 
-## General allowed functions
+## Content
+ 1. [General pthread functions](#general-pthread-functions)
+ 2. [Mutex functions](#mutex-functions)
+ 3. [Semaphore functions (bonus)](#semaphore-functions-bonus)
+ 4. [Fork/kill/exit/waitpid (bonus)](#forkkillexitwaitpid-bonus)
+
+## General pthread functions
 ### 1. **pthread_create()**
 
 #### Prototype
