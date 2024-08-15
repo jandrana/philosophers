@@ -91,7 +91,7 @@ int pthread_detach(pthread_t thread);
 Marks a thread for deletion.
 
 
-## Mandatory allowed functions (mutex)
+## Mutex functions
 
 ### 1. **pthread_mutex_init()**
 
@@ -170,14 +170,14 @@ The pthread_mutex_lock() unlocks the specified mutex.
  - EPERM: The mutex is not currently held by the caller.
 
 
-## Bonus allowed functions (from semaphores.h -- bonus substitutes for mutex)
+## Semaphore functions (bonus)
 
 ### Semaphores Overview
 
 **Include requirements:**
 ```c
-#include <fcntl.h>           /* For O_* constants -- for sem_open()*/
-#include <sys/stat.h>        /* For mode constants -- for sem_open()*/
+#include <fcntl.h>			/* For O_* constants -- for sem_open()*/
+#include <sys/stat.h>		/* For mode constants -- for sem_open()*/
 #include <semaphore.h>
 ```
 
@@ -240,14 +240,10 @@ Creates a new POSIX semaphore or opens an existing sema‐phore.
 	as for `open(2)` (Definitions in <sys/stat.h>.)
 	The `value` argument specifies the initial value for the new semaphore.
 	If `O_CREAT` is specified, and a semaphore with the given name already exists,
-	mode and value are ignored
+	`mode` and `value` are ignored
 
-#### Examples:
-```c
-pthread_t thread;
-
-pthread_create(&thread, NULL, &routine, &p_data);
-```
+For more information regarding `value` (needed when mode is `O_CREAT`):
+ - See [Mode Values](#extra-note-for-sem_open-mode_t-mode-argument) 
 
 #### Return Values:
 
