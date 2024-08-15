@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/13 20:35:29 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:55:16 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ void		init_philos(t_data	*data);
 
 // ----------------------- LIBFT.C ---------------------- //
 int			ft_strlen(const char *str);
-void		philo_strcpy(char *dst, const char *src, int len);
 char		*ft_strdup(char *s1);
 char		*ft_substr(const char *str, ssize_t start, ssize_t len);
 long		ft_atoui(char *str);
@@ -182,8 +181,7 @@ long		ft_atoui(char *str);
 char		**split(char const *s, char c);
 
 // ------------------ THREADS_UTILS.C ------------------- //
-void		perform_action(t_philo *philo, int action);
-char		*get_action_msg(int action);
+void		perform_routine(t_philo *philo);
 t_time		print_status(t_philo *wise_man, int action);
 
 // --------------------- SAFE_EXIT.C -------------------- //
