@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/14 13:55:16 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:20:57 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 // -------------------- EXT LIBRARIES ------------------- //
 
 # include <string.h>
 # include <stdio.h>
-# include <stdlib.h>
+# include <stdlib.h> 	// IWYU pragma: keep
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
 # include <stdbool.h>
 # include <limits.h>
 # include <stdint.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <semaphore.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <signal.h>	// IWYU pragma: keep
+# include <errno.h>  	// IWYU pragma: keep
 
 // -------------------- COLOR MACROS -------------------- //
 
@@ -57,11 +64,16 @@
 # define OT_SLEEP "time_to_sleep "
 # define ONT_EAT "[num_times_each_must_eat] "
 
+
+// ------------- OUTPUT PHILO ACTION MACROS ------------- //
+
 # define O_THINK "is thinking\n"
 # define O_FORK "has taken a fork\n"
 # define O_EAT "is eating\n"
 # define O_SLEEP "is sleeping\n"
 # define O_DEAD "died\n"
+
+
 
 // --------------------- STRUCTURES --------------------- //
 
@@ -105,35 +117,37 @@ typedef enum e_action
 	DEAD = 4
 }	t_action;
 
-typedef struct s_threads
-{
-	pthread_mutex_t	lock;
-	pthread_mutex_t	*fork;
-	pthread_t		*p_th;
-	pthread_mutex_t	*p_lck;
-	pthread_mutex_t	deadlock;
-}	t_threads;
+// ------------- SEMAPHORES NAME MACROS ------------- //
+
+# define SEM_FORK "/fork"
+# define SEM_START "/start"
+# define SEM_STOP "/stop"
+# define SEM_READY "/ready"	//think again about this one
+# define SEM_PRINT "/print"
+# define SEM_EAT "/eating"
 
 typedef struct s_philo
 {
 	int				id;
-	int				meals;
 	t_time			hunger;
-	t_action		status;
+	t_action		status; // not needed after implementing sem_t *eating
+	int				meals; // check if needed after implementing sem_t *ready
+	sem_t			*eat;	// indicates if philo is currently eating 
 	struct s_data	*data;
-	t_threads		*th;
 }	t_philo;
 
 typedef struct s_data
 {
 	char			**args;
 	int				*info;
-	int				stop;
-	int				ready;
-	bool			start;
+	pid_t			*pid;
+	sem_t			*forks;
+	sem_t			*start;	// think again about this one
+	sem_t			*stop;	// think again about this one
+	sem_t			*ready;	// think again about this one
+	sem_t			*print;
 	struct timeval	t_start;
 	t_philo			*philos;
-	t_threads		*th;
 	int				error;
 }	t_data;
 
@@ -141,15 +155,15 @@ typedef struct s_data
 //                     MAIN FUNCTIONS                     //
 // ------------------------------------------------------ //
 int			check_args(t_data *data, int pos);
+void		expected_death(t_data *data);
 
 // --------------------- THREADS.C ---------------------- //
 void		start_threads(t_data *data);
-void		*greed_supervisor(void *v_data);
+void		*satisfaction_monitor(void *v_data);
 void		*schrodinger_monitor(void *v_philo);
 
 // ------------------- PHILO_ROUTINES.C ----------------- //
-void		*lonely_philo(void *v_philo);
-void		*routine(void *v_philo);
+void		routine(t_philo	*philo);
 
 // ------------------------------------------------------ //
 //                      PARSER FOLDER                     //
@@ -197,4 +211,4 @@ bool		in_range(ssize_t value, ssize_t min, ssize_t max);
 uint64_t	time_ts(struct timeval t_start);
 int			my_usleep(t_time sleep, t_time current, struct timeval t_start);
 
-#endif /* PHILO_H */
+#endif /* PHILO_BONUS_H */

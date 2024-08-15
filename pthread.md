@@ -1,6 +1,12 @@
 # PTHREAD
 
-## General allowed functions
+## Content
+ 1. [General pthread functions](#general-pthread-functions)
+ 2. [Mutex functions](#mutex-functions)
+ 3. [Semaphore functions (bonus)](#semaphore-functions-bonus)
+ 4. [Fork/kill/exit/waitpid (bonus)](#forkkillexitwaitpid-bonus)
+
+## General pthread functions
 ### 1. **pthread_create()**
 
 #### Prototype
@@ -85,7 +91,7 @@ int pthread_detach(pthread_t thread);
 Marks a thread for deletion.
 
 
-## Mandatory allowed functions (mutex)
+## Mutex functions
 
 ### 1. **pthread_mutex_init()**
 
@@ -155,7 +161,7 @@ pthread_mutex_destroy(&mutex);
 The pthread_mutex_lock() unlocks the specified mutex.
 
 
-#### Return Values: 
+#### Return Values:
  - 0: **OK**
  - !0: **Error Code**
 
@@ -164,14 +170,14 @@ The pthread_mutex_lock() unlocks the specified mutex.
  - EPERM: The mutex is not currently held by the caller.
 
 
-## Bonus allowed functions (from semaphores.h -- bonus substitutes for mutex)
+## Semaphore functions (bonus)
 
 ### Semaphores Overview
 
 **Include requirements:**
 ```c
-#include <fcntl.h>           /* For O_* constants -- for sem_open()*/
-#include <sys/stat.h>        /* For mode constants -- for sem_open()*/
+#include <fcntl.h>			/* For O_* constants -- for sem_open()*/
+#include <sys/stat.h>		/* For mode constants -- for sem_open()*/
 #include <semaphore.h>
 ```
 
@@ -234,14 +240,10 @@ Creates a new POSIX semaphore or opens an existing sema‐phore.
 	as for `open(2)` (Definitions in <sys/stat.h>.)
 	The `value` argument specifies the initial value for the new semaphore.
 	If `O_CREAT` is specified, and a semaphore with the given name already exists,
-	mode and value are ignored
+	`mode` and `value` are ignored
 
-#### Examples:
-```c
-pthread_t thread;
-
-pthread_create(&thread, NULL, &routine, &p_data);
-```
+For more information regarding `value` (needed when mode is `O_CREAT`):
+ - See [Mode Values](#extra-note-for-sem_open-mode_t-mode-argument) 
 
 #### Return Values:
 
@@ -251,14 +253,16 @@ this address is used when calling other semaphore-related functions.
 **ERROR:** `sem_open()` returns `SEM_FAILED`, with `errno` set to indicate the error.
 
 ##### Error Codes:
- - EACCES:
- - EEXIST:
- - EINVAL:
- - EMFILE:
- - ENAMETOOLONG:
- - ENFILE:
- - ENOENT:
- - ENOMEM:
+ - EACCES: The semaphore exists, but the caller does not have permission to open it.
+ - EEXIST: Both O_CREAT and O_EXCL were specified in `oflag`, but a semaphore with this `name` already exists.
+ - EINVAL(1): value was greater than `SEM_VALUE_MAX`
+ - EINVAL(2): `name` consists of just "/", followed by no other characters.
+ - EMFILE: The per-process limit on the number of open file descriptors has been reached.
+ - ENAMETOOLONG: `name` was too long
+ - ENFILE: The system-wide limit on the total number of open files has been reached.
+ - ENOENT: The `O_CREAT` flag was not specified in `oflag` and no semaphore with this `name` exists;
+ or, `O_CREAT` was specified, but `name` wasn't well formed.
+ - ENOMEM: Out of memory
 
 
 ### 2. **sem_close()** -- close a named semaphore
@@ -332,6 +336,211 @@ The semaphore name is removed immediately. The semaphore is destroyed once all o
 **ERROR:** -1, with `errno` set to indicate the error
 
 ##### Error Codes:
- - EACCES: caller  does not have permission to unlink this semaphore.
+ - EACCES: caller does not have permission to unlink this semaphore.
  - ENAMETOOLONG: `name` was too long
  - ENOENT: There is no semaphore with the given `name`
+
+
+## Fork/Kill/Exit/Waitpid (bonus)
+
+### 1. **fork()** -- create a child process
+
+```c
+#include <sys/types.h>
+#include <unistd.h>
+```
+
+#### Prototype
+```c
+pid_t fork(void);
+```
+It creates a new process by duplicating the calling process.
+The new process is referred to as the `child` process.  The calling
+process is referred to as the `parent` process.
+
+#### Return Values:
+On  success, the PID of the child process is returned in the par‐
+       ent, and 0 is returned in the child.  On failure, -1 is  returned
+       in  the parent, no child process is created, and errno is set ap‐
+       propriately
+ - **SUCCESS:** `fork()`
+	- Parent: the PID of the child process is returned
+	- Child: 0
+
+ - **ERROR:** `fork()`
+	- Parent: -1
+	- Child: none (no child process is created) + errno is set
+
+##### Error Codes:
+ - EAGAIN(1): A system-imposed limit on the number of threads was encountered
+ - ENOMEM fork(): failed to allocate the necessary kernel structures because memory is tight.
+ - ENOMEM: An attempt was made to create a child process in a PID namespace whose "init" process has terminated.
+ - ENOSYS fork(): is not supported on this platform
+ - ERESTARTNOINTR: System call was interrupted by a signal and will be restarted.
+
+
+### 2. **kill()** -- send a signal to a process or a group of processes
+
+```c
+#include <signal.h>
+```
+
+#### Prototype
+```c
+int kill(pid_t pid, int sig);
+```
+The `kill()` function shall send a signal to a process or a group of processes
+specified by pid. The signal to be sent is specified by sig and is either one
+from the list given in <signal.h> or 0. If sig is 0 (the null signal), error
+checking is performed but no signal is actually sent. The null signal can be used
+to check the validity of pid.
+
+See `man 3 kill` for more details
+
+#### Return Values:
+
+**SUCCESS:** `kill()` returns 0
+**ERROR:** `kill()` returns -1, with `errno` set to indicate the error
+
+##### Error Codes:
+ - EINVAL: The value of `sig` is an invalid or unsupported signal number
+ - EPERM: The process does not have permission to send the signal to any receiving process.
+ - ESRCH: No process/process group can be found corresponding to that specified by `pid`
+
+
+### 3. **exit()** -- cause normal process termination
+
+```c
+#include <stdlib.h>
+```
+
+#### Prototype
+```c
+void	exit(int status);
+```
+
+#### Return Values:
+
+The function `exit()` does not return any values
+
+
+### 4. **waitpid()** -- wait for a child process to stop or terminate
+
+```c
+#include <sys/wait.h>
+```
+
+#### Prototype
+```c
+pid_t	waitpid(pid_t pid, int *stat_loc, int options);
+```
+
+#### Return Values:
+
+**SUCCESS:** `waitpid()`
+
+**ERROR:** `waitpid()`
+
+##### Error Codes:
+ - ENOMEM: Out of memory
+
+
+### CODE EXAMPLE WITH FORK-KILL-EXIT-WAITPID
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+void	child_routine(pid_t pid)
+{
+	printf("Child: My pid is %d.\n", pid);
+	while (true)
+		foo();
+}
+
+void	parent_routine(pid_t pid)
+{
+	int	child_status;
+
+	printf("Parent: My child's pid is %d.\n", pid);
+	waitpid(pid, &child_status, 0);
+	printf("Parent: My child[%i] exit code is %d", pid, WEXITSTATUS(child_status));
+}
+
+void	kill_childrens(pid_t *pid)
+{
+	int	i;
+	int	child_status;
+
+	i = -1;
+	while (++i < 42)
+		kill(pid[i], SIGKILL);
+	printf("Parent: All childrens killed succesfully");
+}
+
+int	main(void)
+{
+	int		i;
+    pid_t	*child_pid;
+
+	i = -1;
+	child_pid = (pid_t *)malloc(sizeof(pid_t) * 42);
+	if (!child_pid)
+		exit(EXIT_FAILURE);
+	while (!stop || ++i < 42)
+	{
+		child_pid[i] = fork();
+		if (child_pid == -1)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		printf("\nFork successful!\n");
+		if (child_pid == 0) // Fork's return value is 0: we are in the child process
+			child_routine();
+		else if (child_pid > 0) // Fork's return value is not 0: we are in the parent process
+			parent_routine();
+		usleep(420);
+	}
+	kill_childrens(pid);
+    exit(EXIT_SUCCESS);
+}
+```
+
+### Extra Note for `sem_open` mode_t mode argument:
+
+Go back to [sem_open()](#1-sem_open----initialize-and-open-a-named-semaphore)
+
+List os modes values (needed when `oflag` is `O_CREAT`):
+
+- `S_IRWXU`  00700 user (file owner) has read, write, and execute permission
+
+- S_IRUSR  00400 user has read permission
+
+- S_IWUSR  00200 user has write permission
+
+- S_IXUSR  00100 user has execute permission
+
+- S_IRWXG  00070 group has read, write, and execute permission
+
+- S_IRGRP  00040 group has read permission
+
+- S_IWGRP  00020 group has write permission
+
+- S_IXGRP  00010 group has execute permission
+
+- S_IRWXO  00007 others have read, write, and execute  permission
+
+- S_IROTH  00004 others have read permission
+
+- S_IWOTH  00002 others have write permission
+
+- S_IXOTH  00001 others have execute permission
+
+- S_ISUID  0004000 set-user-ID bit
+
+- S_ISGID  0002000 set-group-ID bit (see inode(7)).
+
+- S_ISVTX  0001000 sticky bit (see inode(7)).
