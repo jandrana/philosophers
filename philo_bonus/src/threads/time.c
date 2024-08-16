@@ -6,11 +6,19 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 13:38:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/16 14:36:16 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:36:39 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo_bonus.h>
+
+time_t	time_conv(struct timeval src)
+{
+	time_t	dest;
+
+	dest = src.tv_sec * 1000LL + src.tv_usec / 1000;
+	return (dest);
+}
 
 uint64_t	time_ts(struct timeval t_start)
 {
