@@ -57,15 +57,17 @@ void	perform_routine(t_philo *philo)
 	sem_wait(data->forks);
 	print_status(philo, FORK);
 	sem_wait(data->forks);
-	print_status(philo, FORK);
-	sem_wait(philo->eat);
 	current = print_status(philo, EAT);
 	philo->hunger = current + data->info[T_DIE];
+	philo->status = EAT;
 	philo->meals++;
 	my_usleep(data->info[T_EAT], current, data->t_start);
+	philo->status = SLEEP;
 	if (philo->meals == data->info[NT_EAT])
+	{
+		sem_wait(data->print);
 		sem_post(data->ready);
-	sem_post(philo->eat);
+	}
 	current = print_status(philo, SLEEP);
 	sem_post(data->forks);
 	sem_post(data->forks);
