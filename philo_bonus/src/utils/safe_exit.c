@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/15 21:23:42 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:27:43 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	close_semaphores(t_data *data)
 		sem_close(data->ready);
 	if (data->print)
 		sem_close(data->print);
+	if (data->start)
+		sem_close(data->start);
 	sem_unlink(SEM_FORK);
 	sem_unlink(SEM_START);
 	sem_unlink(SEM_STOP);

@@ -6,7 +6,7 @@
 #    By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 15:05:47 by ana-cast          #+#    #+#              #
-#    Updated: 2024/08/14 17:09:05 by ana-cast         ###   ########.fr        #
+#    Updated: 2024/08/16 19:31:04 by ana-cast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC = src/main.c \
 	src/parser/split.c \
 	src/threads/threads.c \
 	src/threads/philo_routines.c \
+	src/threads/time.c \
 	src/threads/th_utils.c \
 	src/utils/ft_utils.c \
 	src/utils/safe_exit.c

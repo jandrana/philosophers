@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:34:13 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/15 21:26:13 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/16 18:41:19 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_time	print_status(t_philo *wise_man, int action)
 	time = time_ts(wise_man->data->t_start);
 	if (wise_man->hunger < time && action != EAT)
 		action = DEAD;
+	if (action == EAT)
+		printf("%lu %i %s", time, wise_man->id, O_FORK);
 	if (action == DEAD)
 	{
 		printf("%lu %i %s", time, wise_man->id, O_DEAD);
@@ -55,37 +57,19 @@ void	perform_routine(t_philo *philo)
 	sem_wait(data->forks);
 	print_status(philo, FORK);
 	sem_wait(data->forks);
-	print_status(philo, FORK);
-	sem_wait(philo->eat);
 	current = print_status(philo, EAT);
 	philo->hunger = current + data->info[T_DIE];
+	philo->status = EAT;
 	philo->meals++;
 	my_usleep(data->info[T_EAT], current, data->t_start);
+	philo->status = SLEEP;
 	if (philo->meals == data->info[NT_EAT])
+	{
+		sem_wait(data->print);
 		sem_post(data->ready);
-	sem_post(philo->eat);
+	}
 	current = print_status(philo, SLEEP);
 	sem_post(data->forks);
 	sem_post(data->forks);
 	my_usleep(data->info[T_SLEEP], current, data->t_start);
-}
-
-uint64_t	time_ts(struct timeval t_start)
-{
-	struct timeval	time;
-	int				errno;
-	long			sec;
-
-	errno = gettimeofday(&time, NULL);
-	if (errno)
-		return (print_error(E_TIME, errno), 0);
-	sec = time.tv_sec * 1000LL - (t_start.tv_sec * 1000LL);
-	return (sec + (time.tv_usec - t_start.tv_usec) / 1000);
-}
-
-int	my_usleep(t_time sleep, t_time current, struct timeval t_start)
-{
-	while (time_ts(t_start) - current < sleep)
-		usleep(1);
-	return (0);
 }
