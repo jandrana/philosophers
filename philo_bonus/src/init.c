@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:33:52 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/15 21:08:05 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:23:52 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_data	*init_data(void)
 		data->print = (sem_t *) 0;
 		data->philos = NULL;
 		data->error = 0;
+		data->pid = NULL;
 	}
 	return (data);
 }
