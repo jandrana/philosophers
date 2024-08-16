@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:34:13 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/15 21:26:13 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/08/16 18:41:19 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_time	print_status(t_philo *wise_man, int action)
 	time = time_ts(wise_man->data->t_start);
 	if (wise_man->hunger < time && action != EAT)
 		action = DEAD;
+	if (action == EAT)
+		printf("%lu %i %s", time, wise_man->id, O_FORK);
 	if (action == DEAD)
 	{
 		printf("%lu %i %s", time, wise_man->id, O_DEAD);
