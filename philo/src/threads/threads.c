@@ -49,10 +49,13 @@ void	start_threads(t_data *data)
 	}
 	if (pthread_create(&th_sup, NULL, &greed_supervisor, data))
 		exit_philo(&data, E_NEWTH);
+	if (pthread_detach(th_sup))
+		exit_philo(&data, E_DETTH);
 	i = -1;
 	wait_ready(data);
 	data->start = 1;
 	gettimeofday(&data->t_start, NULL);
+	pthread_mutex_unlock(&data->th->lock);
 	while (++i < data->info[N_PHILOS])
 	{
 		if (pthread_join(data->th->p_th[i], NULL))
