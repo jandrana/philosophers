@@ -91,13 +91,15 @@ void	*greed_supervisor(void *v_data)
 {
 	t_data	*data;
 	int		i;
+	int		cpy;
 
 	data = (t_data *)v_data;
-	if (!data->info[NT_EAT])
+	if (!data->info[NT_EAT] || data->info[N_PHILOS] <= 1)
 		return (NULL);
 	i = -1;
 	while (data->info[N_PHILOS] && ++i < data->info[N_PHILOS] && !data->stop)
 	{
+		cpy = i;
 		if (data->philos[i].meals < data->info[NT_EAT])
 			i = -1;
 	}
