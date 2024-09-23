@@ -23,6 +23,17 @@ static void	*get_routine_to_execute(t_data *data)
 	return (exec_routine);
 }
 
+static void	wait_ready(t_data *data)
+{
+	pthread_mutex_lock(&data->th->lock);
+	while (data->ready != data->info[N_PHILOS])
+	{
+		pthread_mutex_unlock(&data->th->lock);
+		my_usleep(10, time_ts(data->t_start), data->t_start);
+		pthread_mutex_lock(&data->th->lock);
+	}
+}
+
 void	start_threads(t_data *data)
 {
 	int			i;
