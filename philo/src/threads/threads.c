@@ -97,13 +97,17 @@ void	*greed_supervisor(void *v_data)
 	if (!data->info[NT_EAT] || data->info[N_PHILOS] <= 1)
 		return (NULL);
 	i = -1;
+	pthread_mutex_lock(&data->th->lock);
 	while (data->info[N_PHILOS] && ++i < data->info[N_PHILOS] && !data->stop)
 	{
+		pthread_mutex_unlock(&data->th->lock);
 		cpy = i;
+		pthread_mutex_lock(&data->th->p_lck[cpy]);
 		if (data->philos[i].meals < data->info[NT_EAT])
 			i = -1;
+		pthread_mutex_unlock(&data->th->p_lck[cpy]);
+		pthread_mutex_lock(&data->th->lock);
 	}
-	pthread_mutex_lock(&data->th->lock);
 	data->stop = 1;
 	pthread_mutex_unlock(&data->th->lock);
 	return (NULL);
