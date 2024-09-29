@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:10:39 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/16 19:27:43 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:05:04 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	close_semaphores(t_data *data)
 	sem_unlink(SEM_READY);
 	sem_unlink(SEM_PRINT);
 	sem_unlink(SEM_EAT);
-
 }
 
 void	free_data(t_data **data)
