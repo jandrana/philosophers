@@ -6,7 +6,7 @@
 #    By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 15:05:47 by ana-cast          #+#    #+#              #
-#    Updated: 2024/08/14 13:02:49 by ana-cast         ###   ########.fr        #
+#    Updated: 2024/09/09 20:10:51 by ana-cast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ else
   $(error No compiler found)
 endif
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror
+# FLAGS = -Wall -Wextra -Werror -g (for debugging)
 RM = rm -f
 PHILO = include/
 DEPS = -I include
