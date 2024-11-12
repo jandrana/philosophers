@@ -60,6 +60,8 @@ void	*routine(void	*v_philo)
 	sync_start(philo);
 	if (pthread_create(&schrodinger, NULL, &schrodinger_monitor, philo))
 		exit_philo(&philo->data, E_NEWTH);
+	if (pthread_detach(schrodinger))
+		exit_philo(&philo->data, E_DETTH);
 	while (!philo->data->stop)
 	{
 		perform_routine(philo);
