@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:34:13 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/14 12:53:38 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/09/09 19:46:39 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	perform_routine(t_philo *philo)
 	current = print_status(philo, EAT);
 	pthread_mutex_lock(&philo->th->p_lck[philo->id - 1]);
 	philo->hunger = current + data->info[T_DIE];
-	pthread_mutex_unlock(&philo->th->p_lck[philo->id - 1]);
 	philo->meals++;
+	pthread_mutex_unlock(&philo->th->p_lck[philo->id - 1]);
 	my_usleep(data->info[T_EAT], current, data->t_start);
 	current = print_status(philo, SLEEP);
 	philo->status = SLEEP;
