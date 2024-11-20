@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/13 20:24:07 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:33:30 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ static void	*get_routine_to_execute(t_data *data)
 	else
 		exec_routine = &routine;
 	return (exec_routine);
+}
+
+static void	wait_ready(t_data *data)
+{
+	pthread_mutex_lock(&data->th->lock);
+	while (data->ready != data->info[N_PHILOS])
+	{
+		pthread_mutex_unlock(&data->th->lock);
+		my_usleep(10, time_ts(data->t_start), data->t_start);
+		pthread_mutex_lock(&data->th->lock);
+	}
 }
 
 void	start_threads(t_data *data)
@@ -38,11 +49,13 @@ void	start_threads(t_data *data)
 	}
 	if (pthread_create(&th_sup, NULL, &greed_supervisor, data))
 		exit_philo(&data, E_NEWTH);
+	if (pthread_detach(th_sup))
+		exit_philo(&data, E_DETTH);
 	i = -1;
-	while (data->ready != data->info[N_PHILOS])
-		my_usleep(10, time_ts(data->t_start), data->t_start);
+	wait_ready(data);
 	data->start = 1;
 	gettimeofday(&data->t_start, NULL);
+	pthread_mutex_unlock(&data->th->lock);
 	while (++i < data->info[N_PHILOS])
 	{
 		if (pthread_join(data->th->p_th[i], NULL))
@@ -56,8 +69,10 @@ void	*schrodinger_monitor(void *v_philo)
 	t_time	t_to_starve;
 
 	philo = (t_philo *)v_philo;
+	pthread_mutex_lock(&philo->th->lock);
 	while (!philo->data->stop)
 	{
+		pthread_mutex_unlock(&philo->th->lock);
 		pthread_mutex_lock(&philo->th->p_lck[philo->id - 1]);
 		t_to_starve = philo->hunger - time_ts(philo->data->t_start);
 		pthread_mutex_unlock(&philo->th->p_lck[philo->id - 1]);
@@ -66,7 +81,9 @@ void	*schrodinger_monitor(void *v_philo)
 		else
 			my_usleep(5, time_ts(philo->data->t_start), \
 				philo->data->t_start);
+		pthread_mutex_lock(&philo->th->lock);
 	}
+	pthread_mutex_unlock(&philo->th->lock);
 	return (NULL);
 }
 
@@ -74,17 +91,23 @@ void	*greed_supervisor(void *v_data)
 {
 	t_data	*data;
 	int		i;
+	int		cpy;
 
 	data = (t_data *)v_data;
-	if (!data->info[NT_EAT])
+	if (!data->info[NT_EAT] || data->info[N_PHILOS] <= 1)
 		return (NULL);
 	i = -1;
+	pthread_mutex_lock(&data->th->lock);
 	while (data->info[N_PHILOS] && ++i < data->info[N_PHILOS] && !data->stop)
 	{
+		pthread_mutex_unlock(&data->th->lock);
+		cpy = i;
+		pthread_mutex_lock(&data->th->p_lck[cpy]);
 		if (data->philos[i].meals < data->info[NT_EAT])
 			i = -1;
+		pthread_mutex_unlock(&data->th->p_lck[cpy]);
+		pthread_mutex_lock(&data->th->lock);
 	}
-	pthread_mutex_lock(&data->th->lock);
 	data->stop = 1;
 	pthread_mutex_unlock(&data->th->lock);
 	return (NULL);

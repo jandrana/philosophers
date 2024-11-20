@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:33:52 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/12 20:13:41 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:09:04 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_data	*init_data(void)
 		data->philos = NULL;
 		data->th = NULL;
 		data->error = 0;
+		gettimeofday(&data->t_start, NULL);
 	}
 	return (data);
 }

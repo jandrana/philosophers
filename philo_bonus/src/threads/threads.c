@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/16 19:29:59 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:05:20 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	start_threads(t_data *data)
 	pthread_t	th_sup;
 
 	i = -1;
-
 	while (++i < data->info[N_PHILOS])
 	{
 		data->pid[i] = fork();
