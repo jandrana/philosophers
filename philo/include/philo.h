@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:41:00 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/14 13:55:16 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:51:54 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,9 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	char			**args;
-	int				*info;
-	int				stop;
+	char			**args; // INPUT
+	int				*info; // NPHILO DIE EAT SLEEP NEAT
+	int				stop; //ALL FINISHED NEAT (number_of_times_each_must_eat)
 	int				ready;
 	bool			start;
 	struct timeval	t_start;

@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:21:41 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/09 19:45:54 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:11:50 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	print_output(t_data *data, bool value)
 int	check_parsing(t_data *data)
 {
 	if (!data)
-		return (print_error(E_NOMEM, ENOMEM));
+		return (print_error(E_NOMEM, E_NOMEM));
 	if (array_len(data->args) < 4 || array_len(data->args) > 5)
 		data->error++;
 	if (!data->error)

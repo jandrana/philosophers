@@ -6,7 +6,7 @@
 /*   By: ana-cast <ana-cast@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:17:43 by ana-cast          #+#    #+#             */
-/*   Updated: 2024/08/14 12:22:31 by ana-cast         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:19:53 by ana-cast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ static void	*sync_start(t_philo *philo)
 	pthread_mutex_unlock(&philo->th->lock);
 	while (true)
 	{
+		pthread_mutex_lock(&philo->th->lock);
 		if (philo->data->start)
 		{
+			pthread_mutex_unlock(&philo->th->lock);
 			if (philo->id % 2 == 0)
 				my_usleep(philo->data->info[T_EAT] / 2, time_ts(start), start);
 			return (NULL);
 		}
+		pthread_mutex_unlock(&philo->th->lock);
 	}
 }
 
